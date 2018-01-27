@@ -5,6 +5,8 @@ using UnityEngine.Assertions;
 
 public class Track : MonoBehaviour {
 
+	public static Track inst;
+
 	public float speed = 1;
 	public float enemySpawnRate = 5;
 	public float laneWidth = 1;
@@ -74,6 +76,8 @@ public class Track : MonoBehaviour {
 	}
 
 	void Awake() {
+		Assert.IsNull(inst, "Only one instance allowed!");
+		inst = this;
 		initLanes();
 	}
 
