@@ -576,6 +576,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  enemySpawnRate: 5
+  laneWidth: 1
 --- !u!124 &124485287554278844
 Behaviour:
   m_ObjectHideFlags: 1
