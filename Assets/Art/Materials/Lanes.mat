@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Lanes
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 10751, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -39,9 +39,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: a45b58a06205c0b45991ab28ce8fccc9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4806dddf7f117c7409d9ad34a27f5780, type: 3}
         m_Scale: {x: 1, y: 20}
-        m_Offset: {x: 0, y: -23.890749}
+        m_Offset: {x: 0, y: -53.74198}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -79,5 +79,5 @@ Material:
     - _UseUIAlphaClip: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.4044118, g: 0.4044118, b: 0.4044118, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
