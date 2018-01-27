@@ -41,3 +41,6 @@ ExportedObj/
 Assets/StreamingAssets/build_info.txt
 Assets/StreamingAssets/build_info.txt.meta
 Assets/StreamingAssets.meta
+
+Assets/ShaderForge/
+Assets/ShaderForge.meta
