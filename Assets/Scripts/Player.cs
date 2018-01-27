@@ -15,7 +15,7 @@ public class Player : MonoBehaviour {
     public delegate void IssueCommand(Command cmd, float delay);
     public static event IssueCommand OnCommand;
 
-    private static readonly float[] LANE_POSITIONS = new float[] { -1.3f, 0, 1.3f };
+    private static readonly float[] LANE_POSITIONS = new float[] { -1, 0, 1 };
     private int laneIndex = Array.IndexOf(LANE_POSITIONS, 0);
 
     public float delay = 0.0f;
