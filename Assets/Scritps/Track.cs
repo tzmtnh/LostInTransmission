@@ -1,15 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Track : MonoBehaviour {
 
+	public enum HitableType { Astroid, Jump, Repair, Amplify }
+
 	public static Track inst;
+	public static event Action<HitableType> onHitableHit;
 
 	public float speed = 1;
 	public float enemySpawnRate = 5;
 	public float laneWidth = 1;
+
+	public GameObject astroidPrefab;
 
 	float _traveledDistance = 0;
 	float _traveledDistanceDelta = 0;
@@ -54,21 +60,34 @@ public class Track : MonoBehaviour {
 		float t = Time.time;
 		float timeSinceLastEnemySpawn = t - _lastEnemySpawnTime;
 		if (timeSinceLastEnemySpawn >= enemySpawnRate) {
-			int lane = Random.Range(-1, 2);
+			Assert.IsNotNull(astroidPrefab);
+			int lane = UnityEngine.Random.Range(-1, 2);
 			_lastEnemySpawnTime = t;
-			GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-			Transform enemy = cube.transform;
-			enemy.SetParent(transform);
-			enemy.transform.localPosition = new Vector3(lane * laneWidth, 0, _laneLength / 2f);
+			GameObject obj = Instantiate(astroidPrefab, transform);
+			Transform enemy = obj.transform;
+			enemy.transform.localPosition = new Vector3(lane * laneWidth, 0.5f, _laneLength / 2f);
 			_enemies.Add(enemy);
 		}
 
+		Vector3 playerPos = Player.instance.transform.localPosition;
 		Vector3 offset = new Vector3(0, 0, _traveledDistanceDelta);
 		for (int i = _enemies.Count - 1; i >= 0; i--) {
 			Transform enemy = _enemies[i];
 			enemy.localPosition -= offset;
+			Vector3 enemyPos = enemy.localPosition;
 
-			if (-enemy.localPosition.z > _laneLength / 2f) {
+			if (enemyPos.z <= playerPos.z) {
+				float horizontalDist = Mathf.Abs(enemyPos.x - playerPos.x);
+				if (horizontalDist < 0.5f) {
+					Renderer renderer = enemy.GetComponent<Renderer>();
+					renderer.material.color = Color.red;
+
+					if (onHitableHit != null)
+						onHitableHit(HitableType.Astroid);
+				}
+			}
+
+			if (enemyPos.z < -_laneLength / 2f) {
 				_enemies.RemoveAt(i);
 				Destroy(enemy.gameObject);
 			}
