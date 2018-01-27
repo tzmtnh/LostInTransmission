@@ -20,13 +20,13 @@ public class Track : MonoBehaviour {
 	float _lastEnemySpawnTime = 0;
 
 	void initLanes() {
-		_lane1 = transform.Find("Lanes");
+		_lane1 = transform.Find("BG");
 		Assert.IsNotNull(_lane1);
-		_lane1.name = "Lanes 1";
+		_lane1.name = "BG 1";
 		_laneLength = _lane1.localScale.y;
 
 		_lane2 = Instantiate(_lane1, transform);
-		_lane2.name = "Lanes 2";
+		_lane2.name = "BG 2";
 		_lane2.localPosition += new Vector3(0, 0, _laneLength);
 	}
 
