@@ -15,6 +15,8 @@ public class Player : MonoBehaviour {
     public delegate void IssueCommand(Command cmd, float delay);
     public static event IssueCommand OnCommand;
 
+    private Queue<Command> commandQueue = new Queue<Command>();
+
     private static readonly float[] LANE_POSITIONS = new float[] { -1, 0, 1 };
     private int laneIndex = Array.IndexOf(LANE_POSITIONS, 0);
 
@@ -64,6 +66,26 @@ public class Player : MonoBehaviour {
             {
                 isChangingLane = false;
             }
+        } else
+        {
+            ReadCommandQueue();
+        }
+    }
+
+    void ReadCommandQueue()
+    {
+        if (commandQueue.Count > 0)
+        {
+            var cmd = commandQueue.Dequeue();
+            switch (cmd)
+            {
+                case Command.Left:
+                    MoveLeft();
+                    break;
+                case Command.Right:
+                    MoveRight();
+                    break;
+            }
         }
     }
 
@@ -73,7 +95,7 @@ public class Player : MonoBehaviour {
         {
             OnCommand(Command.Left, this.delay);
         }
-        StartCoroutine(MoveLeft(this.delay));
+        StartCoroutine(QueueCommand(Command.Left, this.delay));
     }
 
     void IssueRightCommand()
@@ -82,12 +104,17 @@ public class Player : MonoBehaviour {
         {
             OnCommand(Command.Right, this.delay);
         }
-        StartCoroutine(MoveRight(this.delay));
+        StartCoroutine(QueueCommand(Command.Right, this.delay));
     }
 
-    IEnumerator MoveLeft(float delay)
+    IEnumerator QueueCommand(Command cmd, float delay)
     {
         yield return new WaitForSeconds(delay);
+        commandQueue.Enqueue(cmd);
+    }
+
+    void MoveLeft()
+    {
         if (laneIndex > 0 && !isChangingLane)
         {
             this.laneIndex--;
@@ -95,9 +122,8 @@ public class Player : MonoBehaviour {
         }
     }
 
-    IEnumerator MoveRight(float delay)
+    void MoveRight()
     {
-        yield return new WaitForSeconds(delay);
         if (laneIndex < LANE_POSITIONS.Length - 1 && !isChangingLane)
         {
             this.laneIndex++;
