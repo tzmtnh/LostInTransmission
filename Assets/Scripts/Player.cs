@@ -19,6 +19,17 @@ public class Player : MonoBehaviour {
     private int laneIndex = Array.IndexOf(LANE_POSITIONS, 0);
 
     public float delay = 0.0f;
+    public float laneChangeTime = 1.0f;
+
+    public AnimationCurve laneChangePositionCurve;
+    public AnimationCurve laneChangeRotationCurve;
+    public float laneChangeRotationAngle = -35;
+
+    private bool isChangingLane = false;
+    private float laneChangeStartTime;
+    private float laneChangeEndTime;
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
 
     void Awake()
     {
@@ -38,6 +49,21 @@ public class Player : MonoBehaviour {
         else if (Input.GetKeyDown("right"))
         {
             IssueRightCommand();
+        }
+
+        if (isChangingLane)
+        {
+            var t = (Time.time - laneChangeStartTime) / (laneChangeEndTime - laneChangeStartTime);
+            var movementVector = targetPosition - startPosition;
+            var newPosition = startPosition + movementVector * laneChangePositionCurve.Evaluate(t);
+            var newRotation = Quaternion.AngleAxis(laneChangeRotationCurve.Evaluate(t) * laneChangeRotationAngle * (movementVector.x / Math.Abs(movementVector.x)), Vector3.forward);
+            this.gameObject.transform.position = newPosition;
+            this.gameObject.transform.rotation = newRotation;
+            
+            if (Time.time > laneChangeEndTime)
+            {
+                isChangingLane = false;
+            }
         }
     }
 
@@ -62,20 +88,20 @@ public class Player : MonoBehaviour {
     IEnumerator MoveLeft(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (laneIndex > 0)
+        if (laneIndex > 0 && !isChangingLane)
         {
             this.laneIndex--;
-            SetLane(this.laneIndex);
+            SetTargetLane(this.laneIndex);
         }
     }
 
     IEnumerator MoveRight(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (laneIndex < LANE_POSITIONS.Length - 1)
+        if (laneIndex < LANE_POSITIONS.Length - 1 && !isChangingLane)
         {
             this.laneIndex++;
-            SetLane(this.laneIndex);
+            SetTargetLane(this.laneIndex);
         }
     }
 
@@ -83,5 +109,15 @@ public class Player : MonoBehaviour {
     {
         var pos = gameObject.transform.position;
         gameObject.transform.position = new Vector3(LANE_POSITIONS[laneIndex], pos.y, pos.z);
+    }
+
+    void SetTargetLane(int laneIndex)
+    {
+        var pos = gameObject.transform.position;
+        this.laneChangeStartTime = Time.time;
+        this.laneChangeEndTime = this.laneChangeStartTime + this.laneChangeTime;
+        this.startPosition = pos;
+        this.targetPosition = new Vector3(LANE_POSITIONS[laneIndex], pos.y, pos.z);
+        this.isChangingLane = true;
     }
 }

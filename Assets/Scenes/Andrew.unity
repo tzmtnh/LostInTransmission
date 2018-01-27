@@ -134,23 +134,43 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380634714801032, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380634714801032, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380634714801032, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380634714801032, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380634714801032, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
