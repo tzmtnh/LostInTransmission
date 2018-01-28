@@ -31,12 +31,17 @@ public class GameManager : MonoBehaviour {
     void Update () {
 		if (gameOverUI.activeSelf && Input.GetKeyDown(KeyCode.Space)) {
 			NewGame();
+		}
+
+        if (startUI.activeSelf && Input.GetKeyDown(KeyCode.Space)) {
+            StartGame();
         }
 	}
 
 	void onPlayerDeid() {
 		gameOverScoreText.text = "Distance: " + (int)Player.instance.distance;
 		gameOverUI.SetActive(true);
+		hudObject.SetActive(false);
 	}
 
     public void StartGame()
@@ -53,6 +58,7 @@ public class GameManager : MonoBehaviour {
     public void NewGame()
     {
         gameOverUI.SetActive(false);
+        hudObject.SetActive(true);
         Player.instance.Reset();
 		Track.inst.reset();
     }

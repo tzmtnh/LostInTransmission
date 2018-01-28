@@ -304,7 +304,6 @@ public class Player : MonoBehaviour {
 
     public void Reset()
     {
-		Debug.Log("here");
 		this.distance = 0;
         this.delay = 0;
         this.currentHealth = maxHealth;
