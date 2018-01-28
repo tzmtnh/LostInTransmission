@@ -80,13 +80,12 @@ public class Player : MonoBehaviour {
 	void Awake()
     {
         instance = this;
+        shipContainer = GameObject.Find("Spaceship_container");
     }
 
     void Start () {
 		_speed = defaultSpeed;
 		_targetSpeed = defaultSpeed;
-
-        shipContainer = GameObject.Find("Spaceship_container");
 
         Transform ship = shipContainer.transform.Find("Spaceship");
 		Assert.IsNotNull(ship);
@@ -276,6 +275,11 @@ public class Player : MonoBehaviour {
     void EndExplosion()
     {
         _deathExplosionRenderer.enabled = false;
+    }
+
+    public void SetVisible(bool visible)
+    {
+        this.shipContainer.SetActive(visible);
     }
 
     public void Reset()
