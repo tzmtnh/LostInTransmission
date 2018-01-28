@@ -21,6 +21,8 @@ public class Player : MonoBehaviour {
     private int laneIndex = Array.IndexOf(LANE_POSITIONS, 0);
 
     private float gameStartTime;
+    public float speed;
+    public float distance = 0;
 
     [SerializeField]
     private float timePlayed = 0;
@@ -50,6 +52,15 @@ public class Player : MonoBehaviour {
     public int currentHealth = 3;
 
     [SerializeField]
+    private float defaultSpeed = 10.0f;
+
+    [SerializeField]
+    private float jumpSpeed = 15.0f;
+
+    [SerializeField]
+    private float jumpSpeedDuration = 3.0f;
+
+    [SerializeField]
     private float amplifyAmount = .1f;
 
     void Awake()
@@ -58,15 +69,17 @@ public class Player : MonoBehaviour {
     }
 
     void Start () {
-        gameStartTime = Time.time;
+        this.gameStartTime = Time.time;
+        this.speed = this.defaultSpeed;
         SetLane(this.laneIndex);
         Hitable.onHitableHit += OnHit;
 	}
 
 	void Update ()
     {
-        timePlayed = Time.time - gameStartTime;
-        delay = timePlayed * .01f;
+        this.timePlayed = Time.time - gameStartTime;
+        this.delay += Time.deltaTime * .01f;
+        this.distance += Time.deltaTime * speed;
 
 		if (Input.GetKeyDown("left"))
         {
@@ -77,7 +90,7 @@ public class Player : MonoBehaviour {
             IssueRightCommand();
         }
 
-        if (isChangingLane)
+        if (this.isChangingLane)
         {
             var t = (Time.time - laneChangeStartTime) / (laneChangeEndTime - laneChangeStartTime);
             var movementVector = targetPosition - startPosition;
@@ -88,7 +101,7 @@ public class Player : MonoBehaviour {
             
             if (Time.time > laneChangeEndTime)
             {
-                isChangingLane = false;
+                this.isChangingLane = false;
             }
         }
         else
@@ -135,12 +148,12 @@ public class Player : MonoBehaviour {
     IEnumerator QueueCommand(Command cmd, float delay)
     {
         yield return new WaitForSeconds(delay);
-        commandQueue.Enqueue(cmd);
+        this.commandQueue.Enqueue(cmd);
     }
 
     void MoveLeft()
     {
-        if (laneIndex > 0 && !isChangingLane)
+        if (this.laneIndex > 0 && !this.isChangingLane)
         {
             this.laneIndex--;
             SetTargetLane(this.laneIndex);
@@ -149,7 +162,7 @@ public class Player : MonoBehaviour {
 
     void MoveRight()
     {
-        if (laneIndex < LANE_POSITIONS.Length - 1 && !isChangingLane)
+        if (this.laneIndex < LANE_POSITIONS.Length - 1 && !this.isChangingLane)
         {
             this.laneIndex++;
             SetTargetLane(this.laneIndex);
@@ -158,13 +171,13 @@ public class Player : MonoBehaviour {
 
     void SetLane(int laneIndex)
     {
-        var pos = gameObject.transform.position;
+        var pos = this.gameObject.transform.position;
         gameObject.transform.position = new Vector3(LANE_POSITIONS[laneIndex], pos.y, pos.z);
     }
 
     void SetTargetLane(int laneIndex)
     {
-        var pos = gameObject.transform.position;
+        var pos = this.gameObject.transform.position;
         this.laneChangeStartTime = Time.time;
         this.laneChangeEndTime = this.laneChangeStartTime + this.laneChangeTime;
         this.startPosition = pos;
@@ -177,22 +190,30 @@ public class Player : MonoBehaviour {
         switch (hitType)
         {
             case Hitable.HitableType.Astroid:
-                if (currentHealth > 0)
+                if (this.currentHealth > 0)
                 {
-                    currentHealth--;
+                    this.currentHealth--;
                 }
                 break;
             case Hitable.HitableType.Repair:
-                if (currentHealth < this.maxHealth)
+                if (this.currentHealth < this.maxHealth)
                 {
-                    currentHealth++;
+                    this.currentHealth++;
                 }
                 break;
             case Hitable.HitableType.Amplify:
-                delay = Mathf.Max(0, delay - amplifyAmount);
+                this.delay = Mathf.Max(0, this.delay - this.amplifyAmount);
                 break;
             case Hitable.HitableType.Jump:
+                this.speed = this.jumpSpeed;
+                StartCoroutine(RevertToDefaultSpeed(jumpSpeedDuration));
                 break;
         }
+    }
+
+    IEnumerator RevertToDefaultSpeed(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        this.speed = this.defaultSpeed;
     }
 }
