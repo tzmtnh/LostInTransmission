@@ -278,8 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3a8576862b400a41a08973c257bb588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sonar_prefab: {fileID: 1141165289112552, guid: c180b6a73c32237418a48e7d16cc17d9,
-    type: 2}
+  leftArrow: {fileID: 1414745115242558, guid: 6056a70a49ff04648995bee94b075d6b, type: 2}
+  rightArrow: {fileID: 1680864892666742, guid: 63b8e38826fb86044b89ac8e0c50a0d5, type: 2}
 --- !u!114 &114972447738190860
 MonoBehaviour:
   m_ObjectHideFlags: 1
