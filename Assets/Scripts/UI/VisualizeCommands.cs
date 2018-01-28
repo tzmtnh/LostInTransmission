@@ -44,8 +44,6 @@ public class VisualizeCommands : MonoBehaviour {
 		
 	public void OnSend(Player.Command cmd, float delay)
 	{
-		GameObject.Find ("Delay").GetComponent<UnityEngine.UI.Text>().text = "Delay: " + delay.ToString ();
-
         GameObject sonar = Instantiate<GameObject>(sonar_prefab);
 		sonar.transform.position = GameObject.Find ("Remote").transform.position;
 		sonar.transform.SetParent(GameObject.Find ("Remote").transform);
@@ -69,7 +67,10 @@ public class VisualizeCommands : MonoBehaviour {
 
 	void Update()
 	{
-		if (spawned_prefab != null) 
+        GameObject.Find("Delay").GetComponent<UnityEngine.UI.Text>().text = "Delay: " + Player.instance.delay.ToString();
+        GameObject.Find("Distance").GetComponent<UnityEngine.UI.Text>().text = "Distance: " + Player.instance.distance.ToString();
+
+        if (spawned_prefab != null) 
 		{
 			var starTime = Time.time;
 			var endTime = 12863.43f;
