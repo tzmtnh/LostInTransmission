@@ -9,7 +9,16 @@ public class VisualizeCommands : MonoBehaviour {
 	public static VisualizeCommands singleton{ get{ return _instance; } }
 
 	private static float CommandDelay = 0.0f;
-	private List<GameObject> spawned_prefab;
+	private List<sonars> spawned_prefab;
+	private float timeTracker = 0.0f;
+	private float movementRate = 0.5f;
+
+	private struct sonars
+	{
+		public GameObject sonar;
+		public float startTime;
+		public float delay;
+	}
 
 	void Awake()
 	{
@@ -38,14 +47,21 @@ public class VisualizeCommands : MonoBehaviour {
         GameObject sonar = Instantiate<GameObject>(sonar_prefab);
 		sonar.transform.position = GameObject.Find ("Remote").transform.position;
 		sonar.transform.SetParent(GameObject.Find ("Remote").transform);
-		CommandDelay = delay;
 
 		if (spawned_prefab == null) {
-			spawned_prefab = new List<GameObject> ();
-			spawned_prefab.Add(sonar);
+			spawned_prefab = new List<sonars> ();
+			var struct_sonar = new sonars();
+			struct_sonar.startTime = Time.time;
+			struct_sonar.delay = delay;
+			struct_sonar.sonar = sonar;
+			spawned_prefab.Add(struct_sonar);
 		} else 
 		{
-			spawned_prefab.Add(sonar);
+			var sonar_prefab = new sonars();
+			sonar_prefab.startTime = Time.time;
+			sonar_prefab.delay = delay;
+			sonar_prefab.sonar = sonar;
+			spawned_prefab.Add(sonar_prefab);
 		}
     }
 
@@ -53,10 +69,23 @@ public class VisualizeCommands : MonoBehaviour {
 	{
 		if (spawned_prefab != null) 
 		{
+			var starTime = Time.time;
+			var endTime = 12863.43f;
+			float startPosition = 50.0f;
+			float endPosition = 1000.0f;
+
+			float timey = Mathf.InverseLerp(timeTracker, endTime, Time.time);
+			float pos = Mathf.Lerp(startPosition, endPosition, timey);
+
 			foreach (var x in spawned_prefab) {
-				var horizontal = x.transform.localPosition;
-				horizontal.x++; 
-				x.transform.localPosition = horizontal;
+				if (x.sonar != null) {
+					var horizontal = x.sonar.transform.localPosition;
+					horizontal.x += Mathf.Abs ((horizontal.x + movementRate) - timey); 
+					x.sonar.transform.localPosition = horizontal;
+					if (horizontal.x >= 1000) {
+						Destroy (x.sonar);
+					}
+				}
 			}
 
 		}
