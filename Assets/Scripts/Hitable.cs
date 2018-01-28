@@ -22,7 +22,11 @@ public class Hitable : MonoBehaviour {
 	void playSound() {
 		switch (type) {
 			case HitableType.Astroid:
-				AudioManager.inst.playSound("Astroid Explode");
+				if (Player.instance.isAlive) {
+					AudioManager.inst.playSound("Astroid Explode");
+				} else {
+					AudioManager.inst.playSound("Ship Explode");
+				}
 				break;
 			case HitableType.Jump:
 				AudioManager.inst.playSound("Jump");
@@ -44,10 +48,10 @@ public class Hitable : MonoBehaviour {
 		_destroyed = true;
 		_renderer.material.color = Color.red;
 
-		playSound();
-
 		if (onHitableHit != null)
 			onHitableHit(type);
+
+		playSound();
 	}
 
 	private void Awake() {

@@ -53,6 +53,7 @@ public class AudioManager : MonoBehaviour {
 		source.volume = volume;
 		source.pitch = pitch;
 		source.loop = loop;
+		source.name = "Audio Source - " + name;
 		source.Play();
 		return source;
 	}

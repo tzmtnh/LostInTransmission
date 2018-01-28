@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
     public Text gameOverScoreText;
 	
 	void Update () {
-		if (Player.instance.currentHealth <= 0)
+		if (Player.instance.isAlive == false)
         {
             gameOverScoreText.text = "Distance: " + (int)Player.instance.distance;
             gameOverUI.SetActive(true);

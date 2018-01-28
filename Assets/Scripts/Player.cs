@@ -44,6 +44,7 @@ public class Player : MonoBehaviour {
 
     public int maxHealth = 3;
     public int currentHealth = 3;
+	public bool isAlive { get { return currentHealth > 0; } }
 
     public Texture fullHealthTexture;
     public Texture damageTexture1;
@@ -101,7 +102,7 @@ public class Player : MonoBehaviour {
 
 	void Update ()
     {
-        if (this.currentHealth <= 0)
+        if (isAlive == false)
         {
             return;
         }
@@ -112,14 +113,14 @@ public class Player : MonoBehaviour {
 		const float SPEED_SMOOTH_TIME = 1;
 		_speed = Mathf.SmoothDamp(_speed, _targetSpeed, ref _speedVelocity, SPEED_SMOOTH_TIME);
 
-		if (Input.GetKeyDown("left"))
+		if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-			AudioManager.inst.playSound("Click");
+			//AudioManager.inst.playSound("Click");
 			IssueLeftCommand();
         }
-        else if (Input.GetKeyDown("right"))
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-			AudioManager.inst.playSound("Click");
+			//AudioManager.inst.playSound("Click");
 			IssueRightCommand();
         }
 
@@ -160,6 +161,7 @@ public class Player : MonoBehaviour {
         if (this.laneIndex > 0)
         {
             SetTargetLane(--this.laneIndex);
+			AudioManager.inst.playSound("Change Lane");
         }
     }
 
@@ -168,7 +170,8 @@ public class Player : MonoBehaviour {
         if (this.laneIndex < LANE_POSITIONS.Length - 1)
         {
             SetTargetLane(++this.laneIndex);
-        }
+			AudioManager.inst.playSound("Change Lane");
+		}
     }
 
     void ResetToMiddleLane()
@@ -194,7 +197,7 @@ public class Player : MonoBehaviour {
         switch (hitType)
         {
             case Hitable.HitableType.Astroid:
-                if (this.currentHealth > 0)
+                if (isAlive)
                 {
                     SetTexture(--this.currentHealth);
 

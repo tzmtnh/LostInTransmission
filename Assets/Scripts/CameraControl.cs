@@ -24,7 +24,7 @@ public class CameraControl : MonoBehaviour {
 	}
 
 	IEnumerator shakeCo(float duration) {
-		const float strength = 0.1f;
+		const float strength = 0.2f;
 		float timer = 0;
 		while (timer < duration) {
 			float t = timer / duration;
