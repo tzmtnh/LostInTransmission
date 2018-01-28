@@ -202,8 +202,12 @@ public class Player : MonoBehaviour {
                     {
                         damageParticles.Play();
                         isDamageable = false;
-                        const float SHIELD_TIME = 2;
+
+						const float SHIELD_TIME = 2;
                         Invoke("canTakeDamageAgain", SHIELD_TIME);
+
+						const float SHAKE_TIME = 0.3f;
+						CameraControl.inst.shake(SHAKE_TIME);
                     }
                     else
                     {
@@ -258,7 +262,10 @@ public class Player : MonoBehaviour {
         this.shipContainer.SetActive(false);
         deathParticles.Play();
         Invoke("EndExplosion", .4f);
-    }
+
+		const float SHAKE_TIME = 1f;
+		CameraControl.inst.shake(SHAKE_TIME);
+	}
 
     void EndExplosion()
     {
