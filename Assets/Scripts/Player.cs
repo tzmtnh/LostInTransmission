@@ -49,6 +49,8 @@ public class Player : MonoBehaviour {
     public Texture damageTexture1;
     public Texture damageTexture2;
 
+    public ParticleSystem damageParticles;
+
     [SerializeField]
     private float defaultSpeed = 10.0f;
 
@@ -85,7 +87,7 @@ public class Player : MonoBehaviour {
 
 		ResetToMiddleLane();
         Hitable.onHitableHit += OnHit;
-	}
+    }
 
 	void Update ()
     {
@@ -185,7 +187,8 @@ public class Player : MonoBehaviour {
                 if (this.currentHealth > 0)
                 {
                     SetTexture(--this.currentHealth);
-					isDamageable = false;
+                    damageParticles.Play();
+                    isDamageable = false;
 					const float SHIELD_TIME = 2;
 					Invoke("canTakeDamageAgain", SHIELD_TIME);
                 }
