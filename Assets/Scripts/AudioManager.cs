@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour {
 	public AudioElement[] audioElements;
 
 	Stack<AudioSource> _freeSources = new Stack<AudioSource>(8);
-	List<AudioSource> _usedSources = new List<AudioSource>(8);
+	List<AudioSource> _activeSources = new List<AudioSource>(8);
 	Dictionary<string, AudioElement> _elementByName = new Dictionary<string, AudioElement>();
 
 	AudioSource getSource() {
@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour {
 			source = obj.AddComponent<AudioSource>();
 		}
 
-		_usedSources.Add(source);
+		_activeSources.Add(source);
 		return source;
 	}
 
@@ -57,14 +57,23 @@ public class AudioManager : MonoBehaviour {
 		return source;
 	}
 
+	public void stopAllSounds() {
+		foreach (AudioSource source in _activeSources) {
+			source.Stop();
+			source.clip = null;
+			_freeSources.Push(source);
+		}
+		_activeSources.Clear();
+	}
+
 	public void stopSound(AudioSource source) {
 		if (source.isPlaying == false)
 			return;
 
-		Assert.IsTrue(_usedSources.Contains(source));
+		Assert.IsTrue(_activeSources.Contains(source));
 		source.Stop();
 		source.clip = null;
-		_usedSources.Remove(source);
+		_activeSources.Remove(source);
 		_freeSources.Push(source);
 	}
 
@@ -80,12 +89,12 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	void Update() {
-		for (int i = _usedSources.Count - 1; i >= 0; i--) {
-			AudioSource source = _usedSources[i];
+		for (int i = _activeSources.Count - 1; i >= 0; i--) {
+			AudioSource source = _activeSources[i];
 			if (source.isPlaying == false) {
 				source.clip = null;
 				_freeSources.Push(source);
-				_usedSources.RemoveAt(i);
+				_activeSources.RemoveAt(i);
 			}
 		}
 	}
