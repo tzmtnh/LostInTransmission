@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Track : MonoBehaviour {
 
-	public enum HitableType { Astroid, Jump, Repair, Amplify }
-
 	public static Track inst;
-	public static event Action<HitableType> onHitableHit;
 
 	public float speed = 1;
 	public float enemySpawnRate = 5;
 	public float laneWidth = 1;
 
-	public GameObject astroidPrefab;
+	public Hitable astroidPrefab;
 
 	float _traveledDistance = 0;
 	float _traveledDistanceDelta = 0;
@@ -24,7 +20,7 @@ public class Track : MonoBehaviour {
 	Transform _lane2;
 	float _laneLength;
 
-	List<Transform> _enemies = new List<Transform>();
+	List<Hitable> _enemies = new List<Hitable>();
 	float _lastEnemySpawnTime = 0;
 
 	void initLanes() {
@@ -60,11 +56,11 @@ public class Track : MonoBehaviour {
 		float t = Time.time;
 		float timeSinceLastEnemySpawn = t - _lastEnemySpawnTime;
 		if (timeSinceLastEnemySpawn >= enemySpawnRate) {
-			Assert.IsNotNull(astroidPrefab);
-			int lane = UnityEngine.Random.Range(-1, 2);
 			_lastEnemySpawnTime = t;
-			GameObject obj = Instantiate(astroidPrefab, transform);
-			Transform enemy = obj.transform;
+			Assert.IsNotNull(astroidPrefab);
+			int lane = Random.Range(-1, 2);
+			Hitable enemy = Instantiate(astroidPrefab);
+			enemy.transform.SetParent(transform);
 			enemy.transform.localPosition = new Vector3(lane * laneWidth, 0.5f, _laneLength / 2f);
 			_enemies.Add(enemy);
 		}
@@ -72,24 +68,20 @@ public class Track : MonoBehaviour {
 		Vector3 playerPos = Player.instance.transform.localPosition;
 		Vector3 offset = new Vector3(0, 0, _traveledDistanceDelta);
 		for (int i = _enemies.Count - 1; i >= 0; i--) {
-			Transform enemy = _enemies[i];
-			enemy.localPosition -= offset;
-			Vector3 enemyPos = enemy.localPosition;
+			Hitable enemy = _enemies[i];
+			enemy.transform.localPosition -= offset;
+			Vector3 enemyPos = enemy.transform.localPosition;
 
-			if (enemyPos.z <= playerPos.z) {
+			if (enemy.destroyed == false && enemyPos.z <= playerPos.z) {
 				float horizontalDist = Mathf.Abs(enemyPos.x - playerPos.x);
 				if (horizontalDist < 0.5f) {
-					Renderer renderer = enemy.GetComponent<Renderer>();
-					renderer.material.color = Color.red;
-
-					if (onHitableHit != null)
-						onHitableHit(HitableType.Astroid);
+					enemy.destroy();
 				}
 			}
 
 			if (enemyPos.z < -_laneLength / 2f) {
 				_enemies.RemoveAt(i);
-				Destroy(enemy.gameObject);
+				Destroy(enemy.transform.gameObject);
 			}
 		}
 	}

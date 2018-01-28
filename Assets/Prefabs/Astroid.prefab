@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4335928151158844}
   - component: {fileID: 212389097606263722}
   - component: {fileID: 114268442233062700}
+  - component: {fileID: 114322699955652420}
   m_Layer: 0
   m_Name: Astroid
   m_TagString: Untagged
@@ -52,6 +53,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd946256b588ae8419af44c027f5c78c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114322699955652420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1008805728998246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dc0f712a1c95f3449bb014c657c8ea7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!212 &212389097606263722
 SpriteRenderer:
   m_ObjectHideFlags: 1
