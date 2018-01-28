@@ -56,6 +56,8 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private float amplifyAmount = .1f;
 
+    public bool isDamageable = true;
+
     void Awake()
     {
         instance = this;
@@ -64,7 +66,6 @@ public class Player : MonoBehaviour {
     void Start () {
         _targetSpeed = this.defaultSpeed;
         ResetToMiddleLane();
-        SetTargetLane(this.laneIndex);
         Hitable.onHitableHit += OnHit;
 	}
 
@@ -92,7 +93,6 @@ public class Player : MonoBehaviour {
 			IssueRightCommand();
         }
 
-        Debug.Log(transform.position + " " + this.targetPosition);
         this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, this.targetPosition, ref velocity, this.laneChangeTime);
         this.gameObject.transform.rotation = Quaternion.AngleAxis(Mathf.Clamp(-velocity.x * laneChangeYawIntensity, -laneChangeMaxYaw, laneChangeMaxYaw), Vector3.forward);
     }
@@ -141,8 +141,10 @@ public class Player : MonoBehaviour {
 
     void ResetToMiddleLane()
     {
+        this.laneIndex = Array.IndexOf(LANE_POSITIONS, 0);
         var pos = this.gameObject.transform.position;
-        gameObject.transform.position = new Vector3(LANE_POSITIONS[Array.IndexOf(LANE_POSITIONS, 0)], pos.y, pos.z);
+        gameObject.transform.position = new Vector3(LANE_POSITIONS[this.laneIndex], pos.y, pos.z);
+        SetTargetLane(this.laneIndex);
     }
 
     void SetTargetLane(int laneIndex)
@@ -159,6 +161,12 @@ public class Player : MonoBehaviour {
                 if (this.currentHealth > 0)
                 {
                     this.currentHealth--;
+
+                    if (this.currentHealth <= 0)
+                    {
+                        this.isDamageable = false;
+                        this.gameObject.SetActive(false);
+                    }
                 }
                 break;
             case Hitable.HitableType.Repair:
@@ -172,6 +180,7 @@ public class Player : MonoBehaviour {
                 break;
             case Hitable.HitableType.Jump:
                 _targetSpeed = this.jumpSpeed;
+                isDamageable = false;
                 StartCoroutine(RevertToDefaultSpeed(jumpSpeedDuration));
                 break;
         }
@@ -181,6 +190,7 @@ public class Player : MonoBehaviour {
     {
         yield return new WaitForSeconds(duration);
         _targetSpeed = this.defaultSpeed;
+        isDamageable = true;
     }
 
     public void Reset()
@@ -188,8 +198,8 @@ public class Player : MonoBehaviour {
         this.distance = 0;
         this.delay = 0;
         this.currentHealth = maxHealth;
+        this.isDamageable = true;
         this.gameObject.SetActive(true);
         this.ResetToMiddleLane();
-        SetTargetLane(this.laneIndex);
     }
 }

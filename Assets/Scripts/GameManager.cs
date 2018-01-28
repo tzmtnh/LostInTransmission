@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour {
         {
             gameOverScoreText.text = "Distance: " + (int)Player.instance.distance;
             gameOverUI.SetActive(true);
-            Player.instance.gameObject.SetActive(false);
         }
 	}
 
