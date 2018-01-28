@@ -188,56 +188,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distance: 0
   delay: 0
-  laneChangeTime: 1
-  laneChangePositionCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  laneChangeRotationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.5
-      value: 1
-      inSlope: 0.08329749
-      outSlope: 0.08329749
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: -1.3144414
-      outSlope: -1.3144414
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  laneChangeRotationAngle: -35
+  laneChangeTime: 0.2
+  laneChangeMaxYaw: 35
+  laneChangeYawIntensity: 10
   maxHealth: 3
   currentHealth: 3
+  fullHealthMaterial: {fileID: 2100000, guid: 20e0acb70cc01e84fa2fd6b9626ceaf6, type: 2}
+  damageMaterial1: {fileID: 2100000, guid: 399f1978c94d09446b993790e8c190e7, type: 2}
+  damageMaterial2: {fileID: 2100000, guid: e863ae715d48fe64cbb464b1d2ca1443, type: 2}
   defaultSpeed: 10
   jumpSpeed: 50
   jumpSpeedDuration: 3
   amplifyAmount: 0.1
+  isDamageable: 1
 --- !u!212 &212158932141325614
 SpriteRenderer:
   m_ObjectHideFlags: 1
