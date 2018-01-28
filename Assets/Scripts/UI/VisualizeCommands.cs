@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VisualizeCommands : MonoBehaviour {
 
-	public GameObject leftArrow;
+    private GameObject commandBox;
+    private GameObject commandBoxArrow;
+
+    public GameObject leftArrow;
     public GameObject rightArrow;
 
 	private static VisualizeCommands _instance;
@@ -32,7 +36,10 @@ public class VisualizeCommands : MonoBehaviour {
 			return;
 		}
 		DontDestroyOnLoad (this.gameObject);
-	}
+
+        commandBox = GameObject.Find("CommandBox");
+        commandBoxArrow = GameObject.Find("CommandBoxArrow");
+    }
 		
 	void Start()
 	{
@@ -50,18 +57,21 @@ public class VisualizeCommands : MonoBehaviour {
         switch (cmd)
         {
             case Player.Command.Left:
+                commandBoxArrow.transform.localScale = new Vector3(-.7f, .7f, 1);
                 commandImage = Instantiate<GameObject>(leftArrow);
                 break;
             case Player.Command.Right:
+                commandBoxArrow.transform.localScale = new Vector3(.7f, .7f, 1);
                 commandImage = Instantiate<GameObject>(rightArrow);
                 break;
             default:
+                commandBoxArrow.transform.localScale = new Vector3(-.7f, .7f, 1);
                 commandImage = Instantiate<GameObject>(leftArrow);
                 break;
         }
 
-        commandImage.transform.position = GameObject.Find ("Remote").transform.position;
-        commandImage.transform.SetParent(GameObject.Find ("Remote").transform);
+        commandImage.transform.position = commandBox.transform.position;
+        commandImage.transform.SetParent(commandBox.transform);
 
 		if (spawned_prefab == null) {
 			spawned_prefab = new List<sonars> ();
