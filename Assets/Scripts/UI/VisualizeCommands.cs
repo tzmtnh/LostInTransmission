@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class VisualizeCommands : MonoBehaviour {
 
-	public GameObject sonar_prefab;
+	public GameObject leftArrow;
+    public GameObject rightArrow;
+
 	private static VisualizeCommands _instance;
 	public static VisualizeCommands singleton{ get{ return _instance; } }
 
@@ -44,23 +46,36 @@ public class VisualizeCommands : MonoBehaviour {
 		
 	public void OnSend(Player.Command cmd, float delay)
 	{
-        GameObject sonar = Instantiate<GameObject>(sonar_prefab);
-		sonar.transform.position = GameObject.Find ("Remote").transform.position;
-		sonar.transform.SetParent(GameObject.Find ("Remote").transform);
+        GameObject commandImage;
+        switch (cmd)
+        {
+            case Player.Command.Left:
+                commandImage = Instantiate<GameObject>(leftArrow);
+                break;
+            case Player.Command.Right:
+                commandImage = Instantiate<GameObject>(rightArrow);
+                break;
+            default:
+                commandImage = Instantiate<GameObject>(leftArrow);
+                break;
+        }
+
+        commandImage.transform.position = GameObject.Find ("Remote").transform.position;
+        commandImage.transform.SetParent(GameObject.Find ("Remote").transform);
 
 		if (spawned_prefab == null) {
 			spawned_prefab = new List<sonars> ();
 			var struct_sonar = new sonars();
 			struct_sonar.startTime = Time.time;
 			struct_sonar.delay = delay;
-			struct_sonar.sonar = sonar;
+			struct_sonar.sonar = commandImage;
 			spawned_prefab.Add(struct_sonar);
 		} else 
 		{
 			var sonar_prefab = new sonars();
 			sonar_prefab.startTime = Time.time;
 			sonar_prefab.delay = delay;
-			sonar_prefab.sonar = sonar;
+			sonar_prefab.sonar = commandImage;
 			spawned_prefab.Add(sonar_prefab);
 		}
     }
