@@ -10,8 +10,14 @@ public class GameManager : MonoBehaviour {
     public GameObject gameOverUI;
     public Text gameOverScoreText;
     
-    public GameObject trackObject;
-    public GameObject hudObject;
+    private GameObject trackObject;
+    private GameObject hudObject;
+
+    void Awake()
+    {
+        trackObject = GameObject.Find("Track");
+        hudObject = GameObject.Find("UI");
+    }
 
     void Start()
     {
