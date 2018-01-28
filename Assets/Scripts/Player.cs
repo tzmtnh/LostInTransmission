@@ -20,12 +20,25 @@ public class Player : MonoBehaviour {
     private static readonly float[] LANE_POSITIONS = new float[] { -1, 0, 1 };
     private int laneIndex = Array.IndexOf(LANE_POSITIONS, 0);
 
-    public float delay = 0.0f;
-    public float laneChangeTime = 1.0f;
+    private float gameStartTime;
 
-    public AnimationCurve laneChangePositionCurve;
-    public AnimationCurve laneChangeRotationCurve;
-    public float laneChangeRotationAngle = -35;
+    [SerializeField]
+    private float timePlayed = 0;
+
+    [SerializeField]
+    private float delay = 0.0f;
+
+    [SerializeField]
+    private float laneChangeTime = 1.0f;
+
+    [SerializeField]
+    private AnimationCurve laneChangePositionCurve;
+
+    [SerializeField]
+    private AnimationCurve laneChangeRotationCurve;
+
+    [SerializeField]
+    private float laneChangeRotationAngle = -35;
 
     private bool isChangingLane = false;
     private float laneChangeStartTime;
@@ -44,6 +57,9 @@ public class Player : MonoBehaviour {
 
 	void Update ()
     {
+        timePlayed = Time.time - gameStartTime;
+        delay = timePlayed * .01f;
+
 		if (Input.GetKeyDown("left"))
         {
             IssueLeftCommand();
@@ -66,7 +82,8 @@ public class Player : MonoBehaviour {
             {
                 isChangingLane = false;
             }
-        } else
+        }
+        else
         {
             ReadCommandQueue();
         }
