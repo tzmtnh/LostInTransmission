@@ -126,13 +126,15 @@ public class Track : MonoBehaviour {
 			hitable.transform.localPosition -= offset;
 			Vector3 hitablePos = hitable.transform.localPosition;
 
-			float distX = Mathf.Abs(hitablePos.x - playerPos.x);
-			float distZ = Mathf.Abs(hitablePos.z - playerPos.z);
+			if (hitable.destroyed == false && (hitable.canDamage == false || Player.instance.isDamageable)) {
+				float distX = Mathf.Abs(hitablePos.x - playerPos.x);
+				float distZ = Mathf.Abs(hitablePos.z - playerPos.z);
 
-			const float THRESH_X = 0.5f;
-			const float THRESH_Z = 0.5f;
-			if (hitable.destroyed == false && distX < THRESH_X && distZ < THRESH_Z) {
-				hitable.destroy();
+				const float THRESH_X = 0.5f;
+				const float THRESH_Z = 0.5f;
+				if (distX < THRESH_X && distZ < THRESH_Z) {
+					hitable.destroy();
+				}
 			}
 
 			if (hitablePos.z < -_laneLength / 2f) {

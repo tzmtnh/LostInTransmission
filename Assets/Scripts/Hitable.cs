@@ -12,6 +12,8 @@ public class Hitable : MonoBehaviour {
 
 	public HitableType type;
 
+	public bool canDamage { get { return type == HitableType.Astroid; } }
+
 	bool _destroyed = false;
 	public bool destroyed { get { return _destroyed; } }
 
