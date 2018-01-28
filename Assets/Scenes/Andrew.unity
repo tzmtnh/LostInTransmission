@@ -252,21 +252,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114310443147828378, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: fullHealthTexture
-      value: 
-      objectReference: {fileID: 2800000, guid: 63a898671ddd55c49a4771141868ec60, type: 3}
-    - target: {fileID: 114310443147828378, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: damageTexture1
-      value: 
-      objectReference: {fileID: 2800000, guid: 2551e0f998c80ce4aab697d4281591ff, type: 3}
-    - target: {fileID: 114310443147828378, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: damageTexture2
-      value: 
-      objectReference: {fileID: 2800000, guid: 377a8952ba330254e957e1cb74bcd07e, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
   m_IsPrefabParent: 0
