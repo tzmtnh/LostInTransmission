@@ -175,7 +175,7 @@ public class Track : MonoBehaviour {
 		if (_glitchSource != null) {
 			AudioManager.inst.stopSound(_glitchSource);
 		}
-		_glitchSource = AudioManager.inst.playSound("Glitch", loop: true);
+		_glitchSource = AudioManager.inst.playSound("Glitch", volume:0, loop: true);
 	}
 
 	void Awake() {
