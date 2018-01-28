@@ -26,9 +26,7 @@ public class Player : MonoBehaviour {
 
     [SerializeField]
     private float timePlayed = 0;
-
-    [SerializeField]
-    private float delay = 0.0f;
+    public float delay = 0.0f;
 
     [SerializeField]
     private float laneChangeTime = 1.0f;
