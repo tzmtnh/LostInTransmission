@@ -243,7 +243,8 @@ public class Player : MonoBehaviour {
     {
         yield return new WaitForSeconds(duration);
         _targetSpeed = this.defaultSpeed;
-        isDamageable = true;
+		yield return new WaitForSeconds(1);
+		isDamageable = true;
     }
 
     private void SetTexture(int health) {
