@@ -56,11 +56,11 @@ public class CameraControl : MonoBehaviour {
 		const float maxDist = 4f;
 		float speed = Player.instance.normalizedSpeed;
 		float offset = Mathf.Clamp((speed - 1f) / 1.3f, 0, maxDist);
-		Vector3 pos = _origin + _transform.forward * offset;
 		float alpha = Mathf.Deg2Rad * _defaultFOV / 2f;
 		float tanBeta = maxDist * Mathf.Tan(alpha) / (maxDist - offset);
 		float beta = Mathf.Atan(tanBeta);
-		_transform.localPosition = pos;
+
+		_transform.localPosition = _origin + _transform.forward * (offset * 1.2f);
 		_camera.fieldOfView = beta * Mathf.Rad2Deg * 2f;
 	}
 }
