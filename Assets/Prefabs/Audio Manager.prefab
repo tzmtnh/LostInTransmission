@@ -87,4 +87,4 @@ MonoBehaviour:
   - name: Change Lane
     defaultVolume: 1
     defaultPitch: 1
-    clip: {fileID: 8300000, guid: 668465bd457d3f44d963650cbec386b1, type: 3}
+    clip: {fileID: 8300000, guid: de34b37a34b13cb4a875fc9d1ab60ac1, type: 3}

@@ -44,10 +44,12 @@ public class AudioManager : MonoBehaviour {
 		AudioElement element = _elementByName[name];
 		AudioSource source = getSource();
 
-		if (volume < 0)
+		if (volume < 0) {
 			volume = element.defaultVolume;
-		if (pitch < 0)
+		}
+		if (pitch < 0) {
 			pitch = element.defaultPitch;
+		}
 
 		source.clip = element.clip;
 		source.volume = volume;
