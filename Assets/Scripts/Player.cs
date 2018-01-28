@@ -44,6 +44,10 @@ public class Player : MonoBehaviour {
     public int maxHealth = 3;
     public int currentHealth = 3;
 
+    public Texture fullHealthTexture;
+    public Texture damageTexture1;
+    public Texture damageTexture2;
+
     [SerializeField]
     private float defaultSpeed = 10.0f;
 
@@ -127,8 +131,7 @@ public class Player : MonoBehaviour {
     {
         if (this.laneIndex > 0)
         {
-            this.laneIndex--;
-            SetTargetLane(this.laneIndex);
+            SetTargetLane(--this.laneIndex);
         }
     }
 
@@ -136,8 +139,7 @@ public class Player : MonoBehaviour {
     {
         if (this.laneIndex < LANE_POSITIONS.Length - 1)
         {
-            this.laneIndex++;
-            SetTargetLane(this.laneIndex);
+            SetTargetLane(++this.laneIndex);
         }
     }
 
@@ -162,19 +164,13 @@ public class Player : MonoBehaviour {
             case Hitable.HitableType.Astroid:
                 if (this.currentHealth > 0)
                 {
-                    this.currentHealth--;
-
-                    if (this.currentHealth <= 0)
-                    {
-                        this.isDamageable = false;
-                        this.gameObject.SetActive(false);
-                    }
+                    SetTexture(--this.currentHealth);
                 }
                 break;
             case Hitable.HitableType.Repair:
                 if (this.currentHealth < this.maxHealth)
                 {
-                    this.currentHealth++;
+                    SetTexture(++this.currentHealth);
                 }
                 break;
             case Hitable.HitableType.Amplify:
@@ -195,6 +191,25 @@ public class Player : MonoBehaviour {
         isDamageable = true;
     }
 
+    private void SetTexture(int health) {
+        switch (this.currentHealth)
+        {
+            case 3:
+                GameObject.Find("Spaceship").GetComponent<Renderer>().material.mainTexture = fullHealthTexture;
+                break;
+            case 2:
+                GameObject.Find("Spaceship").GetComponent<Renderer>().material.mainTexture = damageTexture1;
+                break;
+            case 1:
+                GameObject.Find("Spaceship").GetComponent<Renderer>().material.mainTexture = damageTexture2;
+                break;
+            case 0:
+                this.isDamageable = false;
+                this.gameObject.SetActive(false);
+                break;
+        }
+    }
+
     public void Reset()
     {
         this.distance = 0;
@@ -203,5 +218,6 @@ public class Player : MonoBehaviour {
         this.isDamageable = true;
         this.gameObject.SetActive(true);
         this.ResetToMiddleLane();
+        this.SetTexture(this.currentHealth);
     }
 }
