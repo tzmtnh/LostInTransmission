@@ -20,27 +20,24 @@ public class VisualizeCommands : MonoBehaviour {
 		DontDestroyOnLoad (this.gameObject);
 	}
 		
-	public void OnStart()
+	void Start()
 	{
 		Player.OnCommand += OnSend;
 	}
 
-	public void OnDestroy()
+	void OnDestroy()
 	{
 		Player.OnCommand -= OnSend;
 	}
 		
 	public void OnSend(Player.Command cmd, float delay)
 	{
-		
-	}
+        GameObject sonar = Instantiate<GameObject>(sonar_prefab);
+    }
 
-	public void Update()
+	void Update()
 	{
-		if (Player.OnCommand != null)
-		{
-			GameObject sonar = Instantiate<GameObject>( sonar_prefab );
-		}
+
 	}
 
 }
