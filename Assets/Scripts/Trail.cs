@@ -25,14 +25,12 @@ public class Trail : MonoBehaviour {
 	}
 
 	void Update() {
+		const float NOISE = 0.03f;
 		Vector3 offset = new Vector3(0, 0, Time.deltaTime * Player.instance.speed * Random.Range(1f, 2f));
-		for (int i = historySize - 1; i >= 2; i--) {
-			_points[i] = _points[i - 1] - offset;
+		for (int i = historySize - 1; i >= 1; i--) {
+			_points[i] = _points[i - 1] - offset + Random.insideUnitSphere * NOISE;
 		}
-
-		Vector3 pos = _transform.position;
-		_points[0] = pos;
-		_points[1] = pos - offset;
+		_points[0] = _transform.position;
 
 		_renderer.SetPositions(_points);
 	}

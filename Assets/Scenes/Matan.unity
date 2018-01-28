@@ -317,11 +317,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 120268061407627260, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -353,36 +348,6 @@ Prefab:
     - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 120268061407627260, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].time
-      value: 0.9941406
-      objectReference: {fileID: 0}
-    - target: {fileID: 120268061407627260, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].value
-      value: 0.5437721
-      objectReference: {fileID: 0}
-    - target: {fileID: 120268061407627260, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
-      value: 0.9941406
-      objectReference: {fileID: 0}
-    - target: {fileID: 120268061407627260, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
-      value: 0.5437721
-      objectReference: {fileID: 0}
-    - target: {fileID: 120268061407627260, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 120268061407627260, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].outSlope
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
