@@ -33,12 +33,6 @@ public class Player : MonoBehaviour {
     private float laneChangeTime = 1.0f;
 
     [SerializeField]
-    private AnimationCurve laneChangePositionCurve;
-
-    [SerializeField]
-    private AnimationCurve laneChangeRotationCurve;
-
-    [SerializeField]
     private float laneChangeMaxYaw = 35;
 
     [SerializeField]
