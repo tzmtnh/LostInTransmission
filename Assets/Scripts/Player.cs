@@ -19,13 +19,10 @@ public class Player : MonoBehaviour {
 
     private static readonly float[] LANE_POSITIONS = new float[] { -1, 0, 1 };
     private int laneIndex = Array.IndexOf(LANE_POSITIONS, 0);
-
-    private float gameStartTime;
+    
     public float speed;
     public float distance = 0;
 
-    [SerializeField]
-    private float timePlayed = 0;
     public float delay = 0.0f;
 
     [SerializeField]
@@ -67,15 +64,18 @@ public class Player : MonoBehaviour {
     }
 
     void Start () {
-        this.gameStartTime = Time.time;
         this.speed = this.defaultSpeed;
-        SetLane(this.laneIndex);
+        ResetToMiddleLane();
         Hitable.onHitableHit += OnHit;
 	}
 
 	void Update ()
     {
-        this.timePlayed = Time.time - gameStartTime;
+        if (this.currentHealth <= 0)
+        {
+            return;
+        }
+        
         this.delay += Time.deltaTime * .01f;
         this.distance += Time.deltaTime * speed;
 
@@ -169,10 +169,10 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void SetLane(int laneIndex)
+    void ResetToMiddleLane()
     {
         var pos = this.gameObject.transform.position;
-        gameObject.transform.position = new Vector3(LANE_POSITIONS[laneIndex], pos.y, pos.z);
+        gameObject.transform.position = new Vector3(LANE_POSITIONS[Array.IndexOf(LANE_POSITIONS, 0)], pos.y, pos.z);
     }
 
     void SetTargetLane(int laneIndex)
@@ -215,5 +215,14 @@ public class Player : MonoBehaviour {
     {
         yield return new WaitForSeconds(duration);
         this.speed = this.defaultSpeed;
+    }
+
+    public void Reset()
+    {
+        this.distance = 0;
+        this.delay = 0;
+        this.currentHealth = maxHealth;
+        this.gameObject.SetActive(true);
+        this.ResetToMiddleLane();
     }
 }
