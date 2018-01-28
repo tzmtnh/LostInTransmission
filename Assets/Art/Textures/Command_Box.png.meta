@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 7f915af5d8949ce4a9f6910ebc4288d4
-timeCreated: 1517165152
+guid: 05c878c85692bfe4e80955f0a4783b9e
+timeCreated: 1517172689
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Arrow_Command_0
-    21300002: Arrow_Command_1
-    21300004: Arrow_Command_2
+    21300000: Command_Box_0
+    21300002: Command_Box_1
+    21300004: Command_Box_2
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -103,13 +103,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Arrow_Command_0
+      name: Command_Box_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 48
-        height: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,13 +117,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Arrow_Command_1
+      name: Command_Box_1
       rect:
         serializedVersion: 2
         x: 48
         y: 0
         width: 48
-        height: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,13 +131,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Arrow_Command_2
+      name: Command_Box_2
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 48
-        height: 48
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
