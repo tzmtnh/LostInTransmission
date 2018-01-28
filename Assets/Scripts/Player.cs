@@ -46,13 +46,21 @@ public class Player : MonoBehaviour {
     private Vector3 startPosition;
     private Vector3 targetPosition;
 
+    public int maxHealth = 3;
+    public int currentHealth = 3;
+
+    [SerializeField]
+    private float amplifyAmount = .1f;
+
     void Awake()
     {
         instance = this;
     }
 
     void Start () {
+        gameStartTime = Time.time;
         SetLane(this.laneIndex);
+        Hitable.onHitableHit += OnHit;
 	}
 
 	void Update ()
@@ -162,5 +170,29 @@ public class Player : MonoBehaviour {
         this.startPosition = pos;
         this.targetPosition = new Vector3(LANE_POSITIONS[laneIndex], pos.y, pos.z);
         this.isChangingLane = true;
+    }
+
+    void OnHit(Hitable.HitableType hitType)
+    {
+        switch (hitType)
+        {
+            case Hitable.HitableType.Astroid:
+                if (currentHealth > 0)
+                {
+                    currentHealth--;
+                }
+                break;
+            case Hitable.HitableType.Repair:
+                if (currentHealth < this.maxHealth)
+                {
+                    currentHealth++;
+                }
+                break;
+            case Hitable.HitableType.Amplify:
+                delay = Mathf.Max(0, delay - amplifyAmount);
+                break;
+            case Hitable.HitableType.Jump:
+                break;
+        }
     }
 }
