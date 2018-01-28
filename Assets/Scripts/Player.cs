@@ -50,6 +50,7 @@ public class Player : MonoBehaviour {
     public Texture damageTexture1;
     public Texture damageTexture2;
 
+    public GameObject damageEffect;
     public ParticleSystem damageParticles;
     public GameObject deathExplosion;
     private SpriteRenderer _deathExplosionRenderer;
@@ -80,13 +81,12 @@ public class Player : MonoBehaviour {
 	void Awake()
     {
         instance = this;
+        shipContainer = GameObject.Find("Spaceship_container");
     }
 
     void Start () {
 		_speed = defaultSpeed;
 		_targetSpeed = defaultSpeed;
-
-        shipContainer = GameObject.Find("Spaceship_container");
 
         Transform ship = shipContainer.transform.Find("Spaceship");
 		Assert.IsNotNull(ship);
@@ -262,12 +262,15 @@ public class Player : MonoBehaviour {
         switch (this.currentHealth)
         {
             case 3:
-				_shipMaterial.mainTexture = fullHealthTexture;
+                damageEffect.SetActive(false);
+                _shipMaterial.mainTexture = fullHealthTexture;
                 break;
             case 2:
-				_shipMaterial.mainTexture = damageTexture1;
+                damageEffect.SetActive(false);
+                _shipMaterial.mainTexture = damageTexture1;
                 break;
             case 1:
+                damageEffect.SetActive(true);
 				_shipMaterial.mainTexture = damageTexture2;
                 break;
         }
@@ -287,6 +290,11 @@ public class Player : MonoBehaviour {
     void EndExplosion()
     {
         _deathExplosionRenderer.enabled = false;
+    }
+
+    public void SetVisible(bool visible)
+    {
+        this.shipContainer.SetActive(visible);
     }
 
     public void Reset()
