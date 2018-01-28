@@ -113,6 +113,48 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &557354599
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031738631991642, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1733047885
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +222,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: astroidPrefab
+      value: 
+      objectReference: {fileID: 1008805728998246, guid: 4c3d0d7ad6e8c2246a909aac8b2a86e5,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb2d9c274296bc5499992ce4450af95f, type: 2}
   m_IsPrefabParent: 0
