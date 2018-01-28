@@ -194,6 +194,36 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 198310345365637334, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 6000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198310345365637334, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: randomSeed
+      value: -273252138
+      objectReference: {fileID: 0}
+    - target: {fileID: 198310345365637334, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 198310345365637334, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: InitialModule.startSize.scalar
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 198310345365637334, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: InitialModule.startSpeed.minMaxState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198310345365637334, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 3000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb2d9c274296bc5499992ce4450af95f, type: 2}
   m_IsPrefabParent: 0
