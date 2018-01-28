@@ -291,7 +291,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -395,8 +395,6 @@ MonoBehaviour:
   startUI: {fileID: 1317224605909340}
   gameOverUI: {fileID: 1750157754995374}
   gameOverScoreText: {fileID: 114551466455283586}
-  trackObject: {fileID: 0}
-  hudObject: {fileID: 0}
 --- !u!114 &114292667403843032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -413,7 +411,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

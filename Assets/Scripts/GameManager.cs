@@ -36,6 +36,11 @@ public class GameManager : MonoBehaviour {
 				NewGame();
 			}
         }
+
+        if (startUI.activeSelf && Input.GetKeyDown(KeyCode.Space))
+        {
+            StartGame();
+        }
 	}
 
     public void StartGame()
