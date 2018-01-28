@@ -23,7 +23,7 @@ public class CameraControl : MonoBehaviour {
 		if (_co != null) {
 			StopCoroutine(_co);
 		}
-		StartCoroutine(shakeCo(duration));
+		_co = StartCoroutine(shakeCo(duration));
 	}
 
 	IEnumerator shakeCo(float duration) {

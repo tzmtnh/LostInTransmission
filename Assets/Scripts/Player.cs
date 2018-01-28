@@ -187,11 +187,22 @@ public class Player : MonoBehaviour {
         this.targetPosition = new Vector3(LANE_POSITIONS[laneIndex], pos.y, pos.z);
     }
 
-	void canTakeDamageAgain() {
-		isDamageable = true;
+	Coroutine _canTakeDamageAgainCo;
+	void canTakeDamageAgain(float delay) {
+		if (_canTakeDamageAgainCo != null) {
+			StopCoroutine(_canTakeDamageAgainCo);
+		}
+		_canTakeDamageAgainCo = StartCoroutine(canTakeDamageAgainCo(delay));
 	}
 
-    void OnHit(Hitable.HitableType hitType)
+	IEnumerator canTakeDamageAgainCo(float delay) {
+		yield return new WaitForSeconds(delay);
+		isDamageable = true;
+		_canTakeDamageAgainCo = null;
+	}
+
+
+	void OnHit(Hitable.HitableType hitType)
     {
         switch (hitType)
         {
@@ -206,7 +217,7 @@ public class Player : MonoBehaviour {
                         isDamageable = false;
 
 						const float SHIELD_TIME = 3;
-                        Invoke("canTakeDamageAgain", SHIELD_TIME);
+                        canTakeDamageAgain(SHIELD_TIME);
 
 						const float SHAKE_TIME = 0.3f;
 						CameraControl.inst.shake(SHAKE_TIME);
