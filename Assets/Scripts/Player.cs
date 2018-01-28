@@ -20,18 +20,14 @@ public class Player : MonoBehaviour {
     private static readonly float[] LANE_POSITIONS = new float[] { -1, 0, 1 };
     private int laneIndex = Array.IndexOf(LANE_POSITIONS, 0);
 
-    private float gameStartTime;
-
-	private float _targetSpeed;
 	private float _speed;
-	private float _speedVelocity;
+	private float _targetSpeed;
+	private float _speedVelocity; // used by SmoothDamp
 	public float speed { get { return _speed; } }
-	public float normalizedSpeed { get { return speed / defaultSpeed; } }
+	public float normalizedSpeed { get { return _speed / defaultSpeed; } }
 
-	public float distance = 0;
+    public float distance = 0;
 
-    [SerializeField]
-    private float timePlayed = 0;
     public float delay = 0.0f;
 
     [SerializeField]
@@ -73,19 +69,23 @@ public class Player : MonoBehaviour {
     }
 
     void Start () {
-        this.gameStartTime = Time.time;
         _targetSpeed = this.defaultSpeed;
-        SetLane(this.laneIndex);
+        ResetToMiddleLane();
         Hitable.onHitableHit += OnHit;
 	}
 
 	void Update ()
     {
-        this.timePlayed = Time.time - gameStartTime;
+        if (this.currentHealth <= 0)
+        {
+            return;
+        }
+        
         this.delay += Time.deltaTime * .01f;
         this.distance += Time.deltaTime * speed;
 
-		_speed = Mathf.SmoothDamp(_speed, _targetSpeed, ref _speedVelocity, 1f);
+		const float SPEED_SMOOTH_TIME = 1;
+		_speed = Mathf.SmoothDamp(_speed, _targetSpeed, ref _speedVelocity, SPEED_SMOOTH_TIME);
 
 		if (Input.GetKeyDown("left"))
         {
@@ -177,10 +177,10 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void SetLane(int laneIndex)
+    void ResetToMiddleLane()
     {
         var pos = this.gameObject.transform.position;
-        gameObject.transform.position = new Vector3(LANE_POSITIONS[laneIndex], pos.y, pos.z);
+        gameObject.transform.position = new Vector3(LANE_POSITIONS[Array.IndexOf(LANE_POSITIONS, 0)], pos.y, pos.z);
     }
 
     void SetTargetLane(int laneIndex)
@@ -223,5 +223,14 @@ public class Player : MonoBehaviour {
     {
         yield return new WaitForSeconds(duration);
         _targetSpeed = this.defaultSpeed;
+    }
+
+    public void Reset()
+    {
+        this.distance = 0;
+        this.delay = 0;
+        this.currentHealth = maxHealth;
+        this.gameObject.SetActive(true);
+        this.ResetToMiddleLane();
     }
 }
