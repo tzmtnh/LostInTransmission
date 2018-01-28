@@ -5,13 +5,20 @@ using UnityEngine.Assertions;
 
 public class Track : MonoBehaviour {
 
+	[System.Serializable]
+	public struct Spawnable {
+		[HideInInspector] public string name;
+		public Hitable hitable;
+		public float probability;
+	}
+
 	public static Track inst;
 
 	public float speed = 1;
-	public float enemySpawnRate = 5;
+	public float spawnChange = 0.1f;
 	public float laneWidth = 1;
 
-	public Hitable astroidPrefab;
+	public Spawnable[] spawnablePrefabs;
 
 	float _traveledDistance = 0;
 	float _traveledDistanceDelta = 0;
@@ -20,8 +27,8 @@ public class Track : MonoBehaviour {
 	Transform _lane2;
 	float _laneLength;
 
-	List<Hitable> _enemies = new List<Hitable>();
-	float _lastEnemySpawnTime = 0;
+	List<Hitable> _hitables = new List<Hitable>(8);
+	float _totalProbability = 0;
 
 	void initLanes() {
 		_lane1 = transform.Find("Lanes");
@@ -52,36 +59,57 @@ public class Track : MonoBehaviour {
 		_lane2.localPosition = pos2;
 	}
 
+	void validate() {
+		_totalProbability = 0;
+		for (int i = 0; i < spawnablePrefabs.Length; i++) {
+			if (spawnablePrefabs[i].hitable != null)
+				spawnablePrefabs[i].name = spawnablePrefabs[i].hitable.name;
+			_totalProbability += spawnablePrefabs[i].probability;
+		}
+	}
+
+	void spawnRandomHitalbe() {
+		float rand = Random.value * _totalProbability;
+		float current = 0;
+		Hitable prefab = null;
+		for (int i = 0; i < spawnablePrefabs.Length; i++) {
+			current += spawnablePrefabs[i].probability;
+			if (current >= rand) {
+				prefab = spawnablePrefabs[i].hitable;
+				break;
+			}
+		}
+
+		Assert.IsNotNull(prefab);
+		int lane = Random.Range(-1, 2);
+		Hitable hitable = Instantiate(prefab);
+		hitable.transform.SetParent(transform);
+		hitable.transform.localPosition = new Vector3(lane * laneWidth, 0.5f, _laneLength / 2f);
+		_hitables.Add(hitable);
+	}
+
 	void updateEnemies() {
-		float t = Time.time;
-		float timeSinceLastEnemySpawn = t - _lastEnemySpawnTime;
-		if (timeSinceLastEnemySpawn >= enemySpawnRate) {
-			_lastEnemySpawnTime = t;
-			Assert.IsNotNull(astroidPrefab);
-			int lane = Random.Range(-1, 2);
-			Hitable enemy = Instantiate(astroidPrefab);
-			enemy.transform.SetParent(transform);
-			enemy.transform.localPosition = new Vector3(lane * laneWidth, 0.5f, _laneLength / 2f);
-			_enemies.Add(enemy);
+		if (Random.value < spawnChange * Time.deltaTime) {
+			spawnRandomHitalbe();
 		}
 
 		Vector3 playerPos = Player.instance.transform.localPosition;
 		Vector3 offset = new Vector3(0, 0, _traveledDistanceDelta);
-		for (int i = _enemies.Count - 1; i >= 0; i--) {
-			Hitable enemy = _enemies[i];
-			enemy.transform.localPosition -= offset;
-			Vector3 enemyPos = enemy.transform.localPosition;
+		for (int i = _hitables.Count - 1; i >= 0; i--) {
+			Hitable hitable = _hitables[i];
+			hitable.transform.localPosition -= offset;
+			Vector3 hitablePos = hitable.transform.localPosition;
 
-			if (enemy.destroyed == false && enemyPos.z <= playerPos.z) {
-				float horizontalDist = Mathf.Abs(enemyPos.x - playerPos.x);
+			if (hitable.destroyed == false && hitablePos.z <= playerPos.z) {
+				float horizontalDist = Mathf.Abs(hitablePos.x - playerPos.x);
 				if (horizontalDist < 0.5f) {
-					enemy.destroy();
+					hitable.destroy();
 				}
 			}
 
-			if (enemyPos.z < -_laneLength / 2f) {
-				_enemies.RemoveAt(i);
-				Destroy(enemy.transform.gameObject);
+			if (hitablePos.z < -_laneLength / 2f) {
+				_hitables.RemoveAt(i);
+				Destroy(hitable.transform.gameObject);
 			}
 		}
 	}
@@ -89,6 +117,7 @@ public class Track : MonoBehaviour {
 	void Awake() {
 		Assert.IsNull(inst, "Only one instance allowed!");
 		inst = this;
+		validate();
 		initLanes();
 	}
 
@@ -102,4 +131,7 @@ public class Track : MonoBehaviour {
 		updateEnemies();
 	}
 
+	void OnValidate() {
+		validate();
+	}
 }

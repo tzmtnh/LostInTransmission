@@ -478,10 +478,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  enemySpawnRate: 5
+  spawnChange: 0.3
   laneWidth: 1
-  astroidPrefab: {fileID: 114322699955652420, guid: 4c3d0d7ad6e8c2246a909aac8b2a86e5,
-    type: 2}
+  hitablePrefabs: []
 --- !u!124 &124485287554278844
 Behaviour:
   m_ObjectHideFlags: 1

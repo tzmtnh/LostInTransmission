@@ -120,6 +120,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4758116857144402, guid: bb2d9c274296bc5499992ce4450af95f, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -150,6 +155,70 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4758116857144402, guid: bb2d9c274296bc5499992ce4450af95f, type: 2}
       propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[0].name
+      value: Astroid
+      objectReference: {fileID: 0}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[0].hitable
+      value: 
+      objectReference: {fileID: 114322699955652420, guid: 4c3d0d7ad6e8c2246a909aac8b2a86e5,
+        type: 2}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[1].name
+      value: Amplify
+      objectReference: {fileID: 0}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[1].hitable
+      value: 
+      objectReference: {fileID: 114327326029113208, guid: 1025de543621bc34d96194bda4acdca5,
+        type: 2}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[2].name
+      value: Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[2].hitable
+      value: 
+      objectReference: {fileID: 114037571239716752, guid: 5a50057b01a0c5544af20a811f98d9ca,
+        type: 2}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[3].name
+      value: Repair
+      objectReference: {fileID: 0}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[3].hitable
+      value: 
+      objectReference: {fileID: 114091209634053550, guid: c57303cf702f29446a57d809548ca048,
+        type: 2}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[0].probability
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[1].probability
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[2].probability
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: spawnablePrefabs.Array.data[3].probability
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
