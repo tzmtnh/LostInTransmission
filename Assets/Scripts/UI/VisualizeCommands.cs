@@ -72,18 +72,16 @@ public class VisualizeCommands : MonoBehaviour {
 
         if (spawned_prefab != null) 
 		{
-			var starTime = Time.time;
-			var endTime = 12863.43f;
 			float startPosition = 50.0f;
 			float endPosition = 1000.0f;
 
-			float timey = Mathf.InverseLerp(timeTracker, endTime, Time.time);
-			float pos = Mathf.Lerp(startPosition, endPosition, timey);
-
 			foreach (var x in spawned_prefab) {
 				if (x.sonar != null) {
+					float timey = Mathf.InverseLerp(timeTracker, Time.time + x.delay, Time.time);
+					float pos = Mathf.Lerp(startPosition, timey, endPosition);
+
 					var horizontal = x.sonar.transform.localPosition;
-					horizontal.x += Mathf.Abs ((horizontal.x + movementRate) - timey); 
+					horizontal.x += pos*40; 
 					x.sonar.transform.localPosition = horizontal;
 					if (horizontal.x >= 1000) {
 						Destroy (x.sonar);
