@@ -297,11 +297,6 @@ public class Player : MonoBehaviour {
         _deathExplosionRenderer.enabled = false;
     }
 
-    public void SetVisible(bool visible)
-    {
-        this.shipContainer.SetActive(visible);
-    }
-
     public void Reset()
     {
 		this.distance = 0;
