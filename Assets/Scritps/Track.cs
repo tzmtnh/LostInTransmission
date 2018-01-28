@@ -14,14 +14,16 @@ public class Track : MonoBehaviour {
 
 	public static Track inst;
 
-	public float speed = 1;
 	public float spawnChange = 0.1f;
+	public float spawnMinGap = 0.1f;
+	public float spawnMaxGap = 3;
 	public float laneWidth = 1;
 
 	public Spawnable[] spawnablePrefabs;
 
 	float _traveledDistance = 0;
 	float _traveledDistanceDelta = 0;
+	float _lastSpawnTime = 0;
 
 	Transform _lane1;
 	Transform _lane2;
@@ -31,6 +33,8 @@ public class Track : MonoBehaviour {
 	float _totalProbability = 0;
 
 	AudioSource _glitchSource;
+
+	ParticleSystem[] _particles;
 
 	void initLanes() {
 		_lane1 = transform.Find("Lanes");
@@ -71,6 +75,7 @@ public class Track : MonoBehaviour {
 	}
 
 	void spawnRandomHitalbe() {
+		_lastSpawnTime = Time.time;
 		float rand = Random.value * _totalProbability;
 		float current = 0;
 		Hitable prefab = null;
@@ -91,7 +96,19 @@ public class Track : MonoBehaviour {
 	}
 
 	void updateEnemies() {
-		if (Random.value < spawnChange * Time.deltaTime) {
+		float timeSinceLastSpawn = Time.time - _lastSpawnTime;
+		// make sure we don't spawn too much
+		bool needToSpawn = timeSinceLastSpawn >= spawnMinGap;
+		if (needToSpawn) {
+			// make sure we spawn too sparsly
+			needToSpawn = timeSinceLastSpawn >= spawnMaxGap;
+			// randomize spawning
+			if (needToSpawn == false) {
+				needToSpawn = Random.value < spawnChange * Time.deltaTime;
+			}
+		}
+
+		if (needToSpawn) {
 			spawnRandomHitalbe();
 		}
 
@@ -124,9 +141,20 @@ public class Track : MonoBehaviour {
 		_glitchSource.pitch = 1f / Mathf.Min(0.01f, delay);
 	}
 
+	void updateParticles() {
+		float speedMultiplier = Player.instance.normalizedSpeed;
+		for (int i = 0; i < _particles.Length; i++) {
+			var main = _particles[i].main;
+			main.simulationSpeed = speedMultiplier;
+		}
+	}
+
 	void Awake() {
 		Assert.IsNull(inst, "Only one instance allowed!");
 		inst = this;
+
+		_particles = transform.parent.GetComponentsInChildren<ParticleSystem>();
+
 		validate();
 		initLanes();
 	}
@@ -138,12 +166,13 @@ public class Track : MonoBehaviour {
 	void Update() {
 		float dt = Time.deltaTime;
 		float lastTraveledDistance = _traveledDistance;
-		_traveledDistance += speed * dt;
+		_traveledDistance += Player.instance.speed * dt;
 		_traveledDistanceDelta = _traveledDistance - lastTraveledDistance;
 
 		updateLanes();
 		updateEnemies();
 		updateGlitch();
+		updateParticles();
 	}
 
 	void OnValidate() {

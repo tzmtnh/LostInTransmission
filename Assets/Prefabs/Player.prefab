@@ -186,6 +186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d392964598809b4d98fae750691005f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distance: 0
+  timePlayed: 0
   delay: 0
   laneChangeTime: 1
   laneChangePositionCurve:
@@ -231,6 +233,12 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   laneChangeRotationAngle: -35
+  maxHealth: 3
+  currentHealth: 3
+  defaultSpeed: 10
+  jumpSpeed: 50
+  jumpSpeedDuration: 3
+  amplifyAmount: 0.1
 --- !u!212 &212158932141325614
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -490,8 +490,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f2f109ba03a834183fe0a4baf56e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
   spawnChange: 0.3
+  spawnMinGap: 0.1
+  spawnMaxGap: 3
   laneWidth: 1
   spawnablePrefabs:
   - name: Astroid
@@ -577,7 +578,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -883741821
+  randomSeed: 1476606732
   InitialModule:
     serializedVersion: 3
     enabled: 1

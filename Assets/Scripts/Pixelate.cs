@@ -8,7 +8,7 @@ public class Pixelate : MonoBehaviour {
 	RenderTexture _resampleRT;
 
 	void Awake() {
-		int w = Screen.width / Screen.height * numHeightPixels;
+		int w = Mathf.CeilToInt((float) Screen.width / Screen.height * numHeightPixels);
 		_resampleRT = new RenderTexture(w, numHeightPixels, 0);
 		_resampleRT.filterMode = FilterMode.Point;
 	}

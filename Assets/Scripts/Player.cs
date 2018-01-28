@@ -21,8 +21,14 @@ public class Player : MonoBehaviour {
     private int laneIndex = Array.IndexOf(LANE_POSITIONS, 0);
 
     private float gameStartTime;
-    public float speed;
-    public float distance = 0;
+
+	private float _targetSpeed;
+	private float _speed;
+	private float _speedVelocity;
+	public float speed { get { return _speed; } }
+	public float normalizedSpeed { get { return speed / defaultSpeed; } }
+
+	public float distance = 0;
 
     [SerializeField]
     private float timePlayed = 0;
@@ -68,7 +74,7 @@ public class Player : MonoBehaviour {
 
     void Start () {
         this.gameStartTime = Time.time;
-        this.speed = this.defaultSpeed;
+        _targetSpeed = this.defaultSpeed;
         SetLane(this.laneIndex);
         Hitable.onHitableHit += OnHit;
 	}
@@ -78,6 +84,8 @@ public class Player : MonoBehaviour {
         this.timePlayed = Time.time - gameStartTime;
         this.delay += Time.deltaTime * .01f;
         this.distance += Time.deltaTime * speed;
+
+		_speed = Mathf.SmoothDamp(_speed, _targetSpeed, ref _speedVelocity, 1f);
 
 		if (Input.GetKeyDown("left"))
         {
@@ -205,7 +213,7 @@ public class Player : MonoBehaviour {
                 this.delay = Mathf.Max(0, this.delay - this.amplifyAmount);
                 break;
             case Hitable.HitableType.Jump:
-                this.speed = this.jumpSpeed;
+                _targetSpeed = this.jumpSpeed;
                 StartCoroutine(RevertToDefaultSpeed(jumpSpeedDuration));
                 break;
         }
@@ -214,6 +222,6 @@ public class Player : MonoBehaviour {
     IEnumerator RevertToDefaultSpeed(float duration)
     {
         yield return new WaitForSeconds(duration);
-        this.speed = this.defaultSpeed;
+        _targetSpeed = this.defaultSpeed;
     }
 }
