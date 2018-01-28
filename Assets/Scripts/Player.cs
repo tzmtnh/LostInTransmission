@@ -81,11 +81,13 @@ public class Player : MonoBehaviour {
 
 		if (Input.GetKeyDown("left"))
         {
-            IssueLeftCommand();
+			AudioManager.inst.playSound("Click");
+			IssueLeftCommand();
         }
         else if (Input.GetKeyDown("right"))
         {
-            IssueRightCommand();
+			AudioManager.inst.playSound("Click");
+			IssueRightCommand();
         }
 
         if (this.isChangingLane)
