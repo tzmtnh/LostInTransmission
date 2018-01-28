@@ -15,8 +15,7 @@ public class VisualizeCommands : MonoBehaviour {
 	Transform _commandBoxArrow;
 	Transform _start;
 	Transform _end;
-
-	Text _delay;
+    
 	Text _distance;
 
 	private struct Sonar
@@ -43,8 +42,7 @@ public class VisualizeCommands : MonoBehaviour {
 		_start = _commandBoxArrow.Find("Start");
 		Transform receiver = transform.parent.Find("Receiver");
 		_end = receiver.Find("End");
-
-		_delay = transform.parent.Find("Delay").GetComponent<Text>();
+        
 		_distance = transform.parent.Find("Distance").GetComponent<Text>();
 	}
 		
@@ -107,8 +105,7 @@ public class VisualizeCommands : MonoBehaviour {
 	void Update()
 	{
 		float delay = Mathf.CeilToInt(Player.instance.delay * 10) / 10f;
-		_delay.text = "Delay: " + delay;
-        _distance.text = "Distance: " + (int)Player.instance.distance;
+        _distance.text = ""+(int)Player.instance.distance;
 
 	}
 
