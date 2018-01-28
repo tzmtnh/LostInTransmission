@@ -25,6 +25,7 @@ public class Player : MonoBehaviour {
 	private float _speedVelocity; // used by SmoothDamp
 	public float speed { get { return _speed; } }
 	public float normalizedSpeed { get { return _speed / defaultSpeed; } }
+	public float lightSpeedParam { get { return Mathf.InverseLerp(defaultSpeed, jumpSpeed, _speed); } }
 
     public float distance = 0;
 

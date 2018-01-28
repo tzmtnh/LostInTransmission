@@ -187,7 +187,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: 0
-  timePlayed: 0
   delay: 0
   laneChangeTime: 1
   laneChangePositionCurve:

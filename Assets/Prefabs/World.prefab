@@ -479,6 +479,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numHeightPixels: 240
+  secondaryHeightPixels: 20
+  blendMultiplier: 1
 --- !u!114 &114954657305290944
 MonoBehaviour:
   m_ObjectHideFlags: 1
