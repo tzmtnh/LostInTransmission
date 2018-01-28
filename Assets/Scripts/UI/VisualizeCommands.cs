@@ -44,6 +44,8 @@ public class VisualizeCommands : MonoBehaviour {
 		
 	public void OnSend(Player.Command cmd, float delay)
 	{
+		GameObject.Find ("Delay").GetComponent<UnityEngine.UI.Text>().text = "Delay: " + delay.ToString ();
+
         GameObject sonar = Instantiate<GameObject>(sonar_prefab);
 		sonar.transform.position = GameObject.Find ("Remote").transform.position;
 		sonar.transform.SetParent(GameObject.Find ("Remote").transform);
