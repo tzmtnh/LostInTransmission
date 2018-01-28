@@ -13,12 +13,21 @@ public class GameManager : MonoBehaviour {
     private GameObject trackObject;
     private GameObject hudObject;
 
-    void Awake()
+	bool _isPlayingIntro = false;
+	AudioSource _music;
+
+	void switchMusic(string name, bool loop) {
+		if (_music != null && _music.isPlaying) {
+			AudioManager.inst.stopSound(_music);
+		}
+		_music = AudioManager.inst.playSound(name, loop: loop);
+	}
+
+	void Awake()
     {
         trackObject = GameObject.Find("Track");
         hudObject = GameObject.Find("UI");
 		Player.onPlayerDied += onPlayerDeid;
-
 	}
 
     void Start()
@@ -26,7 +35,8 @@ public class GameManager : MonoBehaviour {
         Player.instance.SetVisible(false);
         trackObject.SetActive(false);
         hudObject.SetActive(false);
-    }
+		switchMusic("Main Menu Music", true);
+	}
 
     void Update () {
 		if (gameOverUI.activeSelf && Input.GetKeyDown(KeyCode.Space)) {
@@ -36,12 +46,18 @@ public class GameManager : MonoBehaviour {
         if (startUI.activeSelf && Input.GetKeyDown(KeyCode.Space)) {
             StartGame();
         }
+
+		if (_isPlayingIntro && _music.isPlaying == false) {
+			_isPlayingIntro = false;
+			switchMusic("Game Music Loop", true);
+		}
 	}
 
 	void onPlayerDeid() {
 		gameOverScoreText.text = "Distance: " + (int)Player.instance.distance;
 		gameOverUI.SetActive(true);
 		hudObject.SetActive(false);
+		switchMusic("Main Menu Music", true);
 	}
 
     public void StartGame()
@@ -49,11 +65,14 @@ public class GameManager : MonoBehaviour {
         Player.instance.SetVisible(true);
         Player.instance.Reset();
 
-        trackObject.SetActive(true);
+		trackObject.SetActive(true);
         hudObject.SetActive(true);
 
         startUI.SetActive(false);
-    }
+
+		_isPlayingIntro = true;
+		switchMusic("Game Music Intro", false);
+	}
 
     public void NewGame()
     {

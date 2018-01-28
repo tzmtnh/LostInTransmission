@@ -170,8 +170,9 @@ public class Track : MonoBehaviour {
 		}
 		_hitables.Clear();
 
-		AudioManager.inst.stopAllSounds();
-		AudioManager.inst.playSound("Theme", loop:true);
+		if (_glitchSource != null) {
+			AudioManager.inst.stopSound(_glitchSource);
+		}
 		_glitchSource = AudioManager.inst.playSound("Glitch", loop: true);
 	}
 
@@ -198,6 +199,9 @@ public class Track : MonoBehaviour {
 	}
 
 	void Update() {
+		if (Player.instance.isAlive == false)
+			return;
+
 		float dt = Time.deltaTime;
 		float lastTraveledDistance = _traveledDistance;
 		_traveledDistance += Player.instance.speed * dt;

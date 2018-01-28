@@ -46,7 +46,7 @@ public class Hitable : MonoBehaviour {
 	public void destroy() {
 		Assert.IsFalse(_destroyed);
 		_destroyed = true;
-		_renderer.material.color = Color.red;
+		_renderer.material.color = Color.yellow;
 
 		if (onHitableHit != null)
 			onHitableHit(type);
