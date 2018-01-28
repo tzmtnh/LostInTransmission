@@ -87,8 +87,6 @@ public class AudioManager : MonoBehaviour {
 		foreach (AudioElement element in audioElements) {
 			_elementByName.Add(element.name, element);
 		}
-
-		playSound("Theme", loop:true);
 	}
 
 	void Update() {

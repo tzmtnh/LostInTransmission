@@ -42,7 +42,6 @@ public class Track : MonoBehaviour {
 
 	ParticleCacher[] _particles;
 
-
 	void initLanes() {
 		_lane1 = transform.Find("Lanes");
 		Assert.IsNotNull(_lane1);
@@ -161,6 +160,21 @@ public class Track : MonoBehaviour {
 		}
 	}
 
+	public void reset() {
+		_traveledDistance = 0;
+		_traveledDistanceDelta = 0;
+		_lastSpawnTime = Time.time;
+
+		foreach (Hitable hitable in _hitables) {
+			Destroy(hitable.transform.gameObject);
+		}
+		_hitables.Clear();
+
+		AudioManager.inst.stopAllSounds();
+		AudioManager.inst.playSound("Theme", loop:true);
+		_glitchSource = AudioManager.inst.playSound("Glitch", loop: true);
+	}
+
 	void Awake() {
 		Assert.IsNull(inst, "Only one instance allowed!");
 		inst = this;
@@ -180,7 +194,7 @@ public class Track : MonoBehaviour {
 	}
 
 	void Start() {
-		_glitchSource = AudioManager.inst.playSound("Glitch", loop:true);
+		reset();
 	}
 
 	void Update() {

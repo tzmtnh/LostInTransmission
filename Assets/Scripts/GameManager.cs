@@ -7,12 +7,16 @@ public class GameManager : MonoBehaviour {
 
     public GameObject gameOverUI;
     public Text gameOverScoreText;
-	
+
 	void Update () {
 		if (Player.instance.isAlive == false)
         {
             gameOverScoreText.text = "Distance: " + (int)Player.instance.distance;
             gameOverUI.SetActive(true);
+
+			if (Input.GetKeyDown(KeyCode.Space)) {
+				NewGame();
+			}
         }
 	}
 
@@ -20,5 +24,6 @@ public class GameManager : MonoBehaviour {
     {
         gameOverUI.SetActive(false);
         Player.instance.Reset();
+		Track.inst.reset();
     }
 }
