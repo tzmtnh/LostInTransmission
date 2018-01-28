@@ -20,6 +20,8 @@ public class Track : MonoBehaviour {
 
 	public static Track inst;
 
+    public bool spawnEnabled;
+
 	public float spawnChange = 0.1f;
 	public float spawnMinGap = 0.1f;
 	public float spawnMaxGap = 3;
@@ -114,7 +116,7 @@ public class Track : MonoBehaviour {
 			}
 		}
 
-		if (needToSpawn) {
+		if (needToSpawn && spawnEnabled) {
 			spawnRandomHitalbe();
 		}
 

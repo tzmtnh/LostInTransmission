@@ -23,8 +23,7 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        Player.instance.SetVisible(false);
-        trackObject.SetActive(false);
+        Track.inst.spawnEnabled = false;
         hudObject.SetActive(false);
     }
 
@@ -46,10 +45,9 @@ public class GameManager : MonoBehaviour {
 
     public void StartGame()
     {
-        Player.instance.SetVisible(true);
         Player.instance.Reset();
-
-        trackObject.SetActive(true);
+        
+        Track.inst.spawnEnabled = true;
         hudObject.SetActive(true);
 
         startUI.SetActive(false);

@@ -113,11 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &337976173 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1308823398174952, guid: e893792472ce8bb4f88503554e655527,
-    type: 2}
-  m_PrefabInternal: {fileID: 409130089}
 --- !u!1001 &409130089
 Prefab:
   m_ObjectHideFlags: 0
@@ -218,11 +213,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e893792472ce8bb4f88503554e655527, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1049577970 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1989860437829812, guid: bb2d9c274296bc5499992ce4450af95f,
-    type: 2}
-  m_PrefabInternal: {fileID: 1997455060}
 --- !u!1001 &1533231244
 Prefab:
   m_ObjectHideFlags: 0
@@ -388,16 +378,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: trackObject
-      value: 
-      objectReference: {fileID: 1049577970}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: hudObject
-      value: 
-      objectReference: {fileID: 337976173}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e4a1d56abe0e844c8aab258feb7ecff, type: 2}
   m_IsPrefabParent: 0
