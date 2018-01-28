@@ -1,16 +1,20 @@
 fileFormatVersion: 2
-guid: dbdd40be1114fc045a30d04b48c59d27
-timeCreated: 1517108907
+guid: 6d5d0d353ebbdb94bb7c796943041f3b
+timeCreated: 1517122188
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Repair_Icon_0
-    21300002: Repair_Icon_1
-    21300004: Repair_Icon_2
-    21300006: Repair_Icon_3
-    21300008: Repair_Icon_4
-    21300010: Repair_Icon_5
-    21300012: Repair_Icon_6
+    21300000: Light_Speed_Icon_0
+    21300002: Light_Speed_Icon_1
+    21300004: Light_Speed_Icon_2
+    21300006: Light_Speed_Icon_3
+    21300008: Light_Speed_Icon_4
+    21300010: Light_Speed_Icon_5
+    21300012: Light_Speed_Icon_6
+    21300014: Light_Speed_Icon_7
+    21300016: Light_Speed_Icon_8
+    21300018: Light_Speed_Icon_9
+    21300020: Light_Speed_Icon_10
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -97,7 +101,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Repair_Icon_0
+      name: Light_Speed_Icon_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,7 +115,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Repair_Icon_1
+      name: Light_Speed_Icon_1
       rect:
         serializedVersion: 2
         x: 48
@@ -125,7 +129,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Repair_Icon_2
+      name: Light_Speed_Icon_2
       rect:
         serializedVersion: 2
         x: 96
@@ -139,7 +143,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Repair_Icon_3
+      name: Light_Speed_Icon_3
       rect:
         serializedVersion: 2
         x: 144
@@ -153,7 +157,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Repair_Icon_4
+      name: Light_Speed_Icon_4
       rect:
         serializedVersion: 2
         x: 192
@@ -167,7 +171,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Repair_Icon_5
+      name: Light_Speed_Icon_5
       rect:
         serializedVersion: 2
         x: 240
@@ -181,10 +185,66 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Repair_Icon_6
+      name: Light_Speed_Icon_6
       rect:
         serializedVersion: 2
         x: 288
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Light_Speed_Icon_7
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Light_Speed_Icon_8
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Light_Speed_Icon_9
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Light_Speed_Icon_10
+      rect:
+        serializedVersion: 2
+        x: 480
         y: 0
         width: 48
         height: 48

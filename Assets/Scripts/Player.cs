@@ -68,7 +68,9 @@ public class Player : MonoBehaviour {
     }
 
     void Start () {
-        _targetSpeed = this.defaultSpeed;
+		_speed = defaultSpeed;
+		_targetSpeed = defaultSpeed;
+
         ResetToMiddleLane();
         SetTargetLane(this.laneIndex);
         Hitable.onHitableHit += OnHit;
@@ -98,7 +100,6 @@ public class Player : MonoBehaviour {
 			IssueRightCommand();
         }
 
-        Debug.Log(transform.position + " " + this.targetPosition);
         this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, this.targetPosition, ref velocity, this.laneChangeTime);
         this.gameObject.transform.rotation = Quaternion.AngleAxis(Mathf.Clamp(-velocity.x * laneChangeYawIntensity, -laneChangeMaxYaw, laneChangeMaxYaw), Vector3.forward);
     }

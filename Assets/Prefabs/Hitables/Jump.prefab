@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212879427474888916}
   - component: {fileID: 114957556610788582}
   - component: {fileID: 114037571239716752}
+  - component: {fileID: 95633107028468482}
   m_Layer: 0
   m_Name: Jump
   m_TagString: Untagged
@@ -37,11 +38,28 @@ Transform:
   m_GameObject: {fileID: 1651175113401522}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &95633107028468482
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651175113401522}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a5bc852d566c9cf4faf2744e70a4311b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114037571239716752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -99,7 +117,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 04d3eb3114342c8459ab1299b98bfb7e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8e0ef677cead7c4428be772946b6280f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

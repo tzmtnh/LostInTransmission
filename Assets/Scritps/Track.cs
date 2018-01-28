@@ -12,6 +12,12 @@ public class Track : MonoBehaviour {
 		public float probability;
 	}
 
+	class ParticleCacher {
+		public ParticleSystem system;
+		public ParticleSystemRenderer renderer;
+		public float defaultVelocityScale;
+	}
+
 	public static Track inst;
 
 	public float spawnChange = 0.1f;
@@ -34,7 +40,8 @@ public class Track : MonoBehaviour {
 
 	AudioSource _glitchSource;
 
-	ParticleSystem[] _particles;
+	ParticleCacher[] _particles;
+
 
 	void initLanes() {
 		_lane1 = transform.Find("Lanes");
@@ -138,14 +145,17 @@ public class Track : MonoBehaviour {
 	void updateGlitch() {
 		float delay = Player.instance.delay;
 		_glitchSource.volume = delay * 0.1f;
-		_glitchSource.pitch = 1f / Mathf.Min(0.01f, delay);
+		_glitchSource.pitch = 1f / Mathf.Max(0.01f, delay);
 	}
 
 	void updateParticles() {
 		float speedMultiplier = Player.instance.normalizedSpeed;
 		for (int i = 0; i < _particles.Length; i++) {
-			var main = _particles[i].main;
+			ParticleCacher pc = _particles[i];
+			var main = pc.system.main;
 			main.simulationSpeed = speedMultiplier;
+			float baseSpeed = pc.defaultVelocityScale;
+			pc.renderer.velocityScale = baseSpeed + (speedMultiplier - 1f) / 2f;
 		}
 	}
 
@@ -153,7 +163,15 @@ public class Track : MonoBehaviour {
 		Assert.IsNull(inst, "Only one instance allowed!");
 		inst = this;
 
-		_particles = transform.parent.GetComponentsInChildren<ParticleSystem>();
+		ParticleSystem[] particles = transform.parent.GetComponentsInChildren<ParticleSystem>();
+		_particles = new ParticleCacher[particles.Length];
+		for (int i = 0; i < particles.Length; i++) {
+			ParticleCacher pc = new ParticleCacher();
+			pc.system = particles[i];
+			pc.renderer = particles[i].GetComponent<ParticleSystemRenderer>();
+			pc.defaultVelocityScale = pc.renderer.velocityScale;
+			_particles[i] = pc;
+		}
 
 		validate();
 		initLanes();

@@ -68,7 +68,7 @@ public class VisualizeCommands : MonoBehaviour {
 	void Update()
 	{
         GameObject.Find("Delay").GetComponent<UnityEngine.UI.Text>().text = "Delay: " + Player.instance.delay.ToString();
-        GameObject.Find("Distance").GetComponent<UnityEngine.UI.Text>().text = "Distance: " + Player.instance.distance.ToString();
+        GameObject.Find("Distance").GetComponent<UnityEngine.UI.Text>().text = "Distance: " + (int)Player.instance.distance;
 
         if (spawned_prefab != null) 
 		{
