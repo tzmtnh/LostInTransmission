@@ -206,11 +206,13 @@ public class Player : MonoBehaviour {
                         damageParticles.Play();
                         isDamageable = false;
 
-						const float SHIELD_TIME = 2;
+						const float SHIELD_TIME = 3;
                         Invoke("canTakeDamageAgain", SHIELD_TIME);
 
 						const float SHAKE_TIME = 0.3f;
 						CameraControl.inst.shake(SHAKE_TIME);
+
+						AudioManager.inst.playSound("Invulnerability");
                     }
                     else
                     {
