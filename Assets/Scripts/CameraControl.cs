@@ -8,6 +8,9 @@ public class CameraControl : MonoBehaviour {
 
 	public static CameraControl inst;
 
+	public SpriteRenderer warning;
+	public SpriteRenderer critical;
+
 	Transform _transform;
 	Camera _camera;
 
@@ -52,7 +55,7 @@ public class CameraControl : MonoBehaviour {
 		_defaultFOV = _camera.fieldOfView;
 	}
 
-	void Update() {
+	void updateFOV() {
 		const float maxDist = 4f;
 		float speed = Player.instance.normalizedSpeed;
 		float offset = Mathf.Clamp((speed - 1f) / 1.3f, 0, maxDist);
@@ -62,5 +65,27 @@ public class CameraControl : MonoBehaviour {
 
 		_transform.localPosition = _origin + _transform.forward * (offset * 1.2f);
 		_camera.fieldOfView = beta * Mathf.Rad2Deg * 2f;
+	}
+
+	void updateWarnings() {
+		warning.enabled = false;
+		critical.enabled = false;
+
+		if (Player.instance.isAlive == false) return;
+		int health = Player.instance.currentHealth;
+		if (health == Player.instance.maxHealth) return;
+
+		if (health == 1) {
+			const float FREQUENCY = 0.5f;
+			critical.enabled = Time.time / FREQUENCY % 1f > 0.5f; 
+		} else {
+			const float FREQUENCY = 1f;
+			warning.enabled = Time.time / FREQUENCY % 1f > 0.5f;
+		}
+	}
+
+	void Update() {
+		updateFOV();
+		updateWarnings();
 	}
 }
