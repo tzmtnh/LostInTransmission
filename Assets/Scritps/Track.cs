@@ -155,7 +155,7 @@ public class Track : MonoBehaviour {
 			var main = pc.system.main;
 			main.simulationSpeed = speedMultiplier;
 			float baseSpeed = pc.defaultVelocityScale;
-			pc.renderer.velocityScale = baseSpeed + (speedMultiplier - 1f) / 2f;
+			pc.renderer.velocityScale = baseSpeed * (1f + (speedMultiplier - 1f) / 2f);
 		}
 	}
 
