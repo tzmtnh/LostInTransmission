@@ -30,6 +30,8 @@ public class Track : MonoBehaviour {
 	List<Hitable> _hitables = new List<Hitable>(8);
 	float _totalProbability = 0;
 
+	AudioSource _glitchSource;
+
 	void initLanes() {
 		_lane1 = transform.Find("Lanes");
 		Assert.IsNotNull(_lane1);
@@ -114,11 +116,21 @@ public class Track : MonoBehaviour {
 		}
 	}
 
+	void updateGlitch() {
+		float delay = Player.instance.delay;
+		_glitchSource.volume = delay * 0.1f;
+		_glitchSource.pitch = 1f / Mathf.Min(0.01f, delay);
+	}
+
 	void Awake() {
 		Assert.IsNull(inst, "Only one instance allowed!");
 		inst = this;
 		validate();
 		initLanes();
+	}
+
+	void Start() {
+		_glitchSource = AudioManager.inst.playSound("Glitch", loop:true);
 	}
 
 	void Update() {
@@ -129,6 +141,7 @@ public class Track : MonoBehaviour {
 
 		updateLanes();
 		updateEnemies();
+		updateGlitch();
 	}
 
 	void OnValidate() {

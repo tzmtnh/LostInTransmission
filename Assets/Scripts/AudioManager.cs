@@ -76,7 +76,7 @@ public class AudioManager : MonoBehaviour {
 			_elementByName.Add(element.name, element);
 		}
 
-		playSound("Theme");
+		playSound("Theme", loop:true);
 	}
 
 	void Update() {

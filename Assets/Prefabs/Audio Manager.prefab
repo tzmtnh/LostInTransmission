@@ -53,9 +53,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioElements:
   - name: Theme
-    defaultVolume: 0.3
+    defaultVolume: 0.5
     defaultPitch: 1
-    clip: {fileID: 8300000, guid: 00fa509cffa2d594f9bcbceb35d39567, type: 3}
+    clip: {fileID: 8300000, guid: b716e0853cf239442974f8c1a9b42e8c, type: 3}
   - name: Glitch
     defaultVolume: 1
     defaultPitch: 1
