@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1058982635168598}
+  m_IsPrefabParent: 1
+--- !u!1 &1058982635168598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4933240905053224}
+  - component: {fileID: 114210945827879298}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4933240905053224
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1058982635168598}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114210945827879298
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1058982635168598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43cdbc808fb0c344be8093e39d64a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioElements:
+  - name: Theme
+    defaultVolume: 0.3
+    defaultPitch: 1
+    clip: {fileID: 8300000, guid: 00fa509cffa2d594f9bcbceb35d39567, type: 3}
+  - name: Glitch
+    defaultVolume: 1
+    defaultPitch: 1
+    clip: {fileID: 8300000, guid: b348b4146ef18734c9caf9de4ad62d2e, type: 3}
+  - name: Astroid Explode
+    defaultVolume: 1
+    defaultPitch: 1
+    clip: {fileID: 8300000, guid: ad85a02da77873942af24f8ed65d7213, type: 3}
+  - name: Click
+    defaultVolume: 1
+    defaultPitch: 1
+    clip: {fileID: 8300000, guid: 3952d771cb575b742a1e93ee766fe856, type: 3}
+  - name: Amplify
+    defaultVolume: 1
+    defaultPitch: 1
+    clip: {fileID: 8300000, guid: c52795c2c4a3d6e4e8cc258765272f50, type: 3}
+  - name: Ship Explode
+    defaultVolume: 1
+    defaultPitch: 1
+    clip: {fileID: 8300000, guid: d79b8fe501f6edb45ac9b56ea39e6ba6, type: 3}
+  - name: Repair
+    defaultVolume: 1
+    defaultPitch: 1
+    clip: {fileID: 8300000, guid: 9046850556ddc014a9971f44e6bc11b1, type: 3}
+  - name: Jump
+    defaultVolume: 1
+    defaultPitch: 1
+    clip: {fileID: 8300000, guid: 017cdf913b06fd44dab4bc2e5d268d52, type: 3}

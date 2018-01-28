@@ -17,8 +17,24 @@ public class Hitable : MonoBehaviour {
 
 	Renderer _renderer;
 
-	private void Awake() {
-		_renderer = GetComponent<Renderer>();
+	void playSound() {
+		switch (type) {
+			case HitableType.Astroid:
+				AudioManager.inst.playSound("Astroid Explode");
+				break;
+			case HitableType.Jump:
+				AudioManager.inst.playSound("Jump");
+				break;
+			case HitableType.Repair:
+				AudioManager.inst.playSound("Repair");
+				break;
+			case HitableType.Amplify:
+				AudioManager.inst.playSound("Amplify");
+				break;
+			default:
+				Debug.LogWarning("Unimplemented hitable sfx");
+				break;
+		}
 	}
 
 	public void destroy() {
@@ -26,7 +42,13 @@ public class Hitable : MonoBehaviour {
 		_destroyed = true;
 		_renderer.material.color = Color.red;
 
+		playSound();
+
 		if (onHitableHit != null)
 			onHitableHit(type);
+	}
+
+	private void Awake() {
+		_renderer = GetComponent<Renderer>();
 	}
 }
