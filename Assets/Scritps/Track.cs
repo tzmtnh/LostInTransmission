@@ -41,6 +41,7 @@ public class Track : MonoBehaviour {
 	float _totalProbability = 0;
 
 	AudioSource _glitchSource;
+	AudioSource _staticSource;
 
 	ParticleCacher[] _particles;
 
@@ -149,6 +150,8 @@ public class Track : MonoBehaviour {
 		float delay = Player.instance.delay;
 		_glitchSource.volume = delay * 0.1f;
 		_glitchSource.pitch = 1f / Mathf.Max(0.01f, delay);
+
+		_staticSource.volume = delay * 0.1f;
 	}
 
 	void updateParticles() {
@@ -176,6 +179,11 @@ public class Track : MonoBehaviour {
 			AudioManager.inst.stopSound(_glitchSource);
 		}
 		_glitchSource = AudioManager.inst.playSound("Glitch", volume:0, loop: true);
+
+		if (_staticSource != null) {
+			AudioManager.inst.stopSound(_staticSource);
+		}
+		_staticSource = AudioManager.inst.playSound("Static", volume: 0, loop: true);
 	}
 
 	void Awake() {
