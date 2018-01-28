@@ -50,6 +50,11 @@ public class Player : MonoBehaviour {
     public Texture damageTexture2;
 
     public ParticleSystem damageParticles;
+    public GameObject deathExplosion;
+    private SpriteRenderer _deathExplosionRenderer;
+    public ParticleSystem deathParticles;
+
+    private GameObject shipContainer;
 
     [SerializeField]
     private float defaultSpeed = 10.0f;
@@ -80,12 +85,17 @@ public class Player : MonoBehaviour {
 		_speed = defaultSpeed;
 		_targetSpeed = defaultSpeed;
 
-		Transform ship = transform.Find("Spaceship");
+        shipContainer = GameObject.Find("Spaceship_container");
+
+        Transform ship = shipContainer.transform.Find("Spaceship");
 		Assert.IsNotNull(ship);
 		_shipMaterial = ship.GetComponent<Renderer>().material;
 		_GlowID = Shader.PropertyToID("_Glow");
 
-		ResetToMiddleLane();
+        _deathExplosionRenderer = deathExplosion.GetComponent<SpriteRenderer>();
+        _deathExplosionRenderer.enabled = false;
+
+        ResetToMiddleLane();
         Hitable.onHitableHit += OnHit;
     }
 
@@ -187,10 +197,20 @@ public class Player : MonoBehaviour {
                 if (this.currentHealth > 0)
                 {
                     SetTexture(--this.currentHealth);
-                    damageParticles.Play();
-                    isDamageable = false;
-					const float SHIELD_TIME = 2;
-					Invoke("canTakeDamageAgain", SHIELD_TIME);
+
+                    if (this.currentHealth > 0)
+                    {
+                        damageParticles.Play();
+                        isDamageable = false;
+                        const float SHIELD_TIME = 2;
+                        Invoke("canTakeDamageAgain", SHIELD_TIME);
+                    }
+                    else
+                    {
+                        this.isDamageable = false;
+                        Explode();
+                    }
+                    
                 }
                 break;
             case Hitable.HitableType.Repair:
@@ -229,11 +249,20 @@ public class Player : MonoBehaviour {
             case 1:
 				_shipMaterial.mainTexture = damageTexture2;
                 break;
-            case 0:
-                this.isDamageable = false;
-                this.gameObject.SetActive(false);
-                break;
         }
+    }
+
+    void Explode()
+    {
+        _deathExplosionRenderer.enabled = true;
+        this.shipContainer.SetActive(false);
+        deathParticles.Play();
+        Invoke("EndExplosion", .4f);
+    }
+
+    void EndExplosion()
+    {
+        _deathExplosionRenderer.enabled = false;
     }
 
     public void Reset()
@@ -242,7 +271,7 @@ public class Player : MonoBehaviour {
         this.delay = 0;
         this.currentHealth = maxHealth;
         this.isDamageable = true;
-        this.gameObject.SetActive(true);
+        this.shipContainer.SetActive(true);
         this.ResetToMiddleLane();
         this.SetTexture(this.currentHealth);
     }
