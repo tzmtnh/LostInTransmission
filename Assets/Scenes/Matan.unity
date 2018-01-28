@@ -298,16 +298,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114310443147828378, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: laneChangeTime
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114310443147828378, guid: 67fe706fecb01534bad4e99e7da9de70,
-        type: 2}
-      propertyPath: amplifyAmount
-      value: 0.25
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 67fe706fecb01534bad4e99e7da9de70, type: 2}
   m_IsPrefabParent: 0

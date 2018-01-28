@@ -188,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distance: 0
   delay: 0
-  laneChangeTime: 0.2
+  laneChangeTime: 0.1
   laneChangeMaxYaw: 35
   laneChangeYawIntensity: 10
   maxHealth: 3
@@ -199,7 +199,7 @@ MonoBehaviour:
   defaultSpeed: 10
   jumpSpeed: 50
   jumpSpeedDuration: 3
-  amplifyAmount: 0.1
+  amplifyAmount: 0.25
   isDamageable: 1
 --- !u!212 &212158932141325614
 SpriteRenderer:

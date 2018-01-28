@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Player : MonoBehaviour {
 
@@ -62,7 +63,13 @@ public class Player : MonoBehaviour {
 
     public bool isDamageable = true;
 
-    void Awake()
+	Material _shipMaterial;
+	int _GlowID;
+	float _glow = 0;
+	float _glowTarget = 0;
+	float _glowVelocity = 0;
+
+	void Awake()
     {
         instance = this;
     }
@@ -71,7 +78,12 @@ public class Player : MonoBehaviour {
 		_speed = defaultSpeed;
 		_targetSpeed = defaultSpeed;
 
-        ResetToMiddleLane();
+		Transform ship = transform.Find("Spaceship");
+		Assert.IsNotNull(ship);
+		_shipMaterial = ship.GetComponent<Renderer>().material;
+		_GlowID = Shader.PropertyToID("_Glow");
+
+		ResetToMiddleLane();
         Hitable.onHitableHit += OnHit;
 	}
 
@@ -101,7 +113,11 @@ public class Player : MonoBehaviour {
 
         this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, this.targetPosition, ref velocity, this.laneChangeTime);
         this.gameObject.transform.rotation = Quaternion.AngleAxis(Mathf.Clamp(-velocity.x * laneChangeYawIntensity, -laneChangeMaxYaw, laneChangeMaxYaw), Vector3.forward);
-    }
+
+		_glowTarget = isDamageable ? 0 : 1;
+		_glow = Mathf.SmoothDamp(_glow, _glowTarget, ref _glowVelocity, 0.2f);
+		_shipMaterial.SetFloat(_GlowID, _glow);
+	}
 
     private void OnDrawGizmos()
     {
@@ -157,6 +173,10 @@ public class Player : MonoBehaviour {
         this.targetPosition = new Vector3(LANE_POSITIONS[laneIndex], pos.y, pos.z);
     }
 
+	void canTakeDamageAgain() {
+		isDamageable = true;
+	}
+
     void OnHit(Hitable.HitableType hitType)
     {
         switch (hitType)
@@ -165,6 +185,9 @@ public class Player : MonoBehaviour {
                 if (this.currentHealth > 0)
                 {
                     SetTexture(--this.currentHealth);
+					isDamageable = false;
+					const float SHIELD_TIME = 2;
+					Invoke("canTakeDamageAgain", SHIELD_TIME);
                 }
                 break;
             case Hitable.HitableType.Repair:
@@ -195,13 +218,13 @@ public class Player : MonoBehaviour {
         switch (this.currentHealth)
         {
             case 3:
-                GameObject.Find("Spaceship").GetComponent<Renderer>().material.mainTexture = fullHealthTexture;
+				_shipMaterial.mainTexture = fullHealthTexture;
                 break;
             case 2:
-                GameObject.Find("Spaceship").GetComponent<Renderer>().material.mainTexture = damageTexture1;
+				_shipMaterial.mainTexture = damageTexture1;
                 break;
             case 1:
-                GameObject.Find("Spaceship").GetComponent<Renderer>().material.mainTexture = damageTexture2;
+				_shipMaterial.mainTexture = damageTexture2;
                 break;
             case 0:
                 this.isDamageable = false;
