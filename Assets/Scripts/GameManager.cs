@@ -17,7 +17,9 @@ public class GameManager : MonoBehaviour {
     {
         trackObject = GameObject.Find("Track");
         hudObject = GameObject.Find("UI");
-    }
+		Player.onPlayerDied += onPlayerDeid;
+
+	}
 
     void Start()
     {
@@ -27,15 +29,14 @@ public class GameManager : MonoBehaviour {
     }
 
     void Update () {
-		if (Player.instance.isAlive == false)
-        {
-            gameOverScoreText.text = "Distance: " + (int)Player.instance.distance;
-            gameOverUI.SetActive(true);
-
-			if (Input.GetKeyDown(KeyCode.Space)) {
-				NewGame();
-			}
+		if (gameOverUI.activeSelf && Input.GetKeyDown(KeyCode.Space)) {
+			NewGame();
         }
+	}
+
+	void onPlayerDeid() {
+		gameOverScoreText.text = "Distance: " + (int)Player.instance.distance;
+		gameOverUI.SetActive(true);
 	}
 
     public void StartGame()

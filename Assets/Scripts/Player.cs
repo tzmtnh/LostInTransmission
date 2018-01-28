@@ -8,6 +8,8 @@ public class Player : MonoBehaviour {
 
     public static Player instance;
 
+	public static event Action onPlayerDied;
+
     public enum Command
     {
         Left,
@@ -43,7 +45,7 @@ public class Player : MonoBehaviour {
     private Vector3 targetPosition;
 
     public int maxHealth = 3;
-    public int currentHealth = 3;
+    public int currentHealth = 0;
 	public bool isAlive { get { return currentHealth > 0; } }
 
     public Texture fullHealthTexture;
@@ -106,7 +108,7 @@ public class Player : MonoBehaviour {
         {
             return;
         }
-        
+
         this.delay += Time.deltaTime * .01f;
         this.distance += Time.deltaTime * speed;
 
@@ -285,6 +287,9 @@ public class Player : MonoBehaviour {
 
 		const float SHAKE_TIME = 1f;
 		CameraControl.inst.shake(SHAKE_TIME);
+
+		if (onPlayerDied != null)
+			onPlayerDied();
 	}
 
     void EndExplosion()
@@ -299,7 +304,8 @@ public class Player : MonoBehaviour {
 
     public void Reset()
     {
-        this.distance = 0;
+		Debug.Log("here");
+		this.distance = 0;
         this.delay = 0;
         this.currentHealth = maxHealth;
         this.isDamageable = true;
