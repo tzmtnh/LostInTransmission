@@ -42,6 +42,11 @@ public class Track : MonoBehaviour {
 
 	ParticleCacher[] _particles;
 
+	int _lastLane = 0;
+	int _numAstroidsSinceLastPU = 0;
+	float _distanceAtLastJump = 0;
+	List<Hitable> _availablePUs = new List<Hitable>(4);
+
 	void initLanes() {
 		_lane1 = transform.Find("Lanes");
 		Assert.IsNotNull(_lane1);
@@ -71,10 +76,6 @@ public class Track : MonoBehaviour {
 		_lane2.localPosition = pos2;
 	}
 
-	int _lastLane = 0;
-	int _numAstroidsSinceLastPU = 0;
-	float _distanceAtLastJump = 0;
-	List<Hitable> _availablePUs = new List<Hitable>(4);
 	void spawnNext() {
 		_lastSpawnTime = Time.time;
 		Hitable prefab = astroidPrefab;
@@ -180,6 +181,9 @@ public class Track : MonoBehaviour {
 		_traveledDistance = 0;
 		_traveledDistanceDelta = 0;
 		_lastSpawnTime = Time.time;
+		_lastLane = 0;
+		_numAstroidsSinceLastPU = 0;
+		_distanceAtLastJump = 0;
 
 		foreach (Hitable hitable in _hitables) {
 			Destroy(hitable.transform.gameObject);

@@ -7,20 +7,9 @@ public class InputManager : MonoBehaviour {
 
 	public static InputManager inst;
 
-	public bool start { get; private set; }
-	public bool left { get; private set; }
-	public bool right { get; private set; }
-
-	float _touchMove = 0;
-	bool _touchHandled = false;
-
-	const float TOUCH_THRESH = 10;
-
-	void updateByTouch() {
-		start = Mathf.Abs(_touchMove) < TOUCH_THRESH;
-		left = _touchMove < -TOUCH_THRESH;
-		right = _touchMove > TOUCH_THRESH;
-	}
+	public bool middleClick { get; private set; }
+	public bool leftClick { get; private set; }
+	public bool rightClick { get; private set; }
 
 	void Awake() {
 		Assert.IsNull(inst, "There can be only one!");
@@ -28,39 +17,29 @@ public class InputManager : MonoBehaviour {
 	}
 
 	void Update() {
-		start = false;
-		left = false;
-		right = false;
+		middleClick = false;
+		leftClick = false;
+		rightClick = false;
 
 		// handle keyboard keys
 		if (Input.GetKeyDown(KeyCode.Space))
-			start = true;
+			middleClick = true;
 		if (Input.GetKeyDown(KeyCode.LeftArrow))
-			left = true;
+			leftClick = true;
 		if (Input.GetKeyDown(KeyCode.RightArrow))
-			right = true;
+			rightClick = true;
 
 		// handle mobile touch
 		if (Input.touchCount > 0) {
 			Touch touch0 = Input.touches[0];
 
-			switch (touch0.phase) {
-				case TouchPhase.Began:
-					_touchMove = 0;
-					break;
-				case TouchPhase.Moved:
-					_touchMove += touch0.deltaPosition.x;
-					if (_touchHandled == false && Mathf.Abs(_touchMove) > TOUCH_THRESH) {
-						_touchHandled = true;
-						updateByTouch();
-					}
-					break;
-				case TouchPhase.Ended:
-					if (_touchHandled == false) {
-						updateByTouch();
-					}
-					_touchHandled = false;
-					break;
+			if (touch0.phase == TouchPhase.Began) {
+				float x = touch0.position.x / Screen.width;
+				const float SIDE_THRESH = 0.3f;
+
+				leftClick = x < SIDE_THRESH;
+				rightClick = 1f - x < SIDE_THRESH;
+				middleClick = !leftClick && !rightClick;
 			}
 		}
 	}

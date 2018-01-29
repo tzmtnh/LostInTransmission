@@ -27,7 +27,8 @@ public class VisualizeCommands : MonoBehaviour {
         _commandBoxArrow = UIManager.inst.commandBox.Find("CommandBoxArrow");
 		_commandsParent = new GameObject("Commands parent").transform;
 		_commandsParent.SetParent(transform.parent);
-		
+		_commandsParent.localScale = _commandBoxArrow.parent.localScale;
+
 		_start = _commandBoxArrow.Find("Start");
 		_end = UIManager.inst.receiver.Find("End");
         
@@ -50,22 +51,20 @@ public class VisualizeCommands : MonoBehaviour {
         switch (cmd)
         {
             case Player.Command.Left:
-                _commandBoxArrow.localScale = new Vector3(-.7f, .7f, .7f);
+                _commandBoxArrow.localScale = new Vector3(-1, 1, 1);
                 commandImage = Instantiate(leftArrow);
+				commandImage.transform.SetParent(_commandsParent);
 				commandImage.transform.localScale = new Vector3(-1, 1, 1);
 				break;
 
 			case Player.Command.Right:
 			default:
-				_commandBoxArrow.localScale = new Vector3(.7f, .7f, .7f);
+				_commandBoxArrow.localScale = new Vector3(1, 1, 1);
                 commandImage = Instantiate(rightArrow);
+				commandImage.transform.SetParent(_commandsParent);
 				commandImage.transform.localScale = new Vector3(1, 1, 1);
 				break;
         }
-
-		commandImage.SetActive(true);
-		commandImage.transform.SetParent(_commandsParent);
-		commandImage.transform.position = _start.position;
 
 		StartCoroutine(moveSonarCo(delay, commandImage.transform));
     }
@@ -77,6 +76,9 @@ public class VisualizeCommands : MonoBehaviour {
 
 		Vector3 startPos = _start.transform.position;
 		Vector3 endPos = _end.transform.position;
+
+		sonar.gameObject.SetActive(true);
+		sonar.transform.position = _start.position;
 
 		while (timer < delay) {
 			sonar.position = Vector3.Lerp(startPos, endPos, timer / delay);

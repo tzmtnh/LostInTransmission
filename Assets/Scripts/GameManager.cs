@@ -41,11 +41,11 @@ public class GameManager : MonoBehaviour {
 	}
 
     void Update () {
-		if (gameOverUI.activeSelf && InputManager.inst.start) {
+		if (gameOverUI.activeSelf && InputManager.inst.middleClick) {
 			NewGame();
 		}
 
-        if (startUI.activeSelf && InputManager.inst.start) {
+        if (startUI.activeSelf && InputManager.inst.middleClick) {
             StartGame();
         }
 

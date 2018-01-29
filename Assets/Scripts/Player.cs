@@ -116,12 +116,12 @@ public class Player : MonoBehaviour {
 		const float SPEED_SMOOTH_TIME = 1;
 		_speed = Mathf.SmoothDamp(_speed, _targetSpeed, ref _speedVelocity, SPEED_SMOOTH_TIME);
 
-		if (InputManager.inst.left)
+		if (InputManager.inst.leftClick)
         {
 			//AudioManager.inst.playSound("Click");
 			IssueLeftCommand();
         }
-        else if (InputManager.inst.right)
+        else if (InputManager.inst.rightClick)
         {
 			//AudioManager.inst.playSound("Click");
 			IssueRightCommand();
