@@ -81,12 +81,16 @@ public class Track : MonoBehaviour {
 
 		_numAstroidsSinceLastPU++;
 		if (_numAstroidsSinceLastPU >= spawnPUEvry) {
+			const float RANDOM_CHANCE = 0.2f;
+			const float MIN_DELAY = 0.5f;
+			const float MIN_DISTANCE = 200;
+
 			_availablePUs.Clear();
-			if (Player.instance.currentHealth < Player.instance.maxHealth)
+			if (Player.instance.currentHealth < Player.instance.maxHealth || Random.value < RANDOM_CHANCE)
 				_availablePUs.Add(repairPrefab);
-			if (Player.instance.delay > 0.5f)
+			if (Player.instance.delay > MIN_DELAY || Random.value < RANDOM_CHANCE)
 				_availablePUs.Add(amplifyPrefab);
-			if (Player.instance.distance - _distanceAtLastJump > 200)
+			if (Player.instance.distance - _distanceAtLastJump > MIN_DISTANCE || Random.value < RANDOM_CHANCE)
 				_availablePUs.Add(jumpPrefab);
 
 			int numPowerups = _availablePUs.Count;
@@ -135,7 +139,7 @@ public class Track : MonoBehaviour {
 			hitable.transform.localPosition -= offset;
 			Vector3 hitablePos = hitable.transform.localPosition;
 
-			if (hitable.destroyed == false && (hitable.canDamage == false || Player.instance.isDamageable)) {
+			if (hitable.destroyed == false && (hitable.canDamage == false || Player.instance.canTakeDamage)) {
 				float distX = Mathf.Abs(hitablePos.x - playerPos.x);
 				float distZ = Mathf.Abs(hitablePos.z - playerPos.z);
 

@@ -41,11 +41,11 @@ public class GameManager : MonoBehaviour {
 	}
 
     void Update () {
-		if (gameOverUI.activeSelf && Input.GetKeyDown(KeyCode.Space)) {
+		if (gameOverUI.activeSelf && InputManager.inst.start) {
 			NewGame();
 		}
 
-        if (startUI.activeSelf && Input.GetKeyDown(KeyCode.Space)) {
+        if (startUI.activeSelf && InputManager.inst.start) {
             StartGame();
         }
 

@@ -72,7 +72,8 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private float amplifyAmount = .1f;
 
-    public bool isDamageable = true;
+	bool _canTakeDamage = true;
+    public bool canTakeDamage { get { return _canTakeDamage && normalizedSpeed < 1.04f; } }
 
 	Material _shipMaterial;
 	int _GlowID;
@@ -115,12 +116,12 @@ public class Player : MonoBehaviour {
 		const float SPEED_SMOOTH_TIME = 1;
 		_speed = Mathf.SmoothDamp(_speed, _targetSpeed, ref _speedVelocity, SPEED_SMOOTH_TIME);
 
-		if (Input.GetKeyDown(KeyCode.LeftArrow))
+		if (InputManager.inst.left)
         {
 			//AudioManager.inst.playSound("Click");
 			IssueLeftCommand();
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (InputManager.inst.right)
         {
 			//AudioManager.inst.playSound("Click");
 			IssueRightCommand();
@@ -129,7 +130,7 @@ public class Player : MonoBehaviour {
         this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, this.targetPosition, ref velocity, this.laneChangeTime);
         this.gameObject.transform.rotation = Quaternion.AngleAxis(Mathf.Clamp(-velocity.x * laneChangeYawIntensity, -laneChangeMaxYaw, laneChangeMaxYaw), Vector3.forward);
 
-		_glowTarget = isDamageable ? 0 : 1;
+		_glowTarget = canTakeDamage ? 0 : 1;
 		_glow = Mathf.SmoothDamp(_glow, _glowTarget, ref _glowVelocity, 0.2f);
 		_shipMaterial.SetFloat(_GlowID, _glow);
 	}
@@ -200,7 +201,7 @@ public class Player : MonoBehaviour {
 
 	IEnumerator canTakeDamageAgainCo(float delay) {
 		yield return new WaitForSeconds(delay);
-		isDamageable = true;
+		_canTakeDamage = true;
 		_canTakeDamageAgainCo = null;
 	}
 
@@ -217,7 +218,7 @@ public class Player : MonoBehaviour {
                     if (this.currentHealth > 0)
                     {
                         damageParticles.Play();
-                        isDamageable = false;
+                        _canTakeDamage = false;
 
 						const float SHIELD_TIME = 3;
                         canTakeDamageAgain(SHIELD_TIME);
@@ -229,7 +230,6 @@ public class Player : MonoBehaviour {
                     }
                     else
                     {
-                        this.isDamageable = false;
                         Explode();
                     }
                     
@@ -245,8 +245,7 @@ public class Player : MonoBehaviour {
                 this.delay = Mathf.Max(0, this.delay - this.amplifyAmount);
                 break;
             case Hitable.HitableType.Jump:
-                _targetSpeed = this.jumpSpeed;
-                isDamageable = false;
+                _targetSpeed = jumpSpeed;
                 StartCoroutine(RevertToDefaultSpeed(jumpSpeedDuration));
                 break;
         }
@@ -255,8 +254,7 @@ public class Player : MonoBehaviour {
     IEnumerator RevertToDefaultSpeed(float duration)
     {
         yield return new WaitForSeconds(duration);
-        _targetSpeed = this.defaultSpeed;
-		canTakeDamageAgain(2);
+        _targetSpeed = defaultSpeed;
 	}
 
     private void SetTexture(int health) {
@@ -298,12 +296,12 @@ public class Player : MonoBehaviour {
 
     public void Reset()
     {
-		this.distance = 0;
-        this.delay = 0;
-        this.currentHealth = maxHealth;
-        this.isDamageable = true;
-        this.shipContainer.SetActive(true);
-        this.ResetToMiddleLane();
-        this.SetTexture(this.currentHealth);
+		distance = 0;
+        delay = 0;
+        currentHealth = maxHealth;
+        _canTakeDamage = true;
+        shipContainer.SetActive(true);
+        ResetToMiddleLane();
+        SetTexture(this.currentHealth);
     }
 }

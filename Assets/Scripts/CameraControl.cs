@@ -113,7 +113,15 @@ public class CameraControl : MonoBehaviour {
 			_critical.SetActive(showCritical);
 	}
 
+	void cropScreen() {
+		const float aspect = 1.6f;
+		float width = (float) Screen.height / Screen.width / aspect;
+		float x = (1f - width) / 2f;
+		_camera.rect = new Rect(x, 0, width, 1);
+	}
+
 	void Update() {
+		cropScreen();
 		updateFOV();
 		updateWarnings();
 	}
