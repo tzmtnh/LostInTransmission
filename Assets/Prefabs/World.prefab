@@ -495,6 +495,7 @@ MonoBehaviour:
   numHeightPixels: 240
   secondaryHeightPixels: 20
   blendMultiplier: 1
+  combineShader: {fileID: 4800000, guid: e92b758071a7c3b4c8f09439e61f1232, type: 3}
 --- !u!114 &114773374270400750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -521,24 +522,16 @@ MonoBehaviour:
   spawnChange: 2
   spawnMinGap: 0.2
   spawnMaxGap: 2
+  spawnPUEvry: 20
   laneWidth: 1
-  spawnablePrefabs:
-  - name: Astroid
-    hitable: {fileID: 114322699955652420, guid: 4c3d0d7ad6e8c2246a909aac8b2a86e5,
-      type: 2}
-    probability: 30
-  - name: Amplify
-    hitable: {fileID: 114327326029113208, guid: 1025de543621bc34d96194bda4acdca5,
-      type: 2}
-    probability: 0.5
-  - name: Jump
-    hitable: {fileID: 114037571239716752, guid: 5a50057b01a0c5544af20a811f98d9ca,
-      type: 2}
-    probability: 1
-  - name: Repair
-    hitable: {fileID: 114091209634053550, guid: c57303cf702f29446a57d809548ca048,
-      type: 2}
-    probability: 1
+  astroidPrefab: {fileID: 114322699955652420, guid: 4c3d0d7ad6e8c2246a909aac8b2a86e5,
+    type: 2}
+  jumpPrefab: {fileID: 114037571239716752, guid: 5a50057b01a0c5544af20a811f98d9ca,
+    type: 2}
+  amplifyPrefab: {fileID: 114327326029113208, guid: 1025de543621bc34d96194bda4acdca5,
+    type: 2}
+  repairPrefab: {fileID: 114091209634053550, guid: c57303cf702f29446a57d809548ca048,
+    type: 2}
   asteroidExplosionPrefab: {fileID: 1591567343527826, guid: 02c9188468e925741a96b8b155eba57a,
     type: 2}
 --- !u!124 &124485287554278844

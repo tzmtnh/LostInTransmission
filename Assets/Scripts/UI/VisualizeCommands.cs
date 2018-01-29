@@ -8,14 +8,11 @@ public class VisualizeCommands : MonoBehaviour {
 	public GameObject leftArrow;
     public GameObject rightArrow;
 
-	private static VisualizeCommands _instance;
-	public static VisualizeCommands singleton{ get{ return _instance; } }
-
-	Transform _commandBox;
 	Transform _commandBoxArrow;
 	Transform _start;
 	Transform _end;
-    
+	Transform _commandsParent;
+
 	Text _distance;
 
 	private struct Sonar
@@ -27,17 +24,9 @@ public class VisualizeCommands : MonoBehaviour {
 
 	void Awake()
 	{
-		if( _instance == null )//Singleton implemention
-			_instance = this;
-		else
-		{
-			Destroy( this.gameObject );
-			return;
-		}
-		DontDestroyOnLoad (this.gameObject);
-
-        _commandBox = transform.parent.Find("CommandBox");
         _commandBoxArrow = transform.parent.Find("CommandBoxArrow");
+		_commandsParent = new GameObject("Commands parent").transform;
+		_commandsParent.SetParent(transform.parent);
 
 		_start = _commandBoxArrow.Find("Start");
 		Transform receiver = transform.parent.Find("Receiver");
@@ -76,7 +65,7 @@ public class VisualizeCommands : MonoBehaviour {
         }
 
 		commandImage.SetActive(true);
-		commandImage.transform.SetParent(rightArrow.transform.parent);
+		commandImage.transform.SetParent(_commandsParent);
 		commandImage.transform.position = _start.position;
 
 		StartCoroutine(moveSonarCo(delay, commandImage.transform));
@@ -101,12 +90,17 @@ public class VisualizeCommands : MonoBehaviour {
 		Destroy(sonar.gameObject);
 	}
 
-	
 	void Update()
 	{
-		float delay = Mathf.CeilToInt(Player.instance.delay * 10) / 10f;
-        _distance.text = ""+(int)Player.instance.distance;
+		int distance = (int)Player.instance.distance;
+		_distance.text = distance.ToString();
+	}
 
+	void OnDisable() {
+		StopAllCoroutines();
+		for (int i = _commandsParent.childCount - 1; i >= 0; i--) {
+			Destroy(_commandsParent.GetChild(i).gameObject);
+		}
 	}
 
 }

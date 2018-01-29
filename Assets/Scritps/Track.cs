@@ -5,13 +5,6 @@ using UnityEngine.Assertions;
 
 public class Track : MonoBehaviour {
 
-	[System.Serializable]
-	public struct Spawnable {
-		[HideInInspector] public string name;
-		public Hitable hitable;
-		public float probability;
-	}
-
 	class ParticleCacher {
 		public ParticleSystem system;
 		public ParticleSystemRenderer renderer;
@@ -25,10 +18,14 @@ public class Track : MonoBehaviour {
 	public float spawnChange = 0.1f;
 	public float spawnMinGap = 0.1f;
 	public float spawnMaxGap = 3;
+	public int spawnPUEvry = 20;
 	public float laneWidth = 1;
 
-	public Spawnable[] spawnablePrefabs;
-    public GameObject asteroidExplosionPrefab;
+	public Hitable astroidPrefab;
+	public Hitable jumpPrefab;
+	public Hitable amplifyPrefab;
+	public Hitable repairPrefab;
+	public GameObject asteroidExplosionPrefab;
 
 	float _traveledDistance = 0;
 	float _traveledDistanceDelta = 0;
@@ -39,7 +36,6 @@ public class Track : MonoBehaviour {
 	float _laneLength;
 
 	List<Hitable> _hitables = new List<Hitable>(8);
-	float _totalProbability = 0;
 
 	AudioSource _glitchSource;
 	AudioSource _staticSource;
@@ -75,30 +71,33 @@ public class Track : MonoBehaviour {
 		_lane2.localPosition = pos2;
 	}
 
-	void validate() {
-		_totalProbability = 0;
-		for (int i = 0; i < spawnablePrefabs.Length; i++) {
-			if (spawnablePrefabs[i].hitable != null)
-				spawnablePrefabs[i].name = spawnablePrefabs[i].hitable.name;
-			_totalProbability += spawnablePrefabs[i].probability;
-		}
-	}
-
 	int _lastLane = 0;
-	void spawnRandomHitalbe() {
+	int _numAstroidsSinceLastPU = 0;
+	float _distanceAtLastJump = 0;
+	List<Hitable> _availablePUs = new List<Hitable>(4);
+	void spawnNext() {
 		_lastSpawnTime = Time.time;
-		float rand = Random.value * _totalProbability;
-		float current = 0;
-		Hitable prefab = null;
-		for (int i = 0; i < spawnablePrefabs.Length; i++) {
-			current += spawnablePrefabs[i].probability;
-			if (current >= rand) {
-				prefab = spawnablePrefabs[i].hitable;
-				break;
+		Hitable prefab = astroidPrefab;
+
+		_numAstroidsSinceLastPU++;
+		if (_numAstroidsSinceLastPU >= spawnPUEvry) {
+			_availablePUs.Clear();
+			if (Player.instance.currentHealth < Player.instance.maxHealth)
+				_availablePUs.Add(repairPrefab);
+			if (Player.instance.delay > 0.5f)
+				_availablePUs.Add(amplifyPrefab);
+			if (Player.instance.distance - _distanceAtLastJump > 200)
+				_availablePUs.Add(jumpPrefab);
+
+			int numPowerups = _availablePUs.Count;
+			if (numPowerups > 0) {
+				_numAstroidsSinceLastPU = 0;
+				int index = (int)(Random.value * numPowerups);
+				prefab = _availablePUs[index];
+				if (prefab.type == Hitable.HitableType.Jump)
+					_distanceAtLastJump = Player.instance.distance;
 			}
 		}
-
-		Assert.IsNotNull(prefab);
 
 		int lane = _lastLane;
 		while (lane == _lastLane) {
@@ -126,7 +125,7 @@ public class Track : MonoBehaviour {
 		}
 
 		if (needToSpawn && spawnEnabled) {
-			spawnRandomHitalbe();
+			spawnNext();
 		}
 
 		Vector3 playerPos = Player.instance.transform.localPosition;
@@ -208,7 +207,6 @@ public class Track : MonoBehaviour {
 			_particles[i] = pc;
 		}
 
-		validate();
 		initLanes();
 	}
 
@@ -231,7 +229,4 @@ public class Track : MonoBehaviour {
 		updateEnemies();
 	}
 
-	void OnValidate() {
-		validate();
-	}
 }

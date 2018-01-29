@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour {
     public GameObject gameOverUI;
     public Text gameOverScoreText;
     
-    private GameObject trackObject;
     private GameObject hudObject;
 
 	bool _isPlayingIntro = false;
@@ -30,8 +29,6 @@ public class GameManager : MonoBehaviour {
 	void Awake()
     {
         inst = this;
-
-        trackObject = GameObject.Find("Track");
         hudObject = GameObject.Find("UI");
 		Player.onPlayerDied += onPlayerDeid;
 	}

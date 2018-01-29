@@ -81,8 +81,8 @@ public class CameraControl : MonoBehaviour {
 		else if (health == Player.instance.maxHealth)
 			isDamaged = false;
 
-		_warning.SetActive(false);
-		_critical.SetActive(false);
+		bool showWarning = false;
+		bool showCritical = false;
 
 		if (isDamaged) {
 			if (_damageSource == null) {
@@ -91,12 +91,12 @@ public class CameraControl : MonoBehaviour {
 
 			if (health == 1) {
 				const float FREQUENCY = 0.5f;
-				_critical.SetActive(Time.time / FREQUENCY % 1f > 0.5f);
+				showCritical = Time.time / FREQUENCY % 1f > 0.5f;
 				_damageSource.volume = 1;
 				_damageSource.pitch = 1f / FREQUENCY;
 			} else {
 				const float FREQUENCY = 1f;
-				_warning.SetActive(Time.time / FREQUENCY % 1f > 0.5f);
+				showWarning = Time.time / FREQUENCY % 1f > 0.5f;
 				_damageSource.volume = 0.5f;
 				_damageSource.pitch = 1f / FREQUENCY;
 			}
@@ -106,6 +106,11 @@ public class CameraControl : MonoBehaviour {
 				_damageSource = null;
 			}
 		}
+
+		if (_warning.activeSelf != showWarning)
+			_warning.SetActive(showWarning);
+		if (_critical.activeSelf != showCritical)
+			_critical.SetActive(showCritical);
 	}
 
 	void Update() {
