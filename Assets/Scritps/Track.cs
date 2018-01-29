@@ -217,10 +217,10 @@ public class Track : MonoBehaviour {
 		_traveledDistance += Player.instance.speed * dt;
 		_traveledDistanceDelta = _traveledDistance - lastTraveledDistance;
 
-		updateLanes();
-		updateEnemies();
 		updateGlitch();
 		updateParticles();
+		updateLanes();
+		updateEnemies();
 	}
 
 	void OnValidate() {
