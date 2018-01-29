@@ -83,6 +83,7 @@ public class Track : MonoBehaviour {
 		}
 	}
 
+	int _lastLane = 0;
 	void spawnRandomHitalbe() {
 		_lastSpawnTime = Time.time;
 		float rand = Random.value * _totalProbability;
@@ -97,7 +98,13 @@ public class Track : MonoBehaviour {
 		}
 
 		Assert.IsNotNull(prefab);
-		int lane = Random.Range(-1, 2);
+
+		int lane = _lastLane;
+		while (lane == _lastLane) {
+			lane = Random.Range(-1, 2);
+		}
+		_lastLane = lane;
+
 		Hitable hitable = Instantiate(prefab);
 		hitable.transform.SetParent(transform);
 		hitable.transform.localPosition = new Vector3(lane * laneWidth, 0.5f, _laneLength / 2f);
