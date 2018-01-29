@@ -18,6 +18,7 @@ public class CameraControl : MonoBehaviour {
 	float _defaultFOV;
 
 	Coroutine _co = null;
+	AudioSource _damageSource = null;
 
 	public void shake(float duration) {
 		if (_co != null) {
@@ -68,19 +69,38 @@ public class CameraControl : MonoBehaviour {
 	}
 
 	void updateWarnings() {
+		bool isDamaged = true;
+		int health = Player.instance.currentHealth;
+
+		if (Player.instance.isAlive == false)
+			isDamaged = false;
+		else if (health == Player.instance.maxHealth)
+			isDamaged = false;
+
 		warning.enabled = false;
 		critical.enabled = false;
 
-		if (Player.instance.isAlive == false) return;
-		int health = Player.instance.currentHealth;
-		if (health == Player.instance.maxHealth) return;
+		if (isDamaged) {
+			if (_damageSource == null) {
+				_damageSource = AudioManager.inst.playSound("Damage", loop: true);
+			}
 
-		if (health == 1) {
-			const float FREQUENCY = 0.5f;
-			critical.enabled = Time.time / FREQUENCY % 1f > 0.5f; 
+			if (health == 1) {
+				const float FREQUENCY = 0.5f;
+				critical.enabled = Time.time / FREQUENCY % 1f > 0.5f;
+				_damageSource.volume = 1;
+				_damageSource.pitch = 1f / FREQUENCY;
+			} else {
+				const float FREQUENCY = 1f;
+				warning.enabled = Time.time / FREQUENCY % 1f > 0.5f;
+				_damageSource.volume = 0.5f;
+				_damageSource.pitch = 1f / FREQUENCY;
+			}
 		} else {
-			const float FREQUENCY = 1f;
-			warning.enabled = Time.time / FREQUENCY % 1f > 0.5f;
+			if (_damageSource != null) {
+				AudioManager.inst.stopSound(_damageSource);
+				_damageSource = null;
+			}
 		}
 	}
 
