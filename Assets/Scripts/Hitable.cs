@@ -43,10 +43,41 @@ public class Hitable : MonoBehaviour {
 		}
 	}
 
+	IEnumerator animatePowerupCo() {
+		const float duration = 0.2f;
+		float timer = 0;
+		int fadeID = Shader.PropertyToID("_Fade");
+
+		float dt = 0;
+		while (timer < duration) {
+			float t = timer / duration;
+			_renderer.material.SetFloat(fadeID, t);
+			transform.position += new Vector3(0, 10f * dt, 0);
+			
+			yield return null;
+			dt = Time.deltaTime;
+			timer += dt;
+		}
+	}
+
 	public void destroy() {
 		Assert.IsFalse(_destroyed);
 		_destroyed = true;
-		_renderer.material.color = Color.yellow;
+
+		switch (type) {
+			case HitableType.Astroid:
+				break;
+
+			case HitableType.Jump:
+			case HitableType.Repair:
+			case HitableType.Amplify:
+				StartCoroutine(animatePowerupCo());
+				break;
+
+			default:
+				Debug.LogWarning("Unimplemented type: " + type);
+				break;
+		}
 
 		if (onHitableHit != null)
 			onHitableHit(type);
