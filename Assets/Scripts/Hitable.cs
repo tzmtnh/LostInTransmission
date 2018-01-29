@@ -48,7 +48,7 @@ public class Hitable : MonoBehaviour {
 	}
 
 	IEnumerator animatePowerupCo() {
-		const float duration = 0.2f;
+		const float duration = 0.15f;
 		float timer = 0;
 		int fadeID = Shader.PropertyToID("_Fade");
 
@@ -56,7 +56,6 @@ public class Hitable : MonoBehaviour {
 		while (timer < duration) {
 			float t = timer / duration;
 			_renderer.material.SetFloat(fadeID, t);
-			transform.position += new Vector3(0, 10f * dt, 0);
 			
 			yield return null;
 			dt = Time.deltaTime;
