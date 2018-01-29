@@ -77,5 +77,6 @@ public class GameManager : MonoBehaviour {
         hudObject.SetActive(true);
         Player.instance.Reset();
 		Track.inst.reset();
-    }
+		switchMusic("Game Music Intro", false);
+	}
 }
