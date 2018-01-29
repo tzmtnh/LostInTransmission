@@ -256,9 +256,8 @@ public class Player : MonoBehaviour {
     {
         yield return new WaitForSeconds(duration);
         _targetSpeed = this.defaultSpeed;
-		yield return new WaitForSeconds(2);
-		isDamageable = true;
-    }
+		canTakeDamageAgainCo(2);
+	}
 
     private void SetTexture(int health) {
         switch (this.currentHealth)
