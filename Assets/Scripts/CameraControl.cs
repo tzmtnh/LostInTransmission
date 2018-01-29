@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Camera))]
 public class CameraControl : MonoBehaviour {
 
 	public static CameraControl inst;
 
-	public SpriteRenderer warning;
-	public SpriteRenderer critical;
+	private GameObject _warning;
+	private GameObject _critical;
 
 	Transform _transform;
 	Camera _camera;
@@ -53,6 +54,9 @@ public class CameraControl : MonoBehaviour {
 
 		_origin = _transform.localPosition;
 		_defaultFOV = _camera.fieldOfView;
+
+        _warning = GameObject.Find("Warning");
+        _critical = GameObject.Find("Critical");
 	}
 
 	void updateFOV() {
@@ -68,8 +72,8 @@ public class CameraControl : MonoBehaviour {
 	}
 
 	void updateWarnings() {
-		warning.enabled = false;
-		critical.enabled = false;
+		_warning.SetActive(false);
+		_critical.SetActive(false);
 
 		if (Player.instance.isAlive == false) return;
 		int health = Player.instance.currentHealth;
@@ -77,10 +81,10 @@ public class CameraControl : MonoBehaviour {
 
 		if (health == 1) {
 			const float FREQUENCY = 0.5f;
-			critical.enabled = Time.time / FREQUENCY % 1f > 0.5f; 
+			_critical.SetActive(Time.time / FREQUENCY % 1f > 0.5f); 
 		} else {
 			const float FREQUENCY = 1f;
-			warning.enabled = Time.time / FREQUENCY % 1f > 0.5f;
+			_warning.SetActive(Time.time / FREQUENCY % 1f > 0.5f);
 		}
 	}
 
