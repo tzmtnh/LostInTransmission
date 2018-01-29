@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour {
 	void Awake()
     {
         inst = this;
-        hudObject = GameObject.Find("UI");
+        hudObject = GameObject.Find("HUD");
 		Player.onPlayerDied += onPlayerDeid;
 	}
 

@@ -24,15 +24,14 @@ public class VisualizeCommands : MonoBehaviour {
 
 	void Awake()
 	{
-        _commandBoxArrow = transform.parent.Find("CommandBoxArrow");
+        _commandBoxArrow = UIManager.inst.commandBox.Find("CommandBoxArrow");
 		_commandsParent = new GameObject("Commands parent").transform;
 		_commandsParent.SetParent(transform.parent);
-
+		
 		_start = _commandBoxArrow.Find("Start");
-		Transform receiver = transform.parent.Find("Receiver");
-		_end = receiver.Find("End");
+		_end = UIManager.inst.receiver.Find("End");
         
-		_distance = transform.parent.Find("Distance").GetComponent<Text>();
+		_distance = transform.Find("Distance").GetComponent<Text>();
 	}
 		
 	void Start()

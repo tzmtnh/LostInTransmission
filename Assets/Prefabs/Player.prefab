@@ -424,7 +424,6 @@ MonoBehaviour:
   jumpSpeed: 50
   jumpSpeedDuration: 3
   amplifyAmount: 0.25
-  isDamageable: 1
 --- !u!114 &114362178992690746
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -17,23 +17,33 @@ public class Pixelate : MonoBehaviour {
 	int _blendID;
 	int _lightSpeedID;
 
-	void Awake() {
-		int w = Mathf.CeilToInt((float) Screen.width / Screen.height * numHeightPixels);
+	void initRT() {
+		float aspect = (float) Screen.width / Screen.height;
+		int w = Mathf.CeilToInt(aspect * numHeightPixels);
+		w = Mathf.Max(1, w);
 		_resampleRT = new RenderTexture(w, numHeightPixels, 0);
 		_resampleRT.filterMode = FilterMode.Point;
 
-		int w2 = Mathf.CeilToInt((float)Screen.width / Screen.height * secondaryHeightPixels);
+		int w2 = Mathf.CeilToInt(aspect * secondaryHeightPixels);
+		w2 = Mathf.Max(1, w2);
 		_secondaryResampleRT = new RenderTexture(w2, secondaryHeightPixels, 0);
 		_secondaryResampleRT.filterMode = FilterMode.Point;
-
-		_combineMaterial = new Material(combineShader);
 		_combineMaterial.SetTexture("_SecondaryTex", _secondaryResampleRT);
+	}
 
+	void Awake() {
+		_combineMaterial = new Material(combineShader);
 		_blendID = Shader.PropertyToID("_Blend");
 		_lightSpeedID = Shader.PropertyToID("_LightSpeed");
+		initRT();
 	}
 
 	void OnRenderImage(RenderTexture source, RenderTexture destination) {
+		float screenAspect = (float)source.width / source.height;
+		float resampleAspect = (float)_resampleRT.width / _resampleRT.height;
+		if (resampleAspect != screenAspect)
+			initRT();
+
 		float blend = Player.instance.delay * blendMultiplier;
 		_combineMaterial.SetFloat(_blendID, blend);
 

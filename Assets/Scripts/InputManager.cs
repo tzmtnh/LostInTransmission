@@ -11,6 +11,8 @@ public class InputManager : MonoBehaviour {
 	public bool left { get; private set; }
 	public bool right { get; private set; }
 
+	float _touchMove = 0;
+
 	void Awake() {
 		Assert.IsNull(inst, "There can be only one!");
 		inst = this;
@@ -32,12 +34,20 @@ public class InputManager : MonoBehaviour {
 		// handle mobile touch
 		if (Input.touchCount > 0) {
 			Touch touch0 = Input.touches[0];
+			const float THRESH = 10;
 
-			if (touch0.phase == TouchPhase.Began) {
-				float posX = touch0.position.x / Screen.width;
-				start = true;
-				left = posX < 0.5f;
-				right = !left;
+			switch (touch0.phase) {
+				case TouchPhase.Began:
+					_touchMove = 0;
+					break;
+				case TouchPhase.Moved:
+					_touchMove += touch0.deltaPosition.x;
+					break;
+				case TouchPhase.Ended:
+					start = Mathf.Abs(_touchMove) < THRESH;
+					left = _touchMove < -THRESH;
+					right = _touchMove > THRESH;
+					break;
 			}
 		}
 	}

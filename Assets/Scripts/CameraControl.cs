@@ -92,12 +92,12 @@ public class CameraControl : MonoBehaviour {
 			if (health == 1) {
 				const float FREQUENCY = 0.5f;
 				showCritical = Time.time / FREQUENCY % 1f > 0.5f;
-				_damageSource.volume = 1;
+				_damageSource.volume = 0.3f;
 				_damageSource.pitch = 1f / FREQUENCY;
 			} else {
 				const float FREQUENCY = 1f;
 				showWarning = Time.time / FREQUENCY % 1f > 0.5f;
-				_damageSource.volume = 0.5f;
+				_damageSource.volume = 0.2f;
 				_damageSource.pitch = 1f / FREQUENCY;
 			}
 		} else {
@@ -113,15 +113,7 @@ public class CameraControl : MonoBehaviour {
 			_critical.SetActive(showCritical);
 	}
 
-	void cropScreen() {
-		const float aspect = 1.6f;
-		float width = (float) Screen.height / Screen.width / aspect;
-		float x = (1f - width) / 2f;
-		_camera.rect = new Rect(x, 0, width, 1);
-	}
-
 	void Update() {
-		cropScreen();
 		updateFOV();
 		updateWarnings();
 	}

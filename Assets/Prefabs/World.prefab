@@ -420,7 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cce3735f355f31428b5fa987250ed96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numHeightPixels: 240
+  numHeightPixels: 200
   secondaryHeightPixels: 20
   blendMultiplier: 1
   combineShader: {fileID: 4800000, guid: e92b758071a7c3b4c8f09439e61f1232, type: 3}
