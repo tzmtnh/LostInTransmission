@@ -1,0 +1,13 @@
+{
+"companyName": "GGJ2018",
+"productName": "RemoteCrusader",
+"dataUrl": "Lost in Transmission.data.unityweb",
+"asmCodeUrl": "Lost in Transmission.asm.code.unityweb",
+"asmMemoryUrl": "Lost in Transmission.asm.memory.unityweb",
+"asmFrameworkUrl": "Lost in Transmission.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20"
+}
