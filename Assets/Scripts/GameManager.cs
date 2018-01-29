@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+    public static GameManager inst;
+
     public GameObject startUI;
 
     public GameObject gameOverUI;
@@ -16,7 +18,9 @@ public class GameManager : MonoBehaviour {
 	bool _isPlayingIntro = false;
 	AudioSource _music;
 
-	void switchMusic(string name, bool loop) {
+    public bool isOnTitleScreen { get { return startUI.activeSelf; } }
+
+    void switchMusic(string name, bool loop) {
 		if (_music != null && _music.isPlaying) {
 			AudioManager.inst.stopSound(_music);
 		}
@@ -25,6 +29,8 @@ public class GameManager : MonoBehaviour {
 
 	void Awake()
     {
+        inst = this;
+
         trackObject = GameObject.Find("Track");
         hudObject = GameObject.Find("UI");
 		Player.onPlayerDied += onPlayerDeid;

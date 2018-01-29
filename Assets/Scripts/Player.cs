@@ -104,7 +104,7 @@ public class Player : MonoBehaviour {
 
 	void Update ()
     {
-        if (isAlive == false)
+        if (isAlive == false || GameManager.inst.isOnTitleScreen)
         {
             return;
         }
