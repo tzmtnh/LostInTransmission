@@ -8,6 +8,8 @@ public class Pixelate : MonoBehaviour {
 	public int secondaryHeightPixels = 20;
 	public float blendMultiplier = 0.1f;
 
+	public Shader combineShader;
+
 	RenderTexture _resampleRT;
 	RenderTexture _secondaryResampleRT;
 
@@ -24,7 +26,6 @@ public class Pixelate : MonoBehaviour {
 		_secondaryResampleRT = new RenderTexture(w2, secondaryHeightPixels, 0);
 		_secondaryResampleRT.filterMode = FilterMode.Point;
 
-		Shader combineShader = Shader.Find("Hidden/PixelCombine");
 		_combineMaterial = new Material(combineShader);
 		_combineMaterial.SetTexture("_SecondaryTex", _secondaryResampleRT);
 
