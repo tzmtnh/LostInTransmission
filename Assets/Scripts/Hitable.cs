@@ -24,13 +24,17 @@ public class Hitable : MonoBehaviour {
 			case HitableType.Astroid:
 				if (Player.instance.isAlive) {
 					AudioManager.inst.playSound("Astroid Explode");
-                    var explosion = GameObject.Instantiate(Track.inst.asteroidExplosionPrefab);
-                    explosion.transform.SetParent(gameObject.transform);
-                    explosion.transform.localPosition = new Vector3(0, 0, 0);
-                    gameObject.GetComponent<Renderer>().enabled = false;
 				} else {
 					AudioManager.inst.playSound("Ship Explode");
 				}
+
+				GameObject explosion = Instantiate(Track.inst.asteroidExplosionPrefab);
+				explosion.transform.SetParent(gameObject.transform);
+				explosion.transform.localPosition = new Vector3(0, 0, 0);
+				Destroy(explosion, 0.5f);
+
+				_renderer.enabled = false;
+
 				break;
 			case HitableType.Jump:
 				AudioManager.inst.playSound("Jump");

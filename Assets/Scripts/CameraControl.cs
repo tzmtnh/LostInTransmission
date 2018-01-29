@@ -85,26 +85,24 @@ public class CameraControl : MonoBehaviour {
 		bool showCritical = false;
 
 		if (isDamaged) {
-			if (_damageSource == null) {
-				_damageSource = AudioManager.inst.playSound("Damage", loop: true);
-			}
-
 			if (health == 1) {
 				const float FREQUENCY = 0.5f;
 				showCritical = Time.time / FREQUENCY % 1f > 0.5f;
-				_damageSource.volume = 0.3f;
-				_damageSource.pitch = 1f / FREQUENCY;
 			} else {
 				const float FREQUENCY = 1f;
 				showWarning = Time.time / FREQUENCY % 1f > 0.5f;
-				_damageSource.volume = 0.2f;
-				_damageSource.pitch = 1f / FREQUENCY;
 			}
-		} else {
-			if (_damageSource != null) {
-				AudioManager.inst.stopSound(_damageSource);
-				_damageSource = null;
+
+			if (showCritical && _damageSource == null) {
+				_damageSource = AudioManager.inst.playSound("Damage", loop: true);
+				_damageSource.volume = 0.3f;
+				_damageSource.pitch = 2;
 			}
+		}
+
+		if (showCritical == false && _damageSource != null) {
+			AudioManager.inst.stopSound(_damageSource);
+			_damageSource = null;
 		}
 
 		if (_warning.activeSelf != showWarning)
