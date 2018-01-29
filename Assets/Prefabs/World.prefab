@@ -539,6 +539,8 @@ MonoBehaviour:
     hitable: {fileID: 114091209634053550, guid: c57303cf702f29446a57d809548ca048,
       type: 2}
     probability: 1
+  asteroidExplosionPrefab: {fileID: 1591567343527826, guid: 02c9188468e925741a96b8b155eba57a,
+    type: 2}
 --- !u!124 &124485287554278844
 Behaviour:
   m_ObjectHideFlags: 1

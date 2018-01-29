@@ -28,6 +28,7 @@ public class Track : MonoBehaviour {
 	public float laneWidth = 1;
 
 	public Spawnable[] spawnablePrefabs;
+    public GameObject asteroidExplosionPrefab;
 
 	float _traveledDistance = 0;
 	float _traveledDistanceDelta = 0;

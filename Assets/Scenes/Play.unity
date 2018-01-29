@@ -152,6 +152,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114954657305290944, guid: bb2d9c274296bc5499992ce4450af95f,
+        type: 2}
+      propertyPath: asteroidExplosionPrefab
+      value: 
+      objectReference: {fileID: 1591567343527826, guid: 02c9188468e925741a96b8b155eba57a,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb2d9c274296bc5499992ce4450af95f, type: 2}
   m_IsPrefabParent: 0
