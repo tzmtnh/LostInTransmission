@@ -22,9 +22,11 @@ public class VisualizeCommands : MonoBehaviour {
 		public float delay;
 	}
 
-	void Awake()
+	void Start()
 	{
-        _commandBoxArrow = UIManager.inst.commandBox.Find("CommandBoxArrow");
+		Player.OnCommand += OnSend;
+
+		_commandBoxArrow = UIManager.inst.commandBox.Find("CommandBoxArrow");
 		_commandsParent = new GameObject("Commands parent").transform;
 		_commandsParent.SetParent(transform.parent);
 		_commandsParent.localScale = _commandBoxArrow.parent.localScale;
@@ -33,11 +35,6 @@ public class VisualizeCommands : MonoBehaviour {
 		_end = UIManager.inst.receiver.Find("End");
         
 		_distance = transform.Find("Distance").GetComponent<Text>();
-	}
-		
-	void Start()
-	{
-		Player.OnCommand += OnSend;
 	}
 
 	void OnDestroy()

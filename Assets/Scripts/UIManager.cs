@@ -11,11 +11,13 @@ public class UIManager : MonoBehaviour {
 	public float commandPadding = 0.1f;
 	public float distPadding = 0.2f;
 
+	public RectTransform logo;
 	public RectTransform commandBox;
 	public RectTransform receiver;
 	public RectTransform distance;
 
 	Camera _camera;
+	Vector2 _logoSize;
 
 	void setX(RectTransform t, float x) {
 		Vector2 pos = t.position;
@@ -32,7 +34,8 @@ public class UIManager : MonoBehaviour {
 		_lastScreenSize = new Vector2(w, h);
 
 		float a = h / w;
-		float width = w * Mathf.Min(1, a / aspect);
+		float wantedWidth = w * a / aspect;
+		float width = Mathf.Min(w, wantedWidth);
 		float x = (w - width) / 2f;
 
 		if (Application.isMobilePlatform == false)
@@ -41,6 +44,8 @@ public class UIManager : MonoBehaviour {
 		setX(commandBox, x + width * commandPadding);
 		setX(receiver, x + width - width * commandPadding);
 		setX(distance, x + width * distPadding);
+
+		logo.sizeDelta = _logoSize * Mathf.Min(1, w / wantedWidth);
 	}
 
 	void Awake() {
@@ -48,7 +53,7 @@ public class UIManager : MonoBehaviour {
 		inst = this;
 
 		_camera = Camera.main;
-		updatePositions();
+		_logoSize = logo.sizeDelta;
 	}
 
 	void Update() {
