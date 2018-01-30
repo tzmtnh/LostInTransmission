@@ -18,7 +18,16 @@ public class Pixelate : MonoBehaviour {
 	int _lightSpeedID;
 
 	void initRT() {
-		float aspect = (float) Screen.width / Screen.height;
+		
+	}
+
+	void Awake() {
+		_combineMaterial = new Material(combineShader);
+
+		_blendID = Shader.PropertyToID("_Blend");
+		_lightSpeedID = Shader.PropertyToID("_LightSpeed");
+
+		float aspect = (float)Screen.width / Screen.height;
 		int w = Mathf.CeilToInt(aspect * numHeightPixels);
 		w = Mathf.Max(1, w);
 		_resampleRT = new RenderTexture(w, numHeightPixels, 0);
@@ -31,19 +40,7 @@ public class Pixelate : MonoBehaviour {
 		_combineMaterial.SetTexture("_SecondaryTex", _secondaryResampleRT);
 	}
 
-	void Awake() {
-		_combineMaterial = new Material(combineShader);
-		_blendID = Shader.PropertyToID("_Blend");
-		_lightSpeedID = Shader.PropertyToID("_LightSpeed");
-		initRT();
-	}
-
 	void OnRenderImage(RenderTexture source, RenderTexture destination) {
-		float screenAspect = (float)source.width / source.height;
-		float resampleAspect = (float)_resampleRT.width / _resampleRT.height;
-		if (resampleAspect != screenAspect)
-			initRT();
-
 		float blend = Player.instance.delay * blendMultiplier;
 		_combineMaterial.SetFloat(_blendID, blend);
 
@@ -51,7 +48,8 @@ public class Pixelate : MonoBehaviour {
 		_combineMaterial.SetFloat(_lightSpeedID, lightSpeed);
 
 		Graphics.Blit(source, _resampleRT);
-		Graphics.Blit(source, _secondaryResampleRT);
+		if (Time.frameCount % 3 == 0)
+			Graphics.Blit(source, _secondaryResampleRT);
 		Graphics.Blit(_resampleRT, destination, _combineMaterial);
 	}
 }
