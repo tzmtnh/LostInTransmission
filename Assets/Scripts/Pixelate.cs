@@ -42,11 +42,8 @@ public class Pixelate : MonoBehaviour {
 
 	void Awake() {
 		_combineMaterial = new Material(combineShader);
-
 		_blendID = Shader.PropertyToID("_Blend");
 		_lightSpeedID = Shader.PropertyToID("_LightSpeed");
-
-		rebuildRT();
 	}
 
 	void OnRenderImage(RenderTexture source, RenderTexture destination) {
@@ -59,9 +56,12 @@ public class Pixelate : MonoBehaviour {
 		float lightSpeed = Player.instance.lightSpeedParam;
 		_combineMaterial.SetFloat(_lightSpeedID, lightSpeed);
 
+		_resampleRT.DiscardContents();
 		Graphics.Blit(source, _resampleRT);
-		if (Time.frameCount % 3 == 0)
+		if (Time.frameCount % 3 == 0) {
+			_secondaryResampleRT.DiscardContents();
 			Graphics.Blit(source, _secondaryResampleRT);
+		}
 		Graphics.Blit(_resampleRT, destination, _combineMaterial);
 	}
 }

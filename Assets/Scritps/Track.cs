@@ -82,9 +82,9 @@ public class Track : MonoBehaviour {
 
 		_numAstroidsSinceLastPU++;
 		if (_numAstroidsSinceLastPU >= spawnPUEvry) {
-			const float RANDOM_CHANCE = 0.2f;  // random chance of getting a powerup for no reason
-			const float MIN_DELAY = 0.5f;      // minimum delay before we can get Amplify
-			const float MIN_JUMP_GAP = 15;     // minimum time sice last Jump before we can get it again
+			const float RANDOM_CHANCE = 0.2f;	// random chance of getting a powerup for no reason
+			const float MIN_DELAY = 0.25f;		// minimum delay before we can get Amplify
+			const float MIN_JUMP_GAP = 15;      // minimum time sice last Jump before we can get it again
 
 			_availablePUs.Clear();
 			if (Player.instance.currentHealth < Player.instance.maxHealth || Random.value < RANDOM_CHANCE)
