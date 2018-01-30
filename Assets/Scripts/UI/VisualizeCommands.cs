@@ -96,9 +96,10 @@ public class VisualizeCommands : MonoBehaviour {
 
 	void OnDisable() {
 		StopAllCoroutines();
-		for (int i = _commandsParent.childCount - 1; i >= 0; i--) {
-			Destroy(_commandsParent.GetChild(i).gameObject);
+		if (_commandsParent != null) {
+			for (int i = _commandsParent.childCount - 1; i >= 0; i--) {
+				Destroy(_commandsParent.GetChild(i).gameObject);
+			}
 		}
 	}
-
 }

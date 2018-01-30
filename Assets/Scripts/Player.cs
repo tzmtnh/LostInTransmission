@@ -110,8 +110,9 @@ public class Player : MonoBehaviour {
             return;
         }
 
-        this.delay += Time.deltaTime * .01f;
-        this.distance += Time.deltaTime * speed;
+		float dt = Time.deltaTime;
+        delay += dt * normalizedSpeed * 0.01f;
+        distance += dt * speed;
 
 		const float SPEED_SMOOTH_TIME = 1;
 		_speed = Mathf.SmoothDamp(_speed, _targetSpeed, ref _speedVelocity, SPEED_SMOOTH_TIME);

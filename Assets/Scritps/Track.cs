@@ -44,7 +44,7 @@ public class Track : MonoBehaviour {
 
 	int _lastLane = 0;
 	int _numAstroidsSinceLastPU = 0;
-	float _distanceAtLastJump = 0;
+	float _timeAtLastJump = 0;
 	List<Hitable> _availablePUs = new List<Hitable>(4);
 
 	void initLanes() {
@@ -82,16 +82,16 @@ public class Track : MonoBehaviour {
 
 		_numAstroidsSinceLastPU++;
 		if (_numAstroidsSinceLastPU >= spawnPUEvry) {
-			const float RANDOM_CHANCE = 0.2f;
-			const float MIN_DELAY = 0.5f;
-			const float MIN_DISTANCE = 200;
+			const float RANDOM_CHANCE = 0.2f;  // random chance of getting a powerup for no reason
+			const float MIN_DELAY = 0.5f;      // minimum delay before we can get Amplify
+			const float MIN_JUMP_GAP = 15;     // minimum time sice last Jump before we can get it again
 
 			_availablePUs.Clear();
 			if (Player.instance.currentHealth < Player.instance.maxHealth || Random.value < RANDOM_CHANCE)
 				_availablePUs.Add(repairPrefab);
 			if (Player.instance.delay > MIN_DELAY || Random.value < RANDOM_CHANCE)
 				_availablePUs.Add(amplifyPrefab);
-			if (Player.instance.distance - _distanceAtLastJump > MIN_DISTANCE || Random.value < RANDOM_CHANCE)
+			if (Time.time - _timeAtLastJump > MIN_JUMP_GAP || Random.value < RANDOM_CHANCE)
 				_availablePUs.Add(jumpPrefab);
 
 			int numPowerups = _availablePUs.Count;
@@ -100,7 +100,7 @@ public class Track : MonoBehaviour {
 				int index = (int)(Random.value * numPowerups);
 				prefab = _availablePUs[index];
 				if (prefab.type == Hitable.HitableType.Jump)
-					_distanceAtLastJump = Player.instance.distance;
+					_timeAtLastJump = Player.instance.distance;
 			}
 		}
 
@@ -183,7 +183,7 @@ public class Track : MonoBehaviour {
 		_lastSpawnTime = Time.time;
 		_lastLane = 0;
 		_numAstroidsSinceLastPU = 0;
-		_distanceAtLastJump = 0;
+		_timeAtLastJump = _lastSpawnTime;
 
 		foreach (Hitable hitable in _hitables) {
 			Destroy(hitable.transform.gameObject);

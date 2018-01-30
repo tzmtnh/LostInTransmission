@@ -17,7 +17,7 @@ public class Pixelate : MonoBehaviour {
 	int _blendID;
 	int _lightSpeedID;
 
-	Vector2Int _screenSize;
+	Vector2Int _screenSize = new Vector2Int();
 
 	void rebuildRT() {
 		_screenSize.x = Screen.width;
