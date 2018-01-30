@@ -28,6 +28,8 @@ public class InputManager : MonoBehaviour {
 			leftClick = true;
 		if (Input.GetKeyDown(KeyCode.RightArrow))
 			rightClick = true;
+		if (Input.GetKeyDown(KeyCode.Escape))
+			Application.Quit();
 
 		// handle mobile touch
 		if (Input.touchCount > 0) {

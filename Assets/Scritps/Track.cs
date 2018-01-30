@@ -37,7 +37,7 @@ public class Track : MonoBehaviour {
 
 	List<Hitable> _hitables = new List<Hitable>(8);
 
-	AudioSource _glitchSource;
+	//AudioSource _glitchSource;
 	AudioSource _staticSource;
 
 	ParticleCacher[] _particles;
@@ -160,10 +160,10 @@ public class Track : MonoBehaviour {
 
 	void updateGlitch() {
 		float delay = Player.instance.delay;
-		_glitchSource.volume = delay * 0.1f;
-		_glitchSource.pitch = 1f / Mathf.Max(0.01f, delay);
+		//_glitchSource.volume = delay * 0.1f;
+		//_glitchSource.pitch = 1f / Mathf.Max(0.01f, delay);
 
-		_staticSource.volume = delay * 0.1f;
+		_staticSource.volume = delay * 0.2f;
 	}
 
 	void updateParticles() {
@@ -190,10 +190,10 @@ public class Track : MonoBehaviour {
 		}
 		_hitables.Clear();
 
-		if (_glitchSource != null) {
-			AudioManager.inst.stopSound(_glitchSource);
-		}
-		_glitchSource = AudioManager.inst.playSound("Glitch", volume:0, loop: true);
+		//if (_glitchSource != null) {
+		//	AudioManager.inst.stopSound(_glitchSource);
+		//}
+		//_glitchSource = AudioManager.inst.playSound("Glitch", volume:0, loop: true);
 
 		if (_staticSource != null) {
 			AudioManager.inst.stopSound(_staticSource);

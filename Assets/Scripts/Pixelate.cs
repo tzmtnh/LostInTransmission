@@ -17,8 +17,27 @@ public class Pixelate : MonoBehaviour {
 	int _blendID;
 	int _lightSpeedID;
 
-	void initRT() {
-		
+	Vector2Int _screenSize;
+
+	void rebuildRT() {
+		_screenSize.x = Screen.width;
+		_screenSize.y = Screen.height;
+		float aspect = Camera.main.aspect;
+
+		if (_resampleRT != null)
+			_resampleRT.Release();
+		int w = Mathf.CeilToInt(aspect * numHeightPixels);
+		w = Mathf.Max(1, w);
+		_resampleRT = new RenderTexture(w, numHeightPixels, 0);
+		_resampleRT.filterMode = FilterMode.Point;
+
+		if (_secondaryResampleRT != null)
+			_secondaryResampleRT.Release();
+		int w2 = Mathf.CeilToInt(aspect * secondaryHeightPixels);
+		w2 = Mathf.Max(1, w2);
+		_secondaryResampleRT = new RenderTexture(w2, secondaryHeightPixels, 0);
+		_secondaryResampleRT.filterMode = FilterMode.Point;
+		_combineMaterial.SetTexture("_SecondaryTex", _secondaryResampleRT);
 	}
 
 	void Awake() {
@@ -27,20 +46,13 @@ public class Pixelate : MonoBehaviour {
 		_blendID = Shader.PropertyToID("_Blend");
 		_lightSpeedID = Shader.PropertyToID("_LightSpeed");
 
-		float aspect = (float)Screen.width / Screen.height;
-		int w = Mathf.CeilToInt(aspect * numHeightPixels);
-		w = Mathf.Max(1, w);
-		_resampleRT = new RenderTexture(w, numHeightPixels, 0);
-		_resampleRT.filterMode = FilterMode.Point;
-
-		int w2 = Mathf.CeilToInt(aspect * secondaryHeightPixels);
-		w2 = Mathf.Max(1, w2);
-		_secondaryResampleRT = new RenderTexture(w2, secondaryHeightPixels, 0);
-		_secondaryResampleRT.filterMode = FilterMode.Point;
-		_combineMaterial.SetTexture("_SecondaryTex", _secondaryResampleRT);
+		rebuildRT();
 	}
 
 	void OnRenderImage(RenderTexture source, RenderTexture destination) {
+		if (Screen.width != _screenSize.x || Screen.height != _screenSize.y)
+			rebuildRT();
+
 		float blend = Player.instance.delay * blendMultiplier;
 		_combineMaterial.SetFloat(_blendID, blend);
 
