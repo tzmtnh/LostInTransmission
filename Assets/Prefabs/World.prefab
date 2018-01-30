@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 4128013716218210}
   - component: {fileID: 20982802829477474}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: Clear screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnEnabled: 0
-  spawnChange: 2
+  spawnChance: 2
   spawnMinGap: 0.2
   spawnMaxGap: 2
   spawnPUEvry: 20
@@ -4099,9 +4099,9 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     startSize:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 15
-      minScalar: 1
+      minMaxState: 3
+      scalar: 35
+      minScalar: 20
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4140,7 +4140,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -4181,7 +4181,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
