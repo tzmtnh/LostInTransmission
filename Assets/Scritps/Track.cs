@@ -15,7 +15,7 @@ public class Track : MonoBehaviour {
 
     public bool spawnEnabled;
 
-	public float spawnChange = 0.1f;
+	public float spawnChance = 2;
 	public float spawnMinGap = 0.1f;
 	public float spawnMaxGap = 3;
 	public int spawnPUEvry = 20;
@@ -100,7 +100,7 @@ public class Track : MonoBehaviour {
 				int index = (int)(Random.value * numPowerups);
 				prefab = _availablePUs[index];
 				if (prefab.type == Hitable.HitableType.Jump)
-					_timeAtLastJump = Player.instance.distance;
+					_timeAtLastJump = Time.time;
 			}
 		}
 
@@ -125,7 +125,7 @@ public class Track : MonoBehaviour {
 			needToSpawn = timeSinceLastSpawn >= spawnMaxGap;
 			// randomize spawning
 			if (needToSpawn == false) {
-				needToSpawn = Random.value < spawnChange * Time.deltaTime;
+				needToSpawn = Random.value < spawnChance * Time.deltaTime;
 			}
 		}
 

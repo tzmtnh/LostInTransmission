@@ -304,9 +304,19 @@ Prefab:
       propertyPath: logo
       value: 
       objectReference: {fileID: 1351429230}
+    - target: {fileID: 114530937841438652, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: gameOver
+      value: 
+      objectReference: {fileID: 1782578098}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e893792472ce8bb4f88503554e655527, type: 2}
   m_IsPrefabParent: 0
+--- !u!224 &1782578098 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 224755875938806544, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+    type: 2}
+  m_PrefabInternal: {fileID: 1261057518}
 --- !u!1001 &1811610797
 Prefab:
   m_ObjectHideFlags: 0

@@ -483,6 +483,7 @@ MonoBehaviour:
   commandPadding: 0.12
   distPadding: 0.3
   logo: {fileID: 0}
+  gameOver: {fileID: 0}
   commandBox: {fileID: 224829154515866724}
   receiver: {fileID: 224111813022460744}
   distance: {fileID: 224098296231195572}

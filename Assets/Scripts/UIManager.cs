@@ -12,12 +12,15 @@ public class UIManager : MonoBehaviour {
 	public float distPadding = 0.2f;
 
 	public RectTransform logo;
+	public RectTransform gameOver;
+
 	public RectTransform commandBox;
 	public RectTransform receiver;
 	public RectTransform distance;
 
 	Camera _camera;
 	Vector2 _logoSize;
+	Vector2 _gameOverSize;
 
 	void setX(RectTransform t, float x) {
 		Vector2 pos = t.position;
@@ -46,6 +49,7 @@ public class UIManager : MonoBehaviour {
 		setX(distance, x + width * distPadding);
 
 		logo.sizeDelta = _logoSize * Mathf.Min(1, w / wantedWidth);
+		gameOver.sizeDelta = new Vector2(_gameOverSize.x * Mathf.Min(1, w / wantedWidth), _gameOverSize.y);
 	}
 
 	void Awake() {
@@ -54,6 +58,7 @@ public class UIManager : MonoBehaviour {
 
 		_camera = Camera.main;
 		_logoSize = logo.sizeDelta;
+		_gameOverSize = gameOver.sizeDelta;
 	}
 
 	void Update() {
