@@ -23,9 +23,14 @@ public class UIManager : MonoBehaviour {
 		t.position = pos;
 	}
 
+	Vector2 _lastScreenSize;
 	void updatePositions() {
 		float w = Screen.width;
 		float h = Screen.height;
+		if (_lastScreenSize.x == w && _lastScreenSize.y == h)
+			return;
+		_lastScreenSize = new Vector2(w, h);
+
 		float a = h / w;
 		float width = w * Mathf.Min(1, a / aspect);
 		float x = (w - width) / 2f;
@@ -46,9 +51,7 @@ public class UIManager : MonoBehaviour {
 		updatePositions();
 	}
 
-#if UNITY_EDITOR
 	void Update() {
 		updatePositions();
 	}
-#endif
 }
