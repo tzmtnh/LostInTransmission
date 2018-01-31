@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class dreamloLeaderBoard : MonoBehaviour {
 	
-	string dreamloWebserviceURL = "http://dreamlo.com/lb/";
+	string dreamloWebserviceURL = "https://dreamlo.com/lb/";
 	
 	public string privateCode = "";
 	public string publicCode = "";

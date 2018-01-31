@@ -10,6 +10,8 @@ public class InputManager : MonoBehaviour {
 	public bool middleClick { get; private set; }
 	public bool leftClick { get; private set; }
 	public bool rightClick { get; private set; }
+	public bool upClick { get; private set; }
+	public bool downClick { get; private set; }
 
 	void Awake() {
 		Assert.IsNull(inst, "There can be only one!");
@@ -20,6 +22,8 @@ public class InputManager : MonoBehaviour {
 		middleClick = false;
 		leftClick = false;
 		rightClick = false;
+		upClick = false;
+		downClick = false;
 
 		// handle keyboard keys
 		if (Input.GetKeyDown(KeyCode.Space))
@@ -28,6 +32,10 @@ public class InputManager : MonoBehaviour {
 			leftClick = true;
 		if (Input.GetKeyDown(KeyCode.RightArrow))
 			rightClick = true;
+		if (Input.GetKeyDown(KeyCode.UpArrow))
+			upClick = true;
+		if (Input.GetKeyDown(KeyCode.DownArrow))
+			downClick = true;
 		if (Input.GetKeyDown(KeyCode.Escape))
 			Application.Quit();
 
