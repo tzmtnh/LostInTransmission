@@ -69,6 +69,15 @@ public class AudioManager : MonoBehaviour {
 		_activeSources.Clear();
 	}
 
+	public void pauseAllSounds(bool pause) {
+		foreach (AudioSource source in _activeSources) {
+			if (pause)
+				source.Pause();
+			else
+				source.UnPause();
+		}
+	}
+
 	public void stopSound(AudioSource source) {
 		if (source.isPlaying == false)
 			return;
@@ -90,6 +99,9 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	void Update() {
+		if (Time.timeScale == 0) return;
+
+		// free un-playing sounds
 		for (int i = _activeSources.Count - 1; i >= 0; i--) {
 			AudioSource source = _activeSources[i];
 			if (source.isPlaying == false) {

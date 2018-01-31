@@ -407,6 +407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: 0
+  duration: 0
   delay: 0
   laneChangeTime: 0.1
   laneChangeMaxYaw: 35

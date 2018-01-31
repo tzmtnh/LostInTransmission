@@ -13,8 +13,6 @@ public class Track : MonoBehaviour {
 
 	public static Track inst;
 
-    public bool spawnEnabled;
-
 	public float spawnChance = 2;
 	public float spawnMinGap = 0.1f;
 	public float spawnMaxGap = 3;
@@ -44,8 +42,8 @@ public class Track : MonoBehaviour {
 
 	int _lastLane = 0;
 	int _numAstroidsSinceLastPU = 0;
-	float _timeAtLastJump = 0;
-	List<Hitable> _availablePUs = new List<Hitable>(4);
+	//float _timeAtLastJump = 0;
+	//List<Hitable> _availablePUs = new List<Hitable>(4);
 
 	void initLanes() {
 		_lane1 = transform.Find("Lanes");
@@ -76,12 +74,14 @@ public class Track : MonoBehaviour {
 		_lane2.localPosition = pos2;
 	}
 
+	int _powerupIndex = 0;
 	void spawnNext() {
 		_lastSpawnTime = Time.time;
 		Hitable prefab = astroidPrefab;
 
 		_numAstroidsSinceLastPU++;
 		if (_numAstroidsSinceLastPU >= spawnPUEvry) {
+			/*
 			const float RANDOM_CHANCE = 0.2f;	// random chance of getting a powerup for no reason
 			const float MIN_DELAY = 0.25f;		// minimum delay before we can get Amplify
 			const float MIN_JUMP_GAP = 15;      // minimum time sice last Jump before we can get it again
@@ -102,6 +102,15 @@ public class Track : MonoBehaviour {
 				if (prefab.type == Hitable.HitableType.Jump)
 					_timeAtLastJump = Time.time;
 			}
+			*/
+
+			switch (_powerupIndex) {
+				case 0: prefab = repairPrefab; break;
+				case 1: prefab = amplifyPrefab; break;
+				case 2: prefab = jumpPrefab; break;
+			}
+			_powerupIndex = (_powerupIndex + 1) % 3;
+			_numAstroidsSinceLastPU = 0;
 		}
 
 		int lane = _lastLane;
@@ -117,20 +126,22 @@ public class Track : MonoBehaviour {
 	}
 
 	void updateEnemies() {
-		float timeSinceLastSpawn = Time.time - _lastSpawnTime;
-		// make sure we don't spawn too much
-		bool needToSpawn = timeSinceLastSpawn >= spawnMinGap;
-		if (needToSpawn) {
-			// make sure we spawn too sparsly
-			needToSpawn = timeSinceLastSpawn >= spawnMaxGap;
-			// randomize spawning
-			if (needToSpawn == false) {
-				needToSpawn = Random.value < spawnChance * Time.deltaTime;
+		if (GameManager.inst.state == GameManager.GameState.InGame) {
+			float timeSinceLastSpawn = Time.time - _lastSpawnTime;
+			// make sure we don't spawn too much
+			bool needToSpawn = timeSinceLastSpawn >= spawnMinGap;
+			if (needToSpawn) {
+				// make sure we spawn too sparsly
+				needToSpawn = timeSinceLastSpawn >= spawnMaxGap;
+				// randomize spawning
+				if (needToSpawn == false) {
+					needToSpawn = Random.value < spawnChance * Time.deltaTime;
+				}
 			}
-		}
 
-		if (needToSpawn && spawnEnabled) {
-			spawnNext();
+			if (needToSpawn) {
+				spawnNext();
+			}
 		}
 
 		Vector3 playerPos = Player.instance.transform.localPosition;
@@ -183,7 +194,7 @@ public class Track : MonoBehaviour {
 		_lastSpawnTime = Time.time;
 		_lastLane = 0;
 		_numAstroidsSinceLastPU = 0;
-		_timeAtLastJump = _lastSpawnTime;
+		//_timeAtLastJump = _lastSpawnTime;
 
 		foreach (Hitable hitable in _hitables) {
 			Destroy(hitable.transform.gameObject);

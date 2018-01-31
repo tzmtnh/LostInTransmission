@@ -29,7 +29,7 @@ public class Player : MonoBehaviour {
 	public float lightSpeedParam { get { return Mathf.InverseLerp(defaultSpeed, jumpSpeed, _speed); } }
 
     public float distance = 0;
-
+	public float duration = 0;
     public float delay = 0.0f;
 
     [SerializeField]
@@ -105,31 +105,30 @@ public class Player : MonoBehaviour {
 
 	void Update ()
     {
-        if (isAlive == false || GameManager.inst.isOnTitleScreen)
-        {
+        if (GameManager.inst.state != GameManager.GameState.InGame)
             return;
-        }
 
 		float dt = Time.deltaTime;
         delay += dt * normalizedSpeed * 0.01f;
         distance += dt * speed;
+		duration += dt;
 
 		const float SPEED_SMOOTH_TIME = 1;
 		_speed = Mathf.SmoothDamp(_speed, _targetSpeed, ref _speedVelocity, SPEED_SMOOTH_TIME);
 
-		if (InputManager.inst.leftClick)
+		if (InputManager.inst.left)
         {
-			//AudioManager.inst.playSound("Click");
+			AudioManager.inst.playSound("Click");
 			IssueLeftCommand();
         }
-        else if (InputManager.inst.rightClick)
+        else if (InputManager.inst.right)
         {
-			//AudioManager.inst.playSound("Click");
+			AudioManager.inst.playSound("Click");
 			IssueRightCommand();
         }
 
-        this.gameObject.transform.position = Vector3.SmoothDamp(this.gameObject.transform.position, this.targetPosition, ref velocity, this.laneChangeTime);
-        this.gameObject.transform.rotation = Quaternion.AngleAxis(Mathf.Clamp(-velocity.x * laneChangeYawIntensity, -laneChangeMaxYaw, laneChangeMaxYaw), Vector3.forward);
+        gameObject.transform.position = Vector3.SmoothDamp(gameObject.transform.position, targetPosition, ref velocity, laneChangeTime);
+        gameObject.transform.rotation = Quaternion.AngleAxis(Mathf.Clamp(-velocity.x * laneChangeYawIntensity, -laneChangeMaxYaw, laneChangeMaxYaw), Vector3.forward);
 
 		_glowTarget = canTakeDamage ? 0 : 1;
 		_glow = Mathf.SmoothDamp(_glow, _glowTarget, ref _glowVelocity, 0.2f);
@@ -205,7 +204,6 @@ public class Player : MonoBehaviour {
 		_canTakeDamage = true;
 		_canTakeDamageAgainCo = null;
 	}
-
 
 	void OnHit(Hitable.HitableType hitType)
     {
@@ -297,11 +295,24 @@ public class Player : MonoBehaviour {
 
     public void Reset()
     {
+		StopAllCoroutines();
+
 		distance = 0;
-        delay = 0;
+		duration = 0;
+		delay = 0;
         currentHealth = maxHealth;
         _canTakeDamage = true;
-        shipContainer.SetActive(true);
+
+		_speed = defaultSpeed;
+		_targetSpeed = defaultSpeed;
+		_speedVelocity = 0;
+
+		_glowTarget = 0;
+		_glow = 0;
+		_glowVelocity = 0;
+		_shipMaterial.SetFloat(_GlowID, _glow);
+
+		shipContainer.SetActive(true);
         ResetToMiddleLane();
         SetTexture(this.currentHealth);
     }

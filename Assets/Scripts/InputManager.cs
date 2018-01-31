@@ -7,11 +7,12 @@ public class InputManager : MonoBehaviour {
 
 	public static InputManager inst;
 
-	public bool middleClick { get; private set; }
-	public bool leftClick { get; private set; }
-	public bool rightClick { get; private set; }
-	public bool upClick { get; private set; }
-	public bool downClick { get; private set; }
+	public bool select { get; private set; }
+	public bool left { get; private set; }
+	public bool right { get; private set; }
+	public bool up { get; private set; }
+	public bool down { get; private set; }
+	public bool back { get; private set; }
 
 	void Awake() {
 		Assert.IsNull(inst, "There can be only one!");
@@ -19,25 +20,26 @@ public class InputManager : MonoBehaviour {
 	}
 
 	void Update() {
-		middleClick = false;
-		leftClick = false;
-		rightClick = false;
-		upClick = false;
-		downClick = false;
+		select = false;
+		left = false;
+		right = false;
+		up = false;
+		down = false;
+		back = false;
 
 		// handle keyboard keys
-		if (Input.GetKeyDown(KeyCode.Space))
-			middleClick = true;
+		if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+			select = true;
 		if (Input.GetKeyDown(KeyCode.LeftArrow))
-			leftClick = true;
+			left = true;
 		if (Input.GetKeyDown(KeyCode.RightArrow))
-			rightClick = true;
+			right = true;
 		if (Input.GetKeyDown(KeyCode.UpArrow))
-			upClick = true;
+			up = true;
 		if (Input.GetKeyDown(KeyCode.DownArrow))
-			downClick = true;
+			down = true;
 		if (Input.GetKeyDown(KeyCode.Escape))
-			Application.Quit();
+			back = true;
 
 		// handle mobile touch
 		if (Input.touchCount > 0) {
@@ -47,9 +49,9 @@ public class InputManager : MonoBehaviour {
 				float x = touch0.position.x / Screen.width;
 				const float SIDE_THRESH = 0.3f;
 
-				leftClick = x < SIDE_THRESH;
-				rightClick = 1f - x < SIDE_THRESH;
-				middleClick = !leftClick && !rightClick;
+				left = x < SIDE_THRESH;
+				right = 1f - x < SIDE_THRESH;
+				select = !left && !right;
 			}
 		}
 	}

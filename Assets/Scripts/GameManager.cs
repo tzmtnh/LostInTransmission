@@ -5,40 +5,17 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-	public enum GameState { Start, InGame, GameOver, Leaderboar }
-
     public static GameManager inst;
 
-	public Color color1;
-	public Color color2;
-
-	public GameObject startUI;
-    public GameObject gameOverUI;
-    public GameObject leaderboardUI;
-    public GameObject hudUI;
-
-	public Text gameOverScoreText;
-
-	public Text[] initials;
-
-	public Text leaderboardIndexs;
-	public Text leaderboardInitials;
-	public Text leaderboardScores;
-
+	public enum GameState { Start, InGame, GameOver, Leaderboar }
 	GameState _state = GameState.Start;
 	public GameState state { get { return _state; } }
 
 	bool _isPlayingIntro = false;
 	AudioSource _music;
 
-	const string CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	int _currentCharacter = 0;
-	int _currentLetter = 0;
-
 	dreamloLeaderBoard _leaderboard;
 	List<dreamloLeaderBoard.Score> _scoreList;
-
-	public bool isOnTitleScreen { get { return startUI.activeSelf; } }
 
     void switchMusic(string name, bool loop) {
 		if (_music != null && _music.isPlaying) {
@@ -49,74 +26,78 @@ public class GameManager : MonoBehaviour {
 
 	void setState(GameState newState) {
 		_state = newState;
-		startUI.SetActive(_state == GameState.Start);
-		hudUI.SetActive(_state == GameState.InGame);
-		gameOverUI.SetActive(_state == GameState.GameOver);
-		leaderboardUI.SetActive(_state == GameState.Leaderboar);
-	}
-
-	void findCharacterIndex() {
-		char c = initials[_currentLetter].text[0];
-		for (int i = 0; i < CHARACTERS.Length; i++) {
-			if (CHARACTERS[i] == c) {
-				_currentCharacter = i;
-				return;
-			}
-		}
-		_currentCharacter = 0;
+		UIManager.inst.updateUIVisibility();
 	}
 
 	void handleInput() {
 		switch (_state) {
 			case GameState.Start:
-				if (InputManager.inst.middleClick) {
+				if (InputManager.inst.select) {
 					StartGame();
+				} else if (InputManager.inst.back) {
+					Application.Quit();
 				}
 				break;
 
 			case GameState.InGame:
-				if (InputManager.inst.middleClick) {
+				if (InputManager.inst.select) {
 					pause();
+				} else if (InputManager.inst.back) {
+					mainMenu();
 				}
 				break;
 
 			case GameState.GameOver:
-				if (InputManager.inst.middleClick) {
+				if (InputManager.inst.select) {
 					Submit();
-				} else if (InputManager.inst.leftClick) {
-					if (_currentLetter > 0) {
-						_currentLetter--;
-						findCharacterIndex();
-					}
-				} else if (InputManager.inst.rightClick) {
-					if (_currentLetter < 2) {
-						_currentLetter++;
-						findCharacterIndex();
-					}
-				} else if (InputManager.inst.upClick) {
-					_currentCharacter++;
-					if (_currentCharacter == CHARACTERS.Length)
-						_currentCharacter = 0;
-				} else if (InputManager.inst.downClick) {
-					_currentCharacter--;
-					if (_currentCharacter < 0)
-						_currentCharacter = CHARACTERS.Length - 1;
+				} else if (InputManager.inst.left) {
+					UIManager.inst.updateLetter(-1);
+				} else if (InputManager.inst.right) {
+					UIManager.inst.updateLetter(1);
+				} else if (InputManager.inst.up) {
+					UIManager.inst.updateCharacter(1);
+				} else if (InputManager.inst.down) {
+					UIManager.inst.updateCharacter(-1);
+				} else if (InputManager.inst.back) {
+					mainMenu();
 				}
 				break;
 
 			case GameState.Leaderboar:
-				if (InputManager.inst.middleClick) {
-					NewGame();
+				if (InputManager.inst.select) {
+					StartGame();
+				} else if (InputManager.inst.back) {
+					mainMenu();
 				}
 				break;
+
 			default:
+				Debug.LogWarning("Unhandled game state " + _state);
 				break;
 		}
 	}
 
+	void reset() {
+		Player.instance.Reset();
+		Track.inst.reset();
+		_isPaused = false;
+	}
+
+	void mainMenu() {
+		reset();
+
+		if (_music == null || state == GameState.InGame) {
+			_isPlayingIntro = false;
+			switchMusic("Main Menu Music", true);
+		}
+
+		setState(GameState.Start);
+	}
+
 	void Awake()
     {
-        inst = this;
+		UnityEngine.Assertions.Assert.IsNull(inst, "There can be only one!");
+		inst = this;
 
 		_leaderboard = dreamloLeaderBoard.GetSceneDreamloLeaderboard();
 		Player.onPlayerDied += onPlayerDeid;
@@ -124,166 +105,103 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        Track.inst.spawnEnabled = false;
-		switchMusic("Main Menu Music", true);
-		setState(GameState.Start);
+		mainMenu();
 	}
 
     void Update () {
 		handleInput();
 
-		if (_state == GameState.GameOver) {
-			bool blink = (Time.time % 1) < 0.5f;
-			for (int i = 0; i < initials.Length; i++) {
-				if (i == _currentLetter) {
-					initials[i].text = CHARACTERS[_currentCharacter].ToString();
-					initials[i].color = blink ? color1 : color2;
-				} else {
-					initials[i].color = color1;
-				}
-			}
-		}
-
-		if (_isPlayingIntro && _music.isPlaying == false) {
+		if (_isPaused == false && _isPlayingIntro && _music.isPlaying == false) {
 			_isPlayingIntro = false;
 			switchMusic("Game Music Loop", true);
 		}
 	}
 
 	int _finalScore = 0;
+	int _finalDuraton = 0;
+	bool isPersonalBest = false;
 	void onPlayerDeid() {
 		_finalScore = (int)Player.instance.distance;
-		_currentLetter = 0;
-		_currentCharacter = 0;
+		_finalDuraton = (int)Player.instance.duration;
 
-		gameOverScoreText.text = "Distance: " + _finalScore;
+		int bestScore = PlayerPrefs.GetInt("Best_Score", 0);
+		isPersonalBest = bestScore < _finalScore;
+		UIManager.inst.personalBest.SetActive(isPersonalBest);
+		if (isPersonalBest) {
+			PlayerPrefs.SetInt("Best_Score", _finalScore);
+		}
+		Debug.LogFormat("Final score:{0}, best:{1}", _finalScore, bestScore);
+
+		UIManager.inst.gameOverScoreText.text = "Distance: " + _finalScore;
 		setState(GameState.GameOver);
+		AudioManager.inst.stopAllSounds();
 		switchMusic("Main Menu Music", true);
 	}
 
     public void StartGame()
     {
 		setState(GameState.InGame);
-
-		Player.instance.Reset();
-        Track.inst.spawnEnabled = true;
-
+		reset();
+		
 		_isPlayingIntro = true;
 		switchMusic("Game Music Intro", false);
 	}
 
-    public void NewGame()
-    {
-		setState(GameState.InGame);
-
-        Player.instance.Reset();
-		Track.inst.reset();
-
-		switchMusic("Game Music Intro", false);
-	}
-
 	string _playerUniqueName;
+	string _playerInitials;
+	int _playerPlace = -1;
 	public void Submit() {
-		string playerInitials = "" + initials[0] + initials[1] + initials[2];
-		_playerUniqueName = playerInitials + Random.Range(1, 999999);
-		_leaderboard.AddScore(_playerUniqueName, _finalScore);
-		StartCoroutine(showLeaderboard());
+		_playerInitials = UIManager.inst.getInitials();
+		_playerUniqueName = SystemInfo.deviceUniqueIdentifier;
+		_leaderboard.AddScore(_playerUniqueName, _finalScore, _finalDuraton, _playerInitials);
+
+		UIManager.inst.showLoadingLeaderboards();
+		setState(GameState.Leaderboar);
+
+		StartCoroutine(downloadLeaderboard());
 	}
 
-	IEnumerator showLeaderboard() {
+	IEnumerator downloadLeaderboard() {
 		_scoreList = null;
-
-		leaderboardIndexs.text = "\n\n\nLoading...";
-		leaderboardInitials.text = "";
-		leaderboardScores.text = "";
-
-		setState(GameState.Leaderboar);
 
 		const float TIME_OUT = 10;
 		float time = 0;
 		while (_scoreList == null || _scoreList.Count == 0) {
-			yield return null;
 			_scoreList = _leaderboard.ToListHighToLow();
 			time += Time.deltaTime;
 			if (time > TIME_OUT) {
 				Debug.LogWarning("Time out!");
 				break;
 			}
+			yield return null;
 		}
 
-		if (_scoreList.Count == 0) {
-			leaderboardIndexs.text = "";
-			leaderboardInitials.text = "";
-			leaderboardScores.text = "";
-			yield break;
-		}
+		_playerPlace = findPlayerPlace();
+		Debug.LogFormat("Player placed {0} out of {1}", _playerPlace + 1, _scoreList.Count);
 
-		const int NUM_ENTRIES = 10;
-		int place = -1;
+		UIManager.inst.showLeaderboard(
+			_playerUniqueName,
+			_playerInitials,
+			_finalScore,
+			_playerPlace, 
+			_scoreList);
+	}
+
+	int findPlayerPlace() {
 		for (int i = 0; i < _scoreList.Count; i++) {
 			dreamloLeaderBoard.Score item = _scoreList[i];
 			if (item.playerName.Equals(_playerUniqueName)) {
-				place = i;
-				break;
+				return i;
 			}
 		}
-
-		string indexes = "";
-		string initials = "";
-		string scores = "";
-
-		const string PREFIX = "<color=#00C2A2FF>";
-		const string SUFFIX = "</color>";
-
-		int n = Mathf.Min(NUM_ENTRIES, _scoreList.Count);
-		if (place >= NUM_ENTRIES) {
-			n -= 3;
-		}
-
-		for (int i = 0; i < n; i++) {
-			dreamloLeaderBoard.Score item = _scoreList[i];
-
-			string playerName = item.playerName;
-			if (playerName.Length > 3)
-				playerName = playerName.Substring(0, 3);
-
-			int score = item.score;
-
-			string prefix = place == i ? PREFIX : "";
-			string suffix = place == i ? SUFFIX : "";
-
-			indexes +=	prefix + (i + 1) +		suffix + "\n";
-			initials +=	prefix + playerName +	suffix + "\n";
-			scores +=	prefix + score +		suffix + "\n";
-		}
-
-		if (place >= NUM_ENTRIES) {
-			for (int i = place - 1; i < place + 2; i++) {
-				dreamloLeaderBoard.Score item = _scoreList[i];
-
-				string playerName = item.playerName;
-				if (playerName.Length > 3)
-					playerName = playerName.Substring(0, 3);
-
-				int score = item.score;
-
-				string prefix = place == i ? PREFIX : "";
-				string suffix = place == i ? SUFFIX : "";
-
-				indexes +=	prefix + (i + 1) +		suffix + "\n";
-				initials += prefix + playerName +	suffix + "\n";
-				scores +=	prefix + score +		suffix + "\n";
-			}
-		}
-
-		leaderboardIndexs.text = indexes;
-		leaderboardInitials.text = initials;
-		leaderboardScores.text = scores;
+		return -1;
 	}
 
 	bool _isPaused = false;
 	void pause() {
 		_isPaused = !_isPaused;
+		AudioManager.inst.pauseAllSounds(_isPaused);
+		UIManager.inst.pause.gameObject.SetActive(_isPaused);
 		Time.timeScale = _isPaused ? 0 : 1;
 	}
 }

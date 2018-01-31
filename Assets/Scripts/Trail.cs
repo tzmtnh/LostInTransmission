@@ -25,6 +25,8 @@ public class Trail : MonoBehaviour {
 	}
 
 	void Update() {
+		if (Time.timeScale == 0)  return;
+
 		const float NOISE = 0.03f;
 		Vector3 offset = new Vector3(0, 0, Time.deltaTime * Player.instance.speed * Random.Range(1f, 2f));
 		for (int i = historySize - 1; i >= 1; i--) {
