@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -60,6 +61,7 @@ public class AudioManager : MonoBehaviour {
 		return source;
 	}
 
+	/*
 	public void stopAllSounds() {
 		foreach (AudioSource source in _activeSources) {
 			source.Stop();
@@ -68,6 +70,7 @@ public class AudioManager : MonoBehaviour {
 		}
 		_activeSources.Clear();
 	}
+	*/
 
 	public void pauseAllSounds(bool pause) {
 		foreach (AudioSource source in _activeSources) {

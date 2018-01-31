@@ -14,6 +14,12 @@ public class InputManager : MonoBehaviour {
 	public bool down { get; private set; }
 	public bool back { get; private set; }
 
+	public Vector2 touchStartPos { get; private set; }
+	public Vector2 touchPos { get; private set; }
+	public bool touchBegan { get; private set; }
+	public bool touchInProgress { get; private set; }
+	public bool touchEnded { get; private set; }
+
 	void Awake() {
 		Assert.IsNull(inst, "There can be only one!");
 		inst = this;
@@ -26,6 +32,9 @@ public class InputManager : MonoBehaviour {
 		up = false;
 		down = false;
 		back = false;
+
+		touchBegan = false;
+		touchEnded = false;
 
 		// handle keyboard keys
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
@@ -44,14 +53,32 @@ public class InputManager : MonoBehaviour {
 		// handle mobile touch
 		if (Input.touchCount > 0) {
 			Touch touch0 = Input.touches[0];
+			Vector2 pos = touch0.position;
+			pos.x /= Screen.width;
+			pos.y /= Screen.height;
+			touchPos = pos;
 
-			if (touch0.phase == TouchPhase.Began) {
-				float x = touch0.position.x / Screen.width;
-				const float SIDE_THRESH = 0.3f;
+			switch (touch0.phase) {
+				case TouchPhase.Began:
+					float x = touch0.position.x / Screen.width;
+					const float SIDE_THRESH = 0.3f;
 
-				left = x < SIDE_THRESH;
-				right = 1f - x < SIDE_THRESH;
-				select = !left && !right;
+					left = x < SIDE_THRESH;
+					right = 1f - x < SIDE_THRESH;
+					select = !left && !right;
+
+					touchBegan = true;
+					touchInProgress = true;
+					touchStartPos = pos;
+					break;
+
+				case TouchPhase.Moved:
+					break;
+
+				case TouchPhase.Ended:
+					touchEnded = true;
+					touchInProgress = false;
+					break;
 			}
 		}
 	}

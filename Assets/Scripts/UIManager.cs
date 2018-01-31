@@ -31,6 +31,9 @@ public class UIManager : MonoBehaviour {
 	[System.NonSerialized] public GameObject personalBest;
 	[System.NonSerialized] public Text[] initials;
 
+	[System.NonSerialized] public GameObject warning;
+	[System.NonSerialized] public GameObject critical;
+
 	Camera _camera;
 	Camera _uiCamera;
 	Canvas _canvas;
@@ -79,12 +82,37 @@ public class UIManager : MonoBehaviour {
 		findCharacterIndex();
 	}
 
+	int _touchBaseCharacter;
+	public void getLetterFromTouch() {
+		InputManager input = InputManager.inst;
+		if (input.touchBegan == false) return;
+
+		if (input.touchStartPos.x > 0.6f)
+			_currentLetter = 2;
+		else if (input.touchStartPos.x > 0.4f)
+			_currentLetter = 1;
+		else
+			_currentLetter = 0;
+
+		findCharacterIndex();
+		_touchBaseCharacter = _currentCharacter;
+	}
+
+	public void updateCharacterFromTouch() {
+		InputManager input = InputManager.inst;
+		if (input.touchInProgress == false) return;
+
+		const float SPEED = 20;
+		Vector2 delta = input.touchPos - input.touchStartPos;
+		_currentCharacter = _touchBaseCharacter;
+		updateCharacter(Mathf.FloorToInt(delta.y * SPEED));
+	}
+
 	public void updateCharacter(int delta) {
 		_currentCharacter += delta;
-		if (_currentCharacter == CHARACTERS.Length)
-			_currentCharacter = 0;
-		else if (_currentCharacter < 0)
-			_currentCharacter = CHARACTERS.Length - 1;
+		_currentCharacter = _currentCharacter % CHARACTERS.Length;
+		if (_currentCharacter < 0)
+			_currentCharacter += CHARACTERS.Length;
 	}
 
 	public void updateInitials() {
@@ -165,9 +193,6 @@ public class UIManager : MonoBehaviour {
 	}
 
 	Vector2 _lastScreenSize;
-	float _commandBoxX;
-	float _receiverX;
-	float _distanceX;
 	void updatePositions() {
 		float w = Screen.width;
 		float h = Screen.height;
@@ -185,10 +210,11 @@ public class UIManager : MonoBehaviour {
 			_uiCamera.rect = _camera.rect;
 		}
 
+		const float PAD = 0.08f;
 		float scale = 1f / _canvas.scaleFactor;
-		setX(commandBox, width * scale * _commandBoxX / wantedWidth);
-		setX(receiver, width * scale * _receiverX / wantedWidth);
-		setX(distance, width * scale * _distanceX / wantedWidth);
+		setX(commandBox, -width * scale * (1f - PAD) / 2f);
+		setX(receiver, width * scale * (1f - PAD) / 2f);
+		setX(distance, -width * scale * (1f - PAD) / 2f);
 
 		_logo.sizeDelta = _logoSize * Mathf.Min(1, w / wantedWidth);
 		_gameOverText.sizeDelta = new Vector2(_gameOverSize.x * Mathf.Min(1, w / wantedWidth), _gameOverSize.y);
@@ -210,9 +236,8 @@ public class UIManager : MonoBehaviour {
 		distance = hudUI.transform.Find("Distance") as RectTransform;
 		pause = hudUI.transform.Find("Pause").gameObject;
 
-		_commandBoxX = commandBox.localPosition.x;
-		_receiverX = receiver.localPosition.x;
-		_distanceX = distance.localPosition.x;
+		warning = hudUI.transform.Find("Warning").gameObject;
+		critical = hudUI.transform.Find("Critical").gameObject;
 
 		personalBest = gameOverUI.transform.Find("Personal Best").gameObject;
 		_gameOverText = gameOverUI.transform.Find("GameOver") as RectTransform;

@@ -11,14 +11,14 @@ public class GameManager : MonoBehaviour {
 	GameState _state = GameState.Start;
 	public GameState state { get { return _state; } }
 
-	bool _isPlayingIntro = false;
-	AudioSource _music;
+	AudioSource _music = null;
+	Coroutine _playLoopCo = null;
 
 	dreamloLeaderBoard _leaderboard;
 	List<dreamloLeaderBoard.Score> _scoreList;
 
     void switchMusic(string name, bool loop) {
-		if (_music != null && _music.isPlaying) {
+		if (_music != null) {
 			AudioManager.inst.stopSound(_music);
 		}
 		_music = AudioManager.inst.playSound(name, loop: loop);
@@ -30,43 +30,54 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void handleInput() {
+		InputManager input = InputManager.inst;
+		UIManager ui = UIManager.inst;
+
 		switch (_state) {
 			case GameState.Start:
-				if (InputManager.inst.select) {
+				if (input.select) {
 					StartGame();
-				} else if (InputManager.inst.back) {
+				} else if (input.back) {
 					Application.Quit();
 				}
 				break;
 
 			case GameState.InGame:
-				if (InputManager.inst.select) {
+				if (input.select) {
 					pause();
-				} else if (InputManager.inst.back) {
+				} else if (input.back) {
 					mainMenu();
 				}
 				break;
 
 			case GameState.GameOver:
-				if (InputManager.inst.select) {
-					Submit();
-				} else if (InputManager.inst.left) {
-					UIManager.inst.updateLetter(-1);
-				} else if (InputManager.inst.right) {
-					UIManager.inst.updateLetter(1);
-				} else if (InputManager.inst.up) {
-					UIManager.inst.updateCharacter(1);
-				} else if (InputManager.inst.down) {
-					UIManager.inst.updateCharacter(-1);
-				} else if (InputManager.inst.back) {
-					mainMenu();
+				if (Application.isMobilePlatform) {
+					if (input.touchBegan) {
+						ui.getLetterFromTouch();
+					} else if (input.touchInProgress) {
+						ui.updateCharacterFromTouch();
+					}
+				} else {
+					if (input.select) {
+						Submit();
+					} else if (input.left) {
+						ui.updateLetter(-1);
+					} else if (input.right) {
+						ui.updateLetter(1);
+					} else if (input.up) {
+						ui.updateCharacter(1);
+					} else if (input.down) {
+						ui.updateCharacter(-1);
+					} else if (input.back) {
+						mainMenu();
+					}
 				}
 				break;
 
 			case GameState.Leaderboar:
-				if (InputManager.inst.select) {
+				if (input.select) {
 					StartGame();
-				} else if (InputManager.inst.back) {
+				} else if (input.back) {
 					mainMenu();
 				}
 				break;
@@ -81,40 +92,18 @@ public class GameManager : MonoBehaviour {
 		Player.instance.Reset();
 		Track.inst.reset();
 		_isPaused = false;
+
+		if (_playLoopCo != null) {
+			StopCoroutine(_playLoopCo);
+			AudioManager.inst.stopSound(_music);
+			_music = null;
+		}
 	}
 
 	void mainMenu() {
 		reset();
-
-		if (_music == null || state == GameState.InGame) {
-			_isPlayingIntro = false;
-			switchMusic("Main Menu Music", true);
-		}
-
+		switchMusic("Main Menu Music", true);
 		setState(GameState.Start);
-	}
-
-	void Awake()
-    {
-		UnityEngine.Assertions.Assert.IsNull(inst, "There can be only one!");
-		inst = this;
-
-		_leaderboard = dreamloLeaderBoard.GetSceneDreamloLeaderboard();
-		Player.onPlayerDied += onPlayerDeid;
-	}
-
-    void Start()
-    {
-		mainMenu();
-	}
-
-    void Update () {
-		handleInput();
-
-		if (_isPaused == false && _isPlayingIntro && _music.isPlaying == false) {
-			_isPlayingIntro = false;
-			switchMusic("Game Music Loop", true);
-		}
 	}
 
 	int _finalScore = 0;
@@ -134,17 +123,20 @@ public class GameManager : MonoBehaviour {
 
 		UIManager.inst.gameOverScoreText.text = "Distance: " + _finalScore;
 		setState(GameState.GameOver);
-		AudioManager.inst.stopAllSounds();
 		switchMusic("Main Menu Music", true);
 	}
 
-    public void StartGame()
-    {
+    public void StartGame() {
 		setState(GameState.InGame);
 		reset();
-		
-		_isPlayingIntro = true;
+		_playLoopCo = StartCoroutine(playGameMusicCo());
+	}
+
+	IEnumerator playGameMusicCo() {
 		switchMusic("Game Music Intro", false);
+		yield return new WaitForSeconds(_music.clip.length);
+		switchMusic("Game Music Loop", true);
+		_playLoopCo = null;
 	}
 
 	string _playerUniqueName;
@@ -197,11 +189,68 @@ public class GameManager : MonoBehaviour {
 		return -1;
 	}
 
+	AudioSource _damageSource = null;
+	void updateWarnings() {
+		bool isDamaged = true;
+		int health = Player.instance.currentHealth;
+
+		if (Player.instance.isAlive == false)
+			isDamaged = false;
+		else if (health == Player.instance.maxHealth)
+			isDamaged = false;
+
+		bool showWarning = false;
+		bool showCritical = false;
+
+		if (isDamaged) {
+			if (health == 1) {
+				const float FREQUENCY = 0.5f;
+				showCritical = Time.time / FREQUENCY % 1f > 0.5f;
+			} else {
+				const float FREQUENCY = 1f;
+				showWarning = Time.time / FREQUENCY % 1f > 0.5f;
+			}
+
+			if (showCritical && _damageSource == null) {
+				_damageSource = AudioManager.inst.playSound("Damage", loop: true);
+				_damageSource.volume = 0.3f;
+				_damageSource.pitch = 2;
+			}
+		}
+
+		if (showCritical == false && _damageSource != null) {
+			AudioManager.inst.stopSound(_damageSource);
+			_damageSource = null;
+		}
+
+		if (UIManager.inst.warning.activeSelf != showWarning)
+			UIManager.inst.warning.SetActive(showWarning);
+		if (UIManager.inst.critical.activeSelf != showCritical)
+			UIManager.inst.critical.SetActive(showCritical);
+	}
+
 	bool _isPaused = false;
 	void pause() {
 		_isPaused = !_isPaused;
 		AudioManager.inst.pauseAllSounds(_isPaused);
 		UIManager.inst.pause.gameObject.SetActive(_isPaused);
 		Time.timeScale = _isPaused ? 0 : 1;
+	}
+
+	void Awake() {
+		UnityEngine.Assertions.Assert.IsNull(inst, "There can be only one!");
+		inst = this;
+
+		_leaderboard = dreamloLeaderBoard.GetSceneDreamloLeaderboard();
+		Player.onPlayerDied += onPlayerDeid;
+	}
+
+	void Start() {
+		mainMenu();
+	}
+
+	void Update() {
+		handleInput();
+		updateWarnings();
 	}
 }

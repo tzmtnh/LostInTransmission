@@ -9,9 +9,6 @@ public class CameraControl : MonoBehaviour {
 
 	public static CameraControl inst;
 
-	public GameObject warning;
-	public GameObject critical;
-
 	Transform _transform;
 	Camera _camera;
 
@@ -19,7 +16,6 @@ public class CameraControl : MonoBehaviour {
 	float _defaultFOV;
 
 	Coroutine _co = null;
-	AudioSource _damageSource = null;
 
 	public void shake(float duration) {
 		if (_co != null) {
@@ -69,49 +65,8 @@ public class CameraControl : MonoBehaviour {
 		_camera.fieldOfView = beta * Mathf.Rad2Deg * 2f;
 	}
 
-	void updateWarnings() {
-		bool isDamaged = true;
-		int health = Player.instance.currentHealth;
-
-		if (Player.instance.isAlive == false)
-			isDamaged = false;
-		else if (health == Player.instance.maxHealth)
-			isDamaged = false;
-
-		bool showWarning = false;
-		bool showCritical = false;
-
-		if (isDamaged) {
-			if (health == 1) {
-				const float FREQUENCY = 0.5f;
-				showCritical = Time.time / FREQUENCY % 1f > 0.5f;
-			} else {
-				const float FREQUENCY = 1f;
-				showWarning = Time.time / FREQUENCY % 1f > 0.5f;
-			}
-
-			if (showCritical && _damageSource == null) {
-				_damageSource = AudioManager.inst.playSound("Damage", loop: true);
-				_damageSource.volume = 0.3f;
-				_damageSource.pitch = 2;
-			}
-		}
-
-		if (showCritical == false && _damageSource != null) {
-			AudioManager.inst.stopSound(_damageSource);
-			_damageSource = null;
-		}
-
-		if (warning.activeSelf != showWarning)
-			warning.SetActive(showWarning);
-		if (critical.activeSelf != showCritical)
-			critical.SetActive(showCritical);
-	}
-
 	void Update() {
 		if (GameManager.inst.state != GameManager.GameState.InGame)  return;
-
 		updateFOV();
-		updateWarnings();
 	}
 }
