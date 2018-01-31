@@ -9,8 +9,8 @@ public class CameraControl : MonoBehaviour {
 
 	public static CameraControl inst;
 
-	private GameObject _warning;
-	private GameObject _critical;
+	public GameObject warning;
+	public GameObject critical;
 
 	Transform _transform;
 	Camera _camera;
@@ -55,9 +55,6 @@ public class CameraControl : MonoBehaviour {
 
 		_origin = _transform.localPosition;
 		_defaultFOV = _camera.fieldOfView;
-
-        _warning = GameObject.Find("Warning");
-        _critical = GameObject.Find("Critical");
 	}
 
 	void updateFOV() {
@@ -105,13 +102,15 @@ public class CameraControl : MonoBehaviour {
 			_damageSource = null;
 		}
 
-		if (_warning.activeSelf != showWarning)
-			_warning.SetActive(showWarning);
-		if (_critical.activeSelf != showCritical)
-			_critical.SetActive(showCritical);
+		if (warning.activeSelf != showWarning)
+			warning.SetActive(showWarning);
+		if (critical.activeSelf != showCritical)
+			critical.SetActive(showCritical);
 	}
 
 	void Update() {
+		if (GameManager.inst.state != GameManager.GameState.InGame)  return;
+
 		updateFOV();
 		updateWarnings();
 	}

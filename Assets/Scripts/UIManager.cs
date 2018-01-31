@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour {
 
 		if (Application.isMobilePlatform == false)
 			_camera.rect = new Rect(x / w, 0, width / w, 1);
-
+		return;
 		setX(commandBox, x + width * commandPadding);
 		setX(receiver, x + width - width * commandPadding);
 		setX(distance, x + width * distPadding);
