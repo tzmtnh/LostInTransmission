@@ -140,12 +140,12 @@ public class UIManager : MonoBehaviour {
 		_leaderboardScores.text = "";
 	}
 
-	public void showLeaderboard(string playerUniqueName, string playerInitials, int finalScore, int place, List<dreamloLeaderBoard.Score> scoreList) {
+	public bool showLeaderboard(string playerUniqueName, string playerInitials, int finalScore, int place, List<dreamloLeaderBoard.Score> scoreList) {
 		if (scoreList.Count == 0) {
 			_leaderboardIndexs.text = "";
 			_leaderboardInitials.text = "";
 			_leaderboardScores.text = "";
-			return;
+			return false;
 		}
 
 		string indexes = "";
@@ -156,6 +156,7 @@ public class UIManager : MonoBehaviour {
 		string PREFIX = "<color=#" + ColorUtility.ToHtmlStringRGBA(color2) + ">";
 		const string SUFFIX = "</color>";
 
+		bool scoreUpdated = true;
 		int n = Mathf.Min(NUM_ENTRIES, scoreList.Count);
 		for (int i = 0; i < n; i++) {
 			int j = i;
@@ -168,9 +169,8 @@ public class UIManager : MonoBehaviour {
 			string playerName = item.shortText;
 			int score = item.score;
 			// we make sure we show the new result
-			if (j == place && score < finalScore) {
-				score = finalScore;
-				playerName = playerInitials;
+			if (j == place && score <= finalScore) {
+				scoreUpdated = false;
 			}
 
 			string prefix = place == j ? PREFIX : "";
@@ -184,6 +184,8 @@ public class UIManager : MonoBehaviour {
 		_leaderboardIndexs.text = indexes;
 		_leaderboardInitials.text = initials;
 		_leaderboardScores.text = scores;
+
+		return scoreUpdated;
 	}
 
 	void setX(RectTransform t, float x) {
@@ -246,10 +248,15 @@ public class UIManager : MonoBehaviour {
 		_gameOverSize = _gameOverText.sizeDelta;
 		gameOverScoreText = gameOverUI.transform.Find("Score").GetComponent<Text>();
 
+		string lastPlayerInitials = PlayerPrefs.GetString("PlayerInitials", "AAA");
 		initials = new Text[3];
 		initials[0] = gameOverUI.transform.Find("A").GetComponent<Text>();
 		initials[1] = gameOverUI.transform.Find("B").GetComponent<Text>();
 		initials[2] = gameOverUI.transform.Find("C").GetComponent<Text>();
+
+		for (int i = 0; i < initials.Length; i++) {
+			initials[i].text = lastPlayerInitials[i].ToString();
+		}
 
 		_leaderboardIndexs = leaderboardUI.transform.Find("Indexes").GetComponent<Text>();
 		_leaderboardInitials = leaderboardUI.transform.Find("Initials").GetComponent<Text>();

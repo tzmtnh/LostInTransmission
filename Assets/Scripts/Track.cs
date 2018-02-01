@@ -194,6 +194,7 @@ public class Track : MonoBehaviour {
 		_lastSpawnTime = Time.time;
 		_lastLane = 0;
 		_numAstroidsSinceLastPU = 0;
+		_powerupIndex = 0;
 		//_timeAtLastJump = _lastSpawnTime;
 
 		foreach (Hitable hitable in _hitables) {

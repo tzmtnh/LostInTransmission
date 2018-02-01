@@ -315,5 +315,8 @@ public class Player : MonoBehaviour {
 		shipContainer.SetActive(true);
         ResetToMiddleLane();
         SetTexture(this.currentHealth);
-    }
+
+		transform.position = targetPosition;
+		transform.rotation = Quaternion.AngleAxis(0, Vector3.forward);
+	}
 }

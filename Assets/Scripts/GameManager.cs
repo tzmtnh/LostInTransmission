@@ -46,7 +46,10 @@ public class GameManager : MonoBehaviour {
 				if (input.select) {
 					pause();
 				} else if (input.back) {
-					mainMenu();
+					if (_isPaused)
+						mainMenu();
+					else
+						pause();
 				}
 				break;
 
@@ -141,9 +144,9 @@ public class GameManager : MonoBehaviour {
 
 	string _playerUniqueName;
 	string _playerInitials;
-	int _playerPlace = -1;
 	public void Submit() {
 		_playerInitials = UIManager.inst.getInitials();
+		PlayerPrefs.SetString("PlayerInitials", _playerInitials);
 
 		//_playerUniqueName = SystemInfo.deviceUniqueIdentifier;
 		// this doesn't work in some case
@@ -161,33 +164,30 @@ public class GameManager : MonoBehaviour {
 		UIManager.inst.showLoadingLeaderboards();
 		setState(GameState.Leaderboar);
 
-		StartCoroutine(downloadLeaderboard());
+		StartCoroutine(updateLeaderboardCo());
 	}
 
-	IEnumerator downloadLeaderboard() {
+	IEnumerator updateLeaderboardCo() {
 		_scoreList = null;
 
-		const float TIME_OUT = 10;
-		float time = 0;
-		while (_scoreList == null || _scoreList.Count == 0) {
+		WaitForSeconds waitForSec = new WaitForSeconds(0.1f);
+		bool scoreUpdated = false;
+		while (state == GameState.Leaderboar && scoreUpdated == false) {
 			_scoreList = _leaderboard.ToListHighToLow();
-			time += Time.deltaTime;
-			if (time > TIME_OUT) {
-				Debug.LogWarning("Time out!");
-				break;
+
+			if (_scoreList != null) {
+				int playerPlace = findPlayerPlace();
+
+				scoreUpdated = UIManager.inst.showLeaderboard(
+					_playerUniqueName,
+					_playerInitials,
+					_finalScore,
+					playerPlace,
+					_scoreList);
 			}
-			yield return null;
+
+			yield return waitForSec;
 		}
-
-		_playerPlace = findPlayerPlace();
-		Debug.LogFormat("Player placed {0} out of {1}", _playerPlace + 1, _scoreList.Count);
-
-		UIManager.inst.showLeaderboard(
-			_playerUniqueName,
-			_playerInitials,
-			_finalScore,
-			_playerPlace, 
-			_scoreList);
 	}
 
 	int findPlayerPlace() {
