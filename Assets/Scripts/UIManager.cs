@@ -205,13 +205,15 @@ public class UIManager : MonoBehaviour {
 		float width = Mathf.Min(w, wantedWidth);
 		float x = (w - width) / 2f;
 
+		// crop view so we see black bars on the sides
 		if (Application.isMobilePlatform == false) {
 			_camera.rect = new Rect(x / w, 0, width / w, 1);
 			_uiCamera.rect = _camera.rect;
 		}
 
 		const float PAD = 0.08f;
-		float scale = 1f / _canvas.scaleFactor;
+		float scale = 1f / Mathf.Max(0.001f, _canvas.scaleFactor);
+
 		setX(commandBox, -width * scale * (1f - PAD) / 2f);
 		setX(receiver, width * scale * (1f - PAD) / 2f);
 		setX(distance, -width * scale * (1f - PAD) / 2f);
@@ -254,7 +256,7 @@ public class UIManager : MonoBehaviour {
 		_leaderboardScores = leaderboardUI.transform.Find("Scores").GetComponent<Text>();
 	}
 
-	void Update() {
+	void LateUpdate() {
 		updatePositions();
 		updateInitials();
 	}

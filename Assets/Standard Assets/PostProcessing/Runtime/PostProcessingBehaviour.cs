@@ -273,8 +273,6 @@ namespace UnityEngine.PostProcessing
                     if (!GraphicsUtils.isLinearColorSpace)
                         uberMaterial.EnableKeyword("UNITY_COLORSPACE_GAMMA");
 
-					if (dst != null)
-						dst.DiscardContents();
 					Graphics.Blit(src, dst, uberMaterial, 0);
                 }
             }

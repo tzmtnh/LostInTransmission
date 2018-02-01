@@ -579,8 +579,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7199801f1061fd4296f979e64219b33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warning: {fileID: 0}
-  critical: {fileID: 0}
 --- !u!114 &114954657305290944
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -592,7 +590,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f2f109ba03a834183fe0a4baf56e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnEnabled: 0
   spawnChance: 2
   spawnMinGap: 0.2
   spawnMaxGap: 2
