@@ -144,7 +144,18 @@ public class GameManager : MonoBehaviour {
 	int _playerPlace = -1;
 	public void Submit() {
 		_playerInitials = UIManager.inst.getInitials();
-		_playerUniqueName = SystemInfo.deviceUniqueIdentifier;
+
+		//_playerUniqueName = SystemInfo.deviceUniqueIdentifier;
+		// this doesn't work in some case
+		// for example, in WebGL it generates NA as the identifier
+		// this is why we do this
+		if (PlayerPrefs.HasKey("UniqueIdentifier")) {
+			_playerUniqueName = PlayerPrefs.GetString("UniqueIdentifier");
+		} else {
+			_playerUniqueName = System.Guid.NewGuid().ToString();
+			PlayerPrefs.SetString("UniqueIdentifier", _playerUniqueName);
+		}
+
 		_leaderboard.AddScore(_playerUniqueName, _finalScore, _finalDuraton, _playerInitials);
 
 		UIManager.inst.showLoadingLeaderboards();
