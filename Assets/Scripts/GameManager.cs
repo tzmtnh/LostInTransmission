@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour {
 	GameState _state = GameState.Start;
 	public GameState state { get { return _state; } }
 
+	[Tooltip("Leave empty to not have a filter")]
+	public string leaderboardFilter = "";
+
 	AudioSource _music = null;
 	Coroutine _playLoopCo = null;
 
@@ -159,7 +162,13 @@ public class GameManager : MonoBehaviour {
 			PlayerPrefs.SetString("UniqueIdentifier", _playerUniqueName);
 		}
 
-		_leaderboard.AddScore(_playerUniqueName, _finalScore, _finalDuraton, _playerInitials);
+		string playerName;
+		if (leaderboardFilter.Length > 0) {
+			playerName = leaderboardFilter + "_" + _playerInitials + "_" + _playerUniqueName;
+		} else {
+			playerName = _playerUniqueName;
+		}
+		_leaderboard.AddScore(playerName, _finalScore, _finalDuraton, _playerInitials);
 
 		UIManager.inst.showLoadingLeaderboards();
 		setState(GameState.Leaderboar);
