@@ -39,7 +39,7 @@ public class VisualizeCommands : MonoBehaviour {
         
 		_distance = transform.Find("Distance").GetComponent<Text>();
 		_waves = transform.Find("Waves").GetComponent<Image>();
-		_waves.material.hideFlags = HideFlags.DontSave;
+		_waves.material = new Material(_waves.material);
 	}
 
 	void OnDestroy()

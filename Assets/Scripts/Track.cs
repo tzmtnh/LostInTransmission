@@ -14,7 +14,8 @@ public class Track : MonoBehaviour {
 	public static Track inst;
 
 	public float spawnChance = 2;
-	public float spawnMinGap = 0.1f;
+	public float spawnMinGap = 0.2f;
+	public float spawnSecondaryGap = 0.6f;
 	public float spawnMaxGap = 3;
 	public int spawnPUEvry = 20;
 	public float laneWidth = 1;
@@ -28,6 +29,7 @@ public class Track : MonoBehaviour {
 	float _traveledDistance = 0;
 	float _traveledDistanceDelta = 0;
 	float _lastSpawnTime = 0;
+	float _lastSpawnTime2 = 0;
 
 	Transform _lane1;
 	Transform _lane2;
@@ -76,6 +78,7 @@ public class Track : MonoBehaviour {
 
 	int _powerupIndex = 0;
 	void spawnNext() {
+		_lastSpawnTime2 = _lastSpawnTime;
 		_lastSpawnTime = Time.time;
 		Hitable prefab = astroidPrefab;
 
@@ -128,8 +131,9 @@ public class Track : MonoBehaviour {
 	void updateEnemies() {
 		if (GameManager.inst.state == GameManager.GameState.InGame) {
 			float timeSinceLastSpawn = Time.time - _lastSpawnTime;
+			float timeSincePrevSpawn = Time.time - _lastSpawnTime2;
 			// make sure we don't spawn too much
-			bool needToSpawn = timeSinceLastSpawn >= spawnMinGap;
+			bool needToSpawn = timeSinceLastSpawn >= spawnMinGap && timeSincePrevSpawn >= spawnSecondaryGap;
 			if (needToSpawn) {
 				// make sure we spawn too sparsly
 				needToSpawn = timeSinceLastSpawn >= spawnMaxGap;
@@ -192,6 +196,7 @@ public class Track : MonoBehaviour {
 		_traveledDistance = 0;
 		_traveledDistanceDelta = 0;
 		_lastSpawnTime = Time.time;
+		_lastSpawnTime2 = _lastSpawnTime;
 		_lastLane = 0;
 		_numAstroidsSinceLastPU = 0;
 		_powerupIndex = 0;
