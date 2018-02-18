@@ -3,7 +3,7 @@
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
-  m_ObjectHideFlags: 52
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Waves
@@ -61,8 +61,8 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _Delay: 0.25965014
-    - _DelayIntegral: 195.36568
+    - _Delay: 0.033966135
+    - _DelayIntegral: 33.966137
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1

@@ -54,6 +54,13 @@ public class GameManager : MonoBehaviour {
 					else
 						pause();
 				}
+
+				if (_isPaused) {
+					if (input.left || input.right) {
+						pause();
+					}
+				}
+
 				break;
 
 			case GameState.GameOver:
