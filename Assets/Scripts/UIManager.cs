@@ -157,14 +157,20 @@ public class UIManager : MonoBehaviour {
 		const string SUFFIX = "</color>";
 
 		bool scoreUpdated = true;
-		int n = Mathf.Min(NUM_ENTRIES, scoreList.Count);
-		for (int i = 0; i < n; i++) {
-			int j = i;
-			if (place >= NUM_ENTRIES && i == NUM_ENTRIES - 1) {
-				j = place;
-			}
+		int j = -1;
+		for (int i = 0; i < scoreList.Count; i++) {
+			dreamloLeaderBoard.Score item = scoreList[i];
+			if (GameManager.inst.leaderboardFilter.Length > 0 && item.playerName.StartsWith(GameManager.inst.leaderboardFilter) == false)
+				continue;
 
-			dreamloLeaderBoard.Score item = scoreList[j];
+			j++;
+			if (j == NUM_ENTRIES)
+				break;
+
+			if (place >= NUM_ENTRIES && j == NUM_ENTRIES - 1) {
+				j = place;
+				item = scoreList[place];
+			}
 
 			string playerName = item.shortText;
 			int score = item.score;

@@ -14,6 +14,9 @@ public class VisualizeCommands : MonoBehaviour {
 	Transform _commandsParent;
 
 	Text _distance;
+	Image _waves;
+
+	float _delayIntegral = 0;
 
 	private struct Sonar
 	{
@@ -35,6 +38,8 @@ public class VisualizeCommands : MonoBehaviour {
 		_end = UIManager.inst.receiver.Find("End");
         
 		_distance = transform.Find("Distance").GetComponent<Text>();
+		_waves = transform.Find("Waves").GetComponent<Image>();
+		_waves.material = new Material(_waves.material);
 	}
 
 	void OnDestroy()
@@ -66,8 +71,8 @@ public class VisualizeCommands : MonoBehaviour {
 		StartCoroutine(moveSonarCo(delay, commandImage.transform));
     }
 
+	const float MIN_DELAY = 0.1f;
 	IEnumerator moveSonarCo(float delay, Transform sonar) {
-		const float MIN_DELAY = 0.05f;
 		delay = Mathf.Max(MIN_DELAY, delay);
 		float timer = 0;
 
@@ -92,6 +97,10 @@ public class VisualizeCommands : MonoBehaviour {
 	{
 		int distance = (int)Player.instance.distance;
 		_distance.text = distance.ToString();
+
+		_delayIntegral += Time.deltaTime / Mathf.Max(MIN_DELAY, Player.instance.delay);
+		_waves.material.SetFloat("_Delay", Player.instance.delay);
+		_waves.material.SetFloat("_DelayIntegral", _delayIntegral);
 	}
 
 	void OnDisable() {
