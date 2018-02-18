@@ -95,9 +95,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void reset() {
+		if (_isPaused)
+			pause();
+
 		Player.instance.Reset();
 		Track.inst.reset();
-		_isPaused = false;
 
 		if (_playLoopCo != null) {
 			StopCoroutine(_playLoopCo);
