@@ -14,9 +14,12 @@ public class VisualizeCommands : MonoBehaviour {
 	Transform _commandsParent;
 
 	Text _distance;
-	Image _waves;
+	Material _wavesMaterial;
 
 	float _delayIntegral = 0;
+
+	int _DelayID;
+	int _DelayIntegralID;
 
 	private struct Sonar
 	{
@@ -38,8 +41,12 @@ public class VisualizeCommands : MonoBehaviour {
 		_end = UIManager.inst.receiver.Find("End");
         
 		_distance = transform.Find("Distance").GetComponent<Text>();
-		_waves = transform.Find("Waves").GetComponent<Image>();
-		_waves.material = new Material(_waves.material);
+
+		Image waves = transform.Find("Waves").GetComponent<Image>();
+		_wavesMaterial = new Material(waves.material);
+		waves.material = _wavesMaterial;
+		_DelayID = Shader.PropertyToID("_Delay");
+		_DelayIntegralID = Shader.PropertyToID("_DelayIntegral");
 	}
 
 	void OnDestroy()
@@ -99,8 +106,8 @@ public class VisualizeCommands : MonoBehaviour {
 		_distance.text = distance.ToString();
 
 		_delayIntegral += Time.deltaTime / Mathf.Max(MIN_DELAY, Player.instance.delay);
-		_waves.material.SetFloat("_Delay", Player.instance.delay);
-		_waves.material.SetFloat("_DelayIntegral", _delayIntegral);
+		_wavesMaterial.SetFloat(_DelayID, Player.instance.delay);
+		_wavesMaterial.SetFloat(_DelayIntegralID, _delayIntegral);
 	}
 
 	void OnDisable() {
