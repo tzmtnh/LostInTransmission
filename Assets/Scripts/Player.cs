@@ -69,8 +69,8 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private float jumpSpeedDuration = 3.0f;
 
-    [SerializeField]
-    private float amplifyAmount = .1f;
+    public float delayPerUnitOfDistance = .01f;
+    public float amplifyAmount = .25f;
 
 	bool _canTakeDamage = true;
     public bool canTakeDamage { get { return _canTakeDamage && normalizedSpeed < 1.04f; } }
@@ -109,7 +109,7 @@ public class Player : MonoBehaviour {
             return;
 
 		float dt = Time.deltaTime;
-        delay += dt * normalizedSpeed * 0.01f;
+        delay += dt * normalizedSpeed * delayPerUnitOfDistance;
         distance += dt * speed;
 		duration += dt;
 

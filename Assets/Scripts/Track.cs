@@ -18,6 +18,7 @@ public class Track : MonoBehaviour {
 	public float spawnMaxGap = 3;
 	public int spawnPUEvry = 20;
 	public float laneWidth = 1;
+    public float amplifyBonusPercent = .1f;
 
 	public Hitable astroidPrefab;
 	public Hitable jumpPrefab;
@@ -28,6 +29,8 @@ public class Track : MonoBehaviour {
 	float _traveledDistance = 0;
 	float _traveledDistanceDelta = 0;
 	float _lastSpawnTime = 0;
+
+    float _delayWhenLastAmplifySpawned = 0;
 
 	Transform _lane1;
 	Transform _lane2;
@@ -106,7 +109,12 @@ public class Track : MonoBehaviour {
 
 			switch (_powerupIndex) {
 				case 0: prefab = repairPrefab; break;
-				case 1: prefab = amplifyPrefab; break;
+				case 1:
+                    prefab = amplifyPrefab;
+                    var baseAmplifyAmount = Player.instance.delay - _delayWhenLastAmplifySpawned;
+                    var bonus = baseAmplifyAmount * amplifyBonusPercent;
+                    Player.instance.amplifyAmount = baseAmplifyAmount + bonus;
+                    break;
 				case 2: prefab = jumpPrefab; break;
 			}
 			_powerupIndex = (_powerupIndex + 1) % 3;
@@ -160,6 +168,10 @@ public class Track : MonoBehaviour {
 				if (distX < THRESH_X && distZ < THRESH_Z) {
 					hitable.destroy();
 				}
+                if (distZ < THRESH_Z && hitable.type == Hitable.HitableType.Amplify)
+                {
+                    _delayWhenLastAmplifySpawned = Player.instance.delay;
+                }
 			}
 
 			if (hitablePos.z < -_laneLength / 2f) {
@@ -195,9 +207,10 @@ public class Track : MonoBehaviour {
 		_lastLane = 0;
 		_numAstroidsSinceLastPU = 0;
 		_powerupIndex = 0;
-		//_timeAtLastJump = _lastSpawnTime;
+        _delayWhenLastAmplifySpawned = 0;
+        //_timeAtLastJump = _lastSpawnTime;
 
-		foreach (Hitable hitable in _hitables) {
+        foreach (Hitable hitable in _hitables) {
 			Destroy(hitable.transform.gameObject);
 		}
 		_hitables.Clear();
