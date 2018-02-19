@@ -112,6 +112,13 @@ public class GameManager : MonoBehaviour {
 					} else if (input.back) {
 						mainMenu();
 					}
+
+					if (Input.inputString.Length == 1) {
+						char c = Input.inputString.ToUpper()[0];
+						if (c >= 'A' && c <= 'Z') {
+							ui.setLetter(c);
+						}
+					}
 				}
 				break;
 

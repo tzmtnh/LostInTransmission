@@ -115,6 +115,12 @@ public class UIManager : MonoBehaviour {
 			_currentCharacter += CHARACTERS.Length;
 	}
 
+	public void setLetter(char c) {
+		initials[_currentLetter].text = c.ToString();
+		_currentLetter = (_currentLetter + 1) % initials.Length;
+		findCharacterIndex();
+	}
+
 	public void updateInitials() {
 		if (GameManager.inst.state != GameManager.GameState.GameOver)
 			return;
