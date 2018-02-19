@@ -140,7 +140,7 @@ public class UIManager : MonoBehaviour {
 		_leaderboardScores.text = "";
 	}
 
-	public bool showLeaderboard(string playerUniqueName, string playerInitials, int finalScore, int place, List<dreamloLeaderBoard.Score> scoreList) {
+	public bool showLeaderboard(string playerUniqueName, string playerInitials, int finalScore, List<dreamloLeaderBoard.Score> scoreList) {
 		if (scoreList.Count == 0) {
 			_leaderboardIndexs.text = "";
 			_leaderboardInitials.text = "";
@@ -156,18 +156,14 @@ public class UIManager : MonoBehaviour {
 		string PREFIX = "<color=#" + ColorUtility.ToHtmlStringRGBA(color2) + ">";
 		const string SUFFIX = "</color>";
 
-		bool scoreUpdated = true;
-		int j = -1;
-		for (int i = 0; i < scoreList.Count; i++) {
+		int place = GameManager.inst.findPlayerPlace();
+		bool scoreUpdated = place >= 0;
+		int n = Mathf.Min(NUM_ENTRIES, scoreList.Count);
+		for (int i = 0; i < n; i++) {
 			dreamloLeaderBoard.Score item = scoreList[i];
-			if (GameManager.inst.leaderboardFilter.Length > 0 && item.playerName.StartsWith(GameManager.inst.leaderboardFilter) == false)
-				continue;
 
-			j++;
-			if (j == NUM_ENTRIES)
-				break;
-
-			if (place >= NUM_ENTRIES && j == NUM_ENTRIES - 1) {
+			int j = i;
+			if (j == NUM_ENTRIES - 1 && place >= NUM_ENTRIES) {
 				j = place;
 				item = scoreList[place];
 			}

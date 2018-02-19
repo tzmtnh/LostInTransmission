@@ -171,13 +171,10 @@ public class GameManager : MonoBehaviour {
 			PlayerPrefs.SetString("UniqueIdentifier", _playerUniqueName);
 		}
 
-		string playerName;
 		if (leaderboardFilter.Length > 0) {
-			playerName = leaderboardFilter + "_" + _playerInitials + "_" + _playerUniqueName;
-		} else {
-			playerName = _playerUniqueName;
+			_playerUniqueName = leaderboardFilter + "_" + _playerInitials + "_" + _playerUniqueName;
 		}
-		_leaderboard.AddScore(playerName, _finalScore, _finalDuraton, _playerInitials);
+		_leaderboard.AddScore(_playerUniqueName, _finalScore, _finalDuraton, _playerInitials);
 
 		UIManager.inst.showLoadingLeaderboards();
 		setState(GameState.Leaderboar);
@@ -194,13 +191,19 @@ public class GameManager : MonoBehaviour {
 			_scoreList = _leaderboard.ToListHighToLow();
 
 			if (_scoreList != null) {
-				int playerPlace = findPlayerPlace();
+				if (leaderboardFilter.Length > 0) {
+					string filter = leaderboardFilter + "_";
+					for (int i = _scoreList.Count - 1; i >= 0; i--) {
+						if (_scoreList[i].playerName.StartsWith(filter) == false) {
+							_scoreList.RemoveAt(i);
+						}
+					}
+				}
 
 				scoreUpdated = UIManager.inst.showLeaderboard(
 					_playerUniqueName,
 					_playerInitials,
 					_finalScore,
-					playerPlace,
 					_scoreList);
 			}
 
@@ -208,7 +211,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	int findPlayerPlace() {
+	public int findPlayerPlace() {
 		for (int i = 0; i < _scoreList.Count; i++) {
 			dreamloLeaderBoard.Score item = _scoreList[i];
 			if (item.playerName.Equals(_playerUniqueName)) {
