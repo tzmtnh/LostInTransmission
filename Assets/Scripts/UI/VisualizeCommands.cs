@@ -83,8 +83,8 @@ public class VisualizeCommands : MonoBehaviour {
 		delay = Mathf.Max(MIN_DELAY, delay);
 		float timer = 0;
 
-		Vector3 startPos = _start.transform.position;
-		Vector3 endPos = _end.transform.position;
+		Vector3 startPos = _start.transform.position + new Vector3(0, .12f, 0);
+		Vector3 endPos = _end.transform.position + new Vector3(0, .12f, 0);
 
 		sonar.gameObject.SetActive(true);
 		sonar.transform.position = _start.position;
