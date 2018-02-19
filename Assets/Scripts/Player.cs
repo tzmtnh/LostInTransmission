@@ -69,7 +69,6 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private float jumpSpeedDuration = 3.0f;
 
-    public float delayPerUnitOfDistance = .01f;
     public float amplifyAmount = .25f;
 
 	bool _canTakeDamage = true;
@@ -108,8 +107,10 @@ public class Player : MonoBehaviour {
         if (GameManager.inst.state != GameManager.GameState.InGame)
             return;
 
+		GameManager.GameplayParams par = GameManager.inst.currentParams;
+
 		float dt = Time.deltaTime;
-        delay += dt * normalizedSpeed * delayPerUnitOfDistance;
+        delay += dt * normalizedSpeed * par.delayPerUnitOfDistance;
         distance += dt * speed;
 		duration += dt;
 
@@ -212,9 +213,9 @@ public class Player : MonoBehaviour {
             case Hitable.HitableType.Astroid:
                 if (isAlive)
                 {
-                    SetTexture(--this.currentHealth);
+                    SetTexture(--currentHealth);
 
-                    if (this.currentHealth > 0)
+                    if (currentHealth > 0)
                     {
                         damageParticles.Play();
                         _canTakeDamage = false;
@@ -235,13 +236,13 @@ public class Player : MonoBehaviour {
                 }
                 break;
             case Hitable.HitableType.Repair:
-                if (this.currentHealth < this.maxHealth)
+                if (currentHealth < maxHealth)
                 {
-                    SetTexture(++this.currentHealth);
+                    SetTexture(++currentHealth);
                 }
                 break;
             case Hitable.HitableType.Amplify:
-                this.delay = Mathf.Max(0, this.delay - this.amplifyAmount);
+				delay = Mathf.Max(0, delay - amplifyAmount);
                 break;
             case Hitable.HitableType.Jump:
                 _targetSpeed = jumpSpeed;
@@ -257,7 +258,7 @@ public class Player : MonoBehaviour {
 	}
 
     private void SetTexture(int health) {
-        switch (this.currentHealth)
+        switch (currentHealth)
         {
             case 3:
                 damageEffect.SetActive(false);

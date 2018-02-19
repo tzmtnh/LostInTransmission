@@ -5,7 +5,35 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+	[System.Serializable]
+	public struct GameplayParams {
+		public float spawnMinGap;
+		public float spawnSecondaryGap;
+		public float spawnMaxGap;
+		public float spawnPUEvry;
+
+		public float delayPerUnitOfDistance;
+		public float amplifyBonusPercent;
+
+		public GameplayParams(GameplayParams p0, GameplayParams p1, float t) {
+			spawnMinGap = Mathf.Lerp(p0.spawnMinGap, p1.spawnMinGap, t);
+			spawnSecondaryGap = Mathf.Lerp(p0.spawnSecondaryGap, p1.spawnSecondaryGap, t);
+			spawnMaxGap = Mathf.Lerp(p0.spawnMaxGap, p1.spawnMaxGap, t);
+			spawnPUEvry = Mathf.Lerp(p0.spawnPUEvry, p1.spawnPUEvry, t);
+
+			delayPerUnitOfDistance = Mathf.Lerp(p0.delayPerUnitOfDistance, p1.delayPerUnitOfDistance, t);
+			amplifyBonusPercent = Mathf.Lerp(p0.amplifyBonusPercent, p1.amplifyBonusPercent, t);
+		}
+	}
+
     public static GameManager inst;
+
+	public float endGameTime = 60 * 5;
+	public GameplayParams startParams;
+	public GameplayParams endParams;
+
+	GameplayParams _currentParams;
+	public GameplayParams currentParams { get { return _currentParams; } }
 
 	public enum GameState { Start, InGame, GameOver, Leaderboar }
 	GameState _state = GameState.Start;
@@ -104,6 +132,8 @@ public class GameManager : MonoBehaviour {
 	void reset() {
 		if (_isPaused)
 			pause();
+
+		_currentParams = startParams;
 
 		Player.instance.Reset();
 		Track.inst.reset();
@@ -282,6 +312,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Update() {
+		if (state == GameState.InGame) {
+			float t = Mathf.InverseLerp(0, endGameTime, Player.instance.duration);
+			_currentParams = new GameplayParams(startParams, endParams, t);
+		}
+
 		handleInput();
 		updateWarnings();
 	}

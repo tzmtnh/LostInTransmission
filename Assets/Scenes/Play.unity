@@ -234,6 +234,76 @@ Prefab:
       propertyPath: leaderboardFilter
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: endParams.delayPerUnitOfDistance
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: startParams.delayPerUnitOfDistance
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: startParams.spawnChance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: endParams.spawnChance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: startParams.spawnMinGap
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: endParams.spawnMinGap
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: endParams.spawnSecondaryGap
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: startParams.spawnSecondaryGap
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: startParams.spawnMaxGap
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: endParams.spawnMaxGap
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: startParams.amplifyBonusPercent
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: endParams.amplifyBonusPercent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: endParams.spawnPUEvry
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: startParams.spawnPUEvry
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e4a1d56abe0e844c8aab258feb7ecff, type: 2}
   m_IsPrefabParent: 0
@@ -363,6 +433,10 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1042578277996554, guid: e893792472ce8bb4f88503554e655527, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1983292024584164, guid: e893792472ce8bb4f88503554e655527, type: 2}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

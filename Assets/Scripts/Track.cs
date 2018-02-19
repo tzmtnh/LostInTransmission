@@ -12,14 +12,8 @@ public class Track : MonoBehaviour {
 	}
 
 	public static Track inst;
-
-	public float spawnChance = 2;
-	public float spawnMinGap = 0.2f;
-	public float spawnSecondaryGap = 0.6f;
-	public float spawnMaxGap = 3;
-	public int spawnPUEvry = 20;
+	
 	public float laneWidth = 1;
-    public float amplifyBonusPercent = .1f;
 
 	public Hitable astroidPrefab;
 	public Hitable jumpPrefab;
@@ -46,7 +40,7 @@ public class Track : MonoBehaviour {
 	ParticleCacher[] _particles;
 
 	int _lastLane = 0;
-	int _numAstroidsSinceLastPU = 0;
+	float _timeAtLastPU = 0;
 	//float _timeAtLastJump = 0;
 	//List<Hitable> _availablePUs = new List<Hitable>(4);
 
@@ -85,8 +79,10 @@ public class Track : MonoBehaviour {
 		_lastSpawnTime = Time.time;
 		Hitable prefab = astroidPrefab;
 
-		_numAstroidsSinceLastPU++;
-		if (_numAstroidsSinceLastPU >= spawnPUEvry) {
+		GameManager.GameplayParams par = GameManager.inst.currentParams;
+
+		float timeSinceLastPU = Time.time - _timeAtLastPU;
+		if (timeSinceLastPU >= par.spawnPUEvry) {
 			/*
 			const float RANDOM_CHANCE = 0.2f;	// random chance of getting a powerup for no reason
 			const float MIN_DELAY = 0.25f;		// minimum delay before we can get Amplify
@@ -115,13 +111,13 @@ public class Track : MonoBehaviour {
 				case 1:
                     prefab = amplifyPrefab;
                     var baseAmplifyAmount = Player.instance.delay - _delayWhenLastAmplifySpawned;
-                    var bonus = baseAmplifyAmount * amplifyBonusPercent;
+                    var bonus = baseAmplifyAmount * par.amplifyBonusPercent;
                     Player.instance.amplifyAmount = baseAmplifyAmount + bonus;
                     break;
 				case 2: prefab = jumpPrefab; break;
 			}
 			_powerupIndex = (_powerupIndex + 1) % 3;
-			_numAstroidsSinceLastPU = 0;
+			_timeAtLastPU = Time.time;
 		}
 
 		int lane = _lastLane;
@@ -136,23 +132,35 @@ public class Track : MonoBehaviour {
 		_hitables.Add(hitable);
 	}
 
+	float _timeToNextSpawn;
 	void updateEnemies() {
 		if (GameManager.inst.state == GameManager.GameState.InGame) {
+			GameManager.GameplayParams par = GameManager.inst.currentParams;
+
 			float timeSinceLastSpawn = Time.time - _lastSpawnTime;
 			float timeSincePrevSpawn = Time.time - _lastSpawnTime2;
+
+			bool needToSpawn = timeSinceLastSpawn >= _timeToNextSpawn;
+			if (needToSpawn) {
+				needToSpawn = timeSincePrevSpawn >= par.spawnSecondaryGap;
+			}
+
+			/*
 			// make sure we don't spawn too much
-			bool needToSpawn = timeSinceLastSpawn >= spawnMinGap && timeSincePrevSpawn >= spawnSecondaryGap;
+			bool needToSpawn = timeSinceLastSpawn >= par.spawnMinGap && timeSincePrevSpawn >= par.spawnSecondaryGap;
 			if (needToSpawn) {
 				// make sure we spawn too sparsly
-				needToSpawn = timeSinceLastSpawn >= spawnMaxGap;
+				needToSpawn = timeSinceLastSpawn >= par.spawnMaxGap;
 				// randomize spawning
 				if (needToSpawn == false) {
-					needToSpawn = Random.value < spawnChance * Time.deltaTime;
+					needToSpawn = Random.value < par.spawnChance * Time.deltaTime;
 				}
 			}
+			*/
 
 			if (needToSpawn) {
 				spawnNext();
+				_timeToNextSpawn = Mathf.Lerp(par.spawnMinGap, par.spawnMaxGap, Random.value);
 			}
 		}
 
@@ -210,12 +218,14 @@ public class Track : MonoBehaviour {
 		_lastSpawnTime = Time.time;
 		_lastSpawnTime2 = _lastSpawnTime;
 		_lastLane = 0;
-		_numAstroidsSinceLastPU = 0;
+		_timeAtLastPU = Time.time;
 		_powerupIndex = 0;
         _delayWhenLastAmplifySpawned = 0;
-        //_timeAtLastJump = _lastSpawnTime;
+		//_timeAtLastJump = _lastSpawnTime;
+		_timeToNextSpawn = GameManager.inst.currentParams.spawnMaxGap;
 
-        foreach (Hitable hitable in _hitables) {
+
+		foreach (Hitable hitable in _hitables) {
 			Destroy(hitable.transform.gameObject);
 		}
 		_hitables.Clear();
