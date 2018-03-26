@@ -241,6 +241,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114869406078804674, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: connectionSprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 224578554680792052, guid: e893792472ce8bb4f88503554e655527,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -361,7 +366,105 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1845603020}
-    m_RemovedComponents: []
+    - target: {fileID: 1893380797312528, guid: e893792472ce8bb4f88503554e655527, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114317255989864876, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9f45034db3167bc46ba45bf459f4b90d,
+        type: 3}
+    - target: {fileID: 114317255989864876, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114317255989864876, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114869406078804674, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: connectionSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 9f45034db3167bc46ba45bf459f4b90d,
+        type: 3}
+    - target: {fileID: 114869406078804674, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: connectionSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 9f45034db3167bc46ba45bf459f4b90d,
+        type: 3}
+    - target: {fileID: 114869406078804674, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: connectionSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 9f45034db3167bc46ba45bf459f4b90d,
+        type: 3}
+    - target: {fileID: 114869406078804674, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: connectionSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 9f45034db3167bc46ba45bf459f4b90d,
+        type: 3}
+    - target: {fileID: 114869406078804674, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: connectionSprites.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300008, guid: 9f45034db3167bc46ba45bf459f4b90d,
+        type: 3}
+    - target: {fileID: 114922602189780534, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300008, guid: 9f45034db3167bc46ba45bf459f4b90d,
+        type: 3}
+    - target: {fileID: 114922602189780534, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224829154515866724, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 224829154515866724, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 224111813022460744, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 224111813022460744, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 224111813022460744, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 224196218202943846, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224728046916578656, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 95529567288685080, guid: e893792472ce8bb4f88503554e655527, type: 2}
+    - {fileID: 95052209195659532, guid: e893792472ce8bb4f88503554e655527, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: e893792472ce8bb4f88503554e655527, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1275270555

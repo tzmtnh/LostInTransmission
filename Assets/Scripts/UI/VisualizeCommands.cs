@@ -7,11 +7,14 @@ public class VisualizeCommands : MonoBehaviour {
 
 	public GameObject leftArrow;
     public GameObject rightArrow;
+	public Sprite[] connectionSprites;
 
 	Transform _commandBoxArrow;
 	Transform _start;
 	Transform _end;
 	Transform _commandsParent;
+
+	Image _commandBox;
 
 	Text _distance;
 	Material _wavesMaterial;
@@ -20,6 +23,8 @@ public class VisualizeCommands : MonoBehaviour {
 
 	int _DelayID;
 	int _DelayIntegralID;
+
+	const float MAX_DELEY = 1;
 
 	private struct Sonar
 	{
@@ -47,6 +52,8 @@ public class VisualizeCommands : MonoBehaviour {
 		waves.material = _wavesMaterial;
 		_DelayID = Shader.PropertyToID("_Delay");
 		_DelayIntegralID = Shader.PropertyToID("_DelayIntegral");
+
+		_commandBox = transform.Find("CommandBox").GetComponent<Image>();
 	}
 
 	void OnDestroy()
@@ -100,6 +107,7 @@ public class VisualizeCommands : MonoBehaviour {
 		Destroy(sonar.gameObject);
 	}
 
+	int _lastConnectionIndex = 0;
 	void Update()
 	{
 		int distance = (int)Player.instance.distance;
@@ -108,6 +116,13 @@ public class VisualizeCommands : MonoBehaviour {
 		_delayIntegral += Time.deltaTime / Mathf.Max(MIN_DELAY, Player.instance.delay);
 		_wavesMaterial.SetFloat(_DelayID, Player.instance.delay);
 		_wavesMaterial.SetFloat(_DelayIntegralID, _delayIntegral);
+
+		int connectionIndex = Mathf.Min(Mathf.FloorToInt(connectionSprites.Length * Player.instance.delay / MAX_DELEY), connectionSprites.Length - 1);
+		//Debug.LogFormat("{0} -> {1}", Player.instance.delay, connectionIndex);
+		if (_lastConnectionIndex != connectionIndex) {
+			_lastConnectionIndex = connectionIndex;
+			_commandBox.sprite = connectionSprites[connectionIndex];
+		}
 	}
 
 	void OnDisable() {
