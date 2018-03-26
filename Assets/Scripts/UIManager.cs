@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour {
     public GameObject gameOverUI;
     public GameObject leaderboardUI;
     public GameObject hudUI;
+    public GameObject howToPlayUI;
 
 	[System.NonSerialized] public RectTransform commandBox;
 	[System.NonSerialized] public RectTransform receiver;
@@ -48,7 +49,13 @@ public class UIManager : MonoBehaviour {
 	RectTransform _gameOverText;
 	Vector2 _gameOverSize;
 
-	const string CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    RectTransform _howToPlayTouch;
+    Vector2 _howToPlayTouchSize;
+
+    RectTransform _howToPlayKeyboard;
+    Vector2 _howToPlayKeyboardSize;
+
+    const string CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	int _currentCharacter = 0;
 	int _currentLetter = 0;
 
@@ -68,7 +75,8 @@ public class UIManager : MonoBehaviour {
 		startUI.SetActive(state == GameManager.GameState.Start);
 		hudUI.SetActive(state == GameManager.GameState.InGame);
 		gameOverUI.SetActive(state == GameManager.GameState.GameOver);
-		leaderboardUI.SetActive(state == GameManager.GameState.Leaderboar);
+		leaderboardUI.SetActive(state == GameManager.GameState.Leaderboard);
+        howToPlayUI.SetActive(state == GameManager.GameState.HowToPlay);
 
 		if (gameOverUI.activeSelf) {
 			_currentLetter = 0;
@@ -230,7 +238,10 @@ public class UIManager : MonoBehaviour {
 
 		_logo.sizeDelta = _logoSize * Mathf.Min(1, w / wantedWidth);
 		_gameOverText.sizeDelta = new Vector2(_gameOverSize.x * Mathf.Min(1, w / wantedWidth), _gameOverSize.y);
-	}
+
+        _howToPlayTouch.sizeDelta = _howToPlayTouchSize * Mathf.Min(1, w / wantedWidth);
+        _howToPlayKeyboard.sizeDelta = _howToPlayKeyboardSize * Mathf.Min(1, w / wantedWidth);
+    }
 
 	void Awake() {
 		Assert.IsNull(inst, "There can be only one!");
@@ -255,8 +266,17 @@ public class UIManager : MonoBehaviour {
 		_gameOverText = gameOverUI.transform.Find("GameOver") as RectTransform;
 		_gameOverSize = _gameOverText.sizeDelta;
 		gameOverScoreText = gameOverUI.transform.Find("Score").GetComponent<Text>();
+        
+        _howToPlayTouch = howToPlayUI.transform.Find("Touch") as RectTransform;
+        _howToPlayTouchSize = _howToPlayTouch.sizeDelta;
+        
+        _howToPlayKeyboard = howToPlayUI.transform.Find("Keyboard") as RectTransform;
+        _howToPlayKeyboardSize = _howToPlayKeyboard.sizeDelta;
 
-		string lastPlayerInitials = PlayerPrefs.GetString("PlayerInitials", "AAA");
+        _howToPlayTouch.gameObject.SetActive(Application.isMobilePlatform);
+        _howToPlayKeyboard.gameObject.SetActive(!Application.isMobilePlatform);
+
+        string lastPlayerInitials = PlayerPrefs.GetString("PlayerInitials", "AAA");
 		initials = new Text[3];
 		initials[0] = gameOverUI.transform.Find("A").GetComponent<Text>();
 		initials[1] = gameOverUI.transform.Find("B").GetComponent<Text>();

@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour {
 	GameplayParams _currentParams;
 	public GameplayParams currentParams { get { return _currentParams; } }
 
-	public enum GameState { Start, InGame, GameOver, Leaderboar }
+	public enum GameState { Start, InGame, GameOver, Leaderboard, HowToPlay }
 	GameState _state = GameState.Start;
 	public GameState state { get { return _state; } }
 
@@ -66,12 +66,19 @@ public class GameManager : MonoBehaviour {
 
 		switch (_state) {
 			case GameState.Start:
-				if (input.select) {
+				if (input.select && !Application.isMobilePlatform) {
 					StartGame();
 				} else if (input.back) {
 					Application.Quit();
 				}
 				break;
+
+            case GameState.HowToPlay:
+                if (input.left || input.right || input.select || input.back)
+                {
+                    setState(GameState.Start);
+                }
+                break;
 
 			case GameState.InGame:
 				if (input.select) {
@@ -122,7 +129,7 @@ public class GameManager : MonoBehaviour {
 				}
 				break;
 
-			case GameState.Leaderboar:
+			case GameState.Leaderboard:
 				if (input.select) {
 					StartGame();
 				} else if (input.back) {
@@ -184,6 +191,11 @@ public class GameManager : MonoBehaviour {
 		_playLoopCo = StartCoroutine(playGameMusicCo());
 	}
 
+    public void ShowHowToPlay()
+    {
+        setState(GameState.HowToPlay);
+    }
+
 	IEnumerator playGameMusicCo() {
 		switchMusic("Game Music Intro", false);
 		yield return new WaitForSeconds(_music.clip.length);
@@ -214,7 +226,7 @@ public class GameManager : MonoBehaviour {
 		_leaderboard.AddScore(_playerUniqueName, _finalScore, _finalDuraton, _playerInitials);
 
 		UIManager.inst.showLoadingLeaderboards();
-		setState(GameState.Leaderboar);
+		setState(GameState.Leaderboard);
 
 		StartCoroutine(updateLeaderboardCo());
 	}
@@ -224,7 +236,7 @@ public class GameManager : MonoBehaviour {
 
 		WaitForSeconds waitForSec = new WaitForSeconds(0.1f);
 		bool scoreUpdated = false;
-		while (state == GameState.Leaderboar && scoreUpdated == false) {
+		while (state == GameState.Leaderboard && scoreUpdated == false) {
 			_scoreList = _leaderboard.ToListHighToLow();
 
 			if (_scoreList != null) {
