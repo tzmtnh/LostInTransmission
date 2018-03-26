@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	void mainMenu() {
+	public void mainMenu() {
 		reset();
 		switchMusic("Main Menu Music", true);
 		setState(GameState.Start);

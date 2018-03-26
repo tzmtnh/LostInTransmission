@@ -368,7 +368,7 @@ Prefab:
       objectReference: {fileID: 1845603020}
     - target: {fileID: 1893380797312528, guid: e893792472ce8bb4f88503554e655527, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114317255989864876, guid: e893792472ce8bb4f88503554e655527,
         type: 2}
@@ -461,6 +461,20 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042578277996554, guid: e893792472ce8bb4f88503554e655527, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114479210883423460, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ShowHowToPlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 114424325806197008, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: mainMenu
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 95529567288685080, guid: e893792472ce8bb4f88503554e655527, type: 2}
