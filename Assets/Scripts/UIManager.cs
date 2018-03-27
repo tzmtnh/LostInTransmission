@@ -111,9 +111,14 @@ public class UIManager : MonoBehaviour {
 		if (input.touchInProgress == false) return;
 
 		const float SPEED = 20;
+        const float SWIPE_THRESHOLD = .025f;
 		Vector2 delta = input.touchPos - input.touchStartPos;
-		_currentCharacter = _touchBaseCharacter;
-		updateCharacter(Mathf.FloorToInt(delta.y * SPEED));
+        if (Mathf.Abs(delta.y) > SWIPE_THRESHOLD)
+        {
+            _currentCharacter = _touchBaseCharacter;
+            var swipeDistanceModifier = (delta.y / Mathf.Abs(delta.y)) * SWIPE_THRESHOLD;
+            updateCharacter(Mathf.FloorToInt((delta.y - swipeDistanceModifier) * SPEED));
+        }
 	}
 
 	public void updateCharacter(int delta) {
