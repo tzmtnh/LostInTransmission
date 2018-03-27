@@ -1,14 +1,11 @@
 fileFormatVersion: 2
-guid: 9f45034db3167bc46ba45bf459f4b90d
-timeCreated: 1522083138
+guid: bd8b9c44a41ba704e9b588e60fc13845
+timeCreated: 1522167583
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Connection_UI_0
-    21300002: Connection_UI_1
-    21300004: Connection_UI_2
-    21300006: Connection_UI_3
-    21300008: Connection_UI_4
+    21300000: UI_Red_Sheet_0
+    21300002: UI_Red_Sheet_1
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -85,7 +82,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Connection_UI_0
+      name: UI_Red_Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -99,52 +96,10 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Connection_UI_1
+      name: UI_Red_Sheet_1
       rect:
         serializedVersion: 2
         x: 45
-        y: 0
-        width: 45
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Connection_UI_2
-      rect:
-        serializedVersion: 2
-        x: 90
-        y: 0
-        width: 45
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Connection_UI_3
-      rect:
-        serializedVersion: 2
-        x: 135
-        y: 0
-        width: 45
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Connection_UI_4
-      rect:
-        serializedVersion: 2
-        x: 180
         y: 0
         width: 45
         height: 44

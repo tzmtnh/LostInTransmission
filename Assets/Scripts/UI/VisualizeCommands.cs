@@ -7,14 +7,12 @@ public class VisualizeCommands : MonoBehaviour {
 
 	public GameObject leftArrow;
     public GameObject rightArrow;
-	public Sprite[] connectionSprites;
+	public GameObject[] connectionSprites;
 
 	Transform _commandBoxArrow;
 	Transform _start;
 	Transform _end;
 	Transform _commandsParent;
-
-	Image _commandBox;
 
 	Text _distance;
 	Material _wavesMaterial;
@@ -52,8 +50,6 @@ public class VisualizeCommands : MonoBehaviour {
 		waves.material = _wavesMaterial;
 		_DelayID = Shader.PropertyToID("_Delay");
 		_DelayIntegralID = Shader.PropertyToID("_DelayIntegral");
-
-		_commandBox = transform.Find("CommandBox").GetComponent<Image>();
 	}
 
 	void OnDestroy()
@@ -120,8 +116,9 @@ public class VisualizeCommands : MonoBehaviour {
 		int connectionIndex = Mathf.Min(Mathf.FloorToInt(connectionSprites.Length * Player.instance.delay / MAX_DELEY), connectionSprites.Length - 1);
 		//Debug.LogFormat("{0} -> {1}", Player.instance.delay, connectionIndex);
 		if (_lastConnectionIndex != connectionIndex) {
+			connectionSprites[_lastConnectionIndex].SetActive(false);
+			connectionSprites[connectionIndex].SetActive(true);
 			_lastConnectionIndex = connectionIndex;
-			_commandBox.sprite = connectionSprites[connectionIndex];
 		}
 	}
 
