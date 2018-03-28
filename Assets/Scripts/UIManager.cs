@@ -36,6 +36,7 @@ public class UIManager : MonoBehaviour {
 
 	[System.NonSerialized] public GameObject warning;
 	[System.NonSerialized] public GameObject critical;
+	[System.NonSerialized] public Text powerupText;
 
 	Camera _camera;
 	Camera _uiCamera;
@@ -250,6 +251,29 @@ public class UIManager : MonoBehaviour {
         _howToPlayKeyboard.sizeDelta = _howToPlayKeyboardSize * Mathf.Min(1, w / wantedWidth);
     }
 
+	public void showPowerup(string poweupName) {
+		powerupText.text = poweupName;
+		StartCoroutine(showPowerupCo());
+	}
+
+	IEnumerator showPowerupCo() {
+		powerupText.gameObject.SetActive(true);
+		const float duration = 2;
+		float timer = 0;
+		Color c0 = Color.white;
+		Color c1 = new Color(1, 0.5f, 0);
+		while (timer < duration) {
+			float t = timer / duration;
+			Color c = Color.Lerp(c0, c1, t);
+			c.a = 1f - t;
+			powerupText.color = c;
+
+			timer += Time.deltaTime;
+			yield return null;
+		}
+		powerupText.gameObject.SetActive(false);
+	}
+
 	void Awake() {
 		Assert.IsNull(inst, "There can be only one!");
 		inst = this;
@@ -268,6 +292,7 @@ public class UIManager : MonoBehaviour {
 
 		warning = hudUI.transform.Find("Warning").gameObject;
 		critical = hudUI.transform.Find("Critical").gameObject;
+		powerupText = hudUI.transform.Find("Powerup").GetComponent<Text>();
 
 		personalBest = gameOverUI.transform.Find("Personal Best").gameObject;
 		_gameOverText = gameOverUI.transform.Find("GameOver") as RectTransform;

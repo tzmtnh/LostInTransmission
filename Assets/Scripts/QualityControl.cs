@@ -9,7 +9,7 @@ public class QualityControl : MonoBehaviour {
 	public enum Quality { Low, High }
 
 	public float fpsSmoothTime = 0.1f;
-	public float fpsLowThresh = 40;
+	public float fpsThresh = 40;
 	public float fpsHighThresh = 50;
 
 	PostProcessingBehaviour[] _postProcessing;
@@ -42,15 +42,10 @@ public class QualityControl : MonoBehaviour {
 
 		switch (quality) {
 			case Quality.Low:
-				if (_fps > fpsHighThresh) {
-					quality = Quality.High;
-					qualityChanged();
-				}
 				break;
 			case Quality.High:
-				if (_fps < fpsLowThresh) {
+				if (_fps < fpsThresh) {
 					quality = Quality.Low;
-					qualityChanged();
 				}
 				break;
 			default:
@@ -74,7 +69,9 @@ public class QualityControl : MonoBehaviour {
 
 		updateQuality();
 
-		_debugFPS.text = "FPS: " + Mathf.RoundToInt(_fps);
-		_debugQuality.text = "Quality: " + quality.ToString();
+		if (UIManager.inst.debug) {
+			_debugFPS.text = "FPS: " + Mathf.RoundToInt(_fps);
+			_debugQuality.text = "Quality: " + quality.ToString();
+		}
 	}
 }

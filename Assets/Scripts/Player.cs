@@ -236,17 +236,19 @@ public class Player : MonoBehaviour {
                 }
                 break;
             case Hitable.HitableType.Repair:
-                if (currentHealth < maxHealth)
-                {
+                if (currentHealth < maxHealth) {
                     SetTexture(++currentHealth);
                 }
-                break;
+				UIManager.inst.showPowerup("Repair");
+				break;
             case Hitable.HitableType.Amplify:
 				delay = Mathf.Max(0, delay - amplifyAmount);
-                break;
+				UIManager.inst.showPowerup("Amplify");
+				break;
             case Hitable.HitableType.Jump:
                 _targetSpeed = jumpSpeed;
                 StartCoroutine(RevertToDefaultSpeed(jumpSpeedDuration));
+				UIManager.inst.showPowerup("Jump");
                 break;
         }
     }
