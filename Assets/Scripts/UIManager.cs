@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour {
 
 	public Color color1;
 	public Color color2;
+	public bool debug = false;
 
 	[Header("UI roots")]
 	public GameObject startUI;
@@ -22,6 +23,7 @@ public class UIManager : MonoBehaviour {
     public GameObject leaderboardUI;
     public GameObject hudUI;
     public GameObject howToPlayUI;
+    public GameObject debugUI;
 
 	[System.NonSerialized] public RectTransform commandBox;
 	[System.NonSerialized] public RectTransform receiver;
@@ -294,10 +296,16 @@ public class UIManager : MonoBehaviour {
 		_leaderboardIndexs = leaderboardUI.transform.Find("Indexes").GetComponent<Text>();
 		_leaderboardInitials = leaderboardUI.transform.Find("Initials").GetComponent<Text>();
 		_leaderboardScores = leaderboardUI.transform.Find("Scores").GetComponent<Text>();
+
+		debugUI.SetActive(debug);
 	}
 
 	void LateUpdate() {
 		updatePositions();
 		updateInitials();
+	}
+
+	void OnValidate() {
+		debugUI.SetActive(debug);
 	}
 }

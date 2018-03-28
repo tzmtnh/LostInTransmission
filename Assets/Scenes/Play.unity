@@ -152,85 +152,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1670605169549632, guid: 0e4a1d56abe0e844c8aab258feb7ecff, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: leaderboardFilter
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: endParams.delayPerUnitOfDistance
-      value: 0.0125
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: startParams.delayPerUnitOfDistance
-      value: 0.005
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: startParams.spawnChance
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: endParams.spawnChance
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: startParams.spawnMinGap
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: endParams.spawnMinGap
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: endParams.spawnSecondaryGap
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: startParams.spawnSecondaryGap
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: startParams.spawnMaxGap
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: endParams.spawnMaxGap
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: startParams.amplifyBonusPercent
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: endParams.amplifyBonusPercent
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: endParams.spawnPUEvry
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 114213925200062766, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
-        type: 2}
-      propertyPath: startParams.spawnPUEvry
-      value: 15
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e4a1d56abe0e844c8aab258feb7ecff, type: 2}
   m_IsPrefabParent: 0
@@ -331,22 +252,7 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 223522150702035490, guid: e893792472ce8bb4f88503554e655527,
-        type: 2}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 1845603020}
-    - target: {fileID: 114967143105564972, guid: e893792472ce8bb4f88503554e655527,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1701922236}
-    - target: {fileID: 114969124400103890, guid: e893792472ce8bb4f88503554e655527,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1701922236}
-    - target: {fileID: 114172493436044634, guid: e893792472ce8bb4f88503554e655527,
+    - target: {fileID: 114424325806197008, guid: e893792472ce8bb4f88503554e655527,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -356,19 +262,26 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1701922236}
-    - target: {fileID: 114424325806197008, guid: e893792472ce8bb4f88503554e655527,
+    - target: {fileID: 114172493436044634, guid: e893792472ce8bb4f88503554e655527,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1701922236}
-    - target: {fileID: 1893380797312528, guid: e893792472ce8bb4f88503554e655527, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1042578277996554, guid: e893792472ce8bb4f88503554e655527, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 114969124400103890, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1701922236}
+    - target: {fileID: 114967143105564972, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1701922236}
+    - target: {fileID: 223522150702035490, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1845603020}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e893792472ce8bb4f88503554e655527, type: 2}
   m_IsPrefabParent: 0

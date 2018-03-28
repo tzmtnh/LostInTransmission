@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4314218263998234}
   - component: {fileID: 114213925200062766}
   - component: {fileID: 114525295627675790}
+  - component: {fileID: 114876978043706904}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -52,6 +53,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdbe54ddb2ae38c4799859e7d4619344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endGameTime: 300
+  startParams:
+    spawnMinGap: 0.3
+    spawnSecondaryGap: 1
+    spawnMaxGap: 2
+    spawnPUEvry: 15
+    delayPerUnitOfDistance: 0.005
+    amplifyBonusPercent: 0.2
+  endParams:
+    spawnMinGap: 0.3
+    spawnSecondaryGap: 0.5
+    spawnMaxGap: 1
+    spawnPUEvry: 25
+    delayPerUnitOfDistance: 0.0125
+    amplifyBonusPercent: 0
+  leaderboardFilter: 
 --- !u!114 &114525295627675790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -63,3 +80,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 742d55d842a14b644a615916491ad39f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114876978043706904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1670605169549632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fcf497dfedf1dd4b911fc49f0a17578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fpsSmoothTime: 0.1
+  fpsLowThresh: 40
+  fpsHighThresh: 50
