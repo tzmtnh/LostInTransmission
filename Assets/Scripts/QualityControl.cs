@@ -37,23 +37,6 @@ public class QualityControl : MonoBehaviour {
 		}
 	}
 
-	void updateQuality() {
-		if (Time.time < 2) return;
-
-		switch (quality) {
-			case Quality.Low:
-				break;
-			case Quality.High:
-				if (_fps < fpsThresh) {
-					quality = Quality.Low;
-				}
-				break;
-			default:
-				Debug.LogError("Unhandled Quality setting!");
-				break;
-		}
-	}
-
 	void Awake () {
 		_postProcessing = FindObjectsOfType<PostProcessingBehaviour>();
 	}
@@ -67,7 +50,9 @@ public class QualityControl : MonoBehaviour {
 		float fps = 1f / Time.deltaTime;
 		_fps = Mathf.SmoothDamp(_fps, fps, ref _fpsVelocity, fpsSmoothTime);
 
-		updateQuality();
+		if (Time.time > 1 && quality == Quality.High && _fps < fpsThresh) {
+			quality = Quality.Low;
+		}
 
 		if (UIManager.inst.debug) {
 			_debugFPS.text = "FPS: " + Mathf.RoundToInt(_fps);
