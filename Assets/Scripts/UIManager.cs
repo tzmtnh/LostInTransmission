@@ -49,9 +49,6 @@ public class UIManager : MonoBehaviour {
 	RectTransform _logo;
 	Vector2 _logoSize;
 
-	RectTransform _gameOverText;
-	Vector2 _gameOverSize;
-
     RectTransform _howToPlayTouch;
     Vector2 _howToPlayTouchSize;
 
@@ -245,7 +242,6 @@ public class UIManager : MonoBehaviour {
 		setX(distance, -width * scale * (1f - PAD) / 2f);
 
 		_logo.sizeDelta = _logoSize * Mathf.Min(1, w / wantedWidth);
-		_gameOverText.sizeDelta = new Vector2(_gameOverSize.x * Mathf.Min(1, w / wantedWidth), _gameOverSize.y);
 
         _howToPlayTouch.sizeDelta = _howToPlayTouchSize * Mathf.Min(1, w / wantedWidth);
         _howToPlayKeyboard.sizeDelta = _howToPlayKeyboardSize * Mathf.Min(1, w / wantedWidth);
@@ -295,8 +291,6 @@ public class UIManager : MonoBehaviour {
 		powerupText = hudUI.transform.Find("Powerup").GetComponent<Text>();
 
 		personalBest = gameOverUI.transform.Find("Personal Best").gameObject;
-		_gameOverText = gameOverUI.transform.Find("GameOver") as RectTransform;
-		_gameOverSize = _gameOverText.sizeDelta;
 		gameOverScoreText = gameOverUI.transform.Find("Score").GetComponent<Text>();
         
         _howToPlayTouch = howToPlayUI.transform.Find("Touch") as RectTransform;

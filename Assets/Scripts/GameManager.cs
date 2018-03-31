@@ -181,9 +181,15 @@ public class GameManager : MonoBehaviour {
 		Debug.LogFormat("Final score:{0}, best:{1}", _finalScore, bestScore);
 
 		UIManager.inst.gameOverScoreText.text = "Distance: " + _finalScore;
-		setState(GameState.GameOver);
-		switchMusic("Main Menu Music", true);
-	}
+
+        Invoke("EndGame", 1f);
+        switchMusic("Main Menu Music", true);
+    }
+
+    private void EndGame()
+    {
+        setState(GameState.GameOver);
+    }
 
     public void StartGame() {
 		setState(GameState.InGame);
