@@ -165,6 +165,12 @@ public class GameManager : MonoBehaviour {
 		setState(GameState.Start);
 	}
 
+    // Used for switching back to main menu from submenus so that music doesn't restart
+    public void backToMainMenu()
+    {
+        setState(GameState.Start);
+    }
+
 	int _finalScore = 0;
 	int _finalDuraton = 0;
 	bool isPersonalBest = false;
