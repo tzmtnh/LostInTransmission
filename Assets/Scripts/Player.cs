@@ -248,7 +248,7 @@ public class Player : MonoBehaviour {
             case Hitable.HitableType.Jump:
                 _targetSpeed = jumpSpeed;
                 StartCoroutine(RevertToDefaultSpeed(jumpSpeedDuration));
-				UIManager.inst.showPowerup("Jump");
+				UIManager.inst.showPowerup("Light Speed");
                 break;
         }
     }
