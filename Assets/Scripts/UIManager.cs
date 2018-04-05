@@ -249,26 +249,8 @@ public class UIManager : MonoBehaviour {
 
 	public void showPowerup(string poweupName) {
 		powerupText.text = poweupName;
-		StartCoroutine(showPowerupCo());
-	}
-
-	IEnumerator showPowerupCo() {
-		powerupText.gameObject.SetActive(true);
-		const float duration = 2;
-		float timer = 0;
-		Color c0 = Color.white;
-		Color c1 = new Color(1, 0.5f, 0);
-		while (timer < duration) {
-			float t = timer / duration;
-			Color c = Color.Lerp(c0, c1, t);
-			c.a = 1f - t;
-			powerupText.color = c;
-
-			timer += Time.deltaTime;
-			yield return null;
-		}
-		powerupText.gameObject.SetActive(false);
-	}
+        powerupText.GetComponent<Animator>().Play("PowerupText", -1, 0);
+    }
 
 	void Awake() {
 		Assert.IsNull(inst, "There can be only one!");
