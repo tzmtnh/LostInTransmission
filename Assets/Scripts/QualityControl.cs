@@ -10,7 +10,6 @@ public class QualityControl : MonoBehaviour {
 
 	public float fpsSmoothTime = 0.1f;
 	public float fpsThresh = 40;
-	public float fpsHighThresh = 50;
 
 	PostProcessingBehaviour[] _postProcessing;
 

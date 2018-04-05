@@ -54,6 +54,7 @@ public class UIManager : MonoBehaviour {
 
     RectTransform _howToPlayKeyboard;
     Vector2 _howToPlayKeyboardSize;
+	Animator _powerupAnimator;
 
     const string CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	int _currentCharacter = 0;
@@ -249,7 +250,7 @@ public class UIManager : MonoBehaviour {
 
 	public void showPowerup(string poweupName) {
 		powerupText.text = poweupName;
-        powerupText.GetComponent<Animator>().Play("PowerupText", -1, 0);
+        _powerupAnimator.Play("PowerupText", -1, 0);
     }
 
 	void Awake() {
@@ -271,6 +272,7 @@ public class UIManager : MonoBehaviour {
 		warning = hudUI.transform.Find("Warning").gameObject;
 		critical = hudUI.transform.Find("Critical").gameObject;
 		powerupText = hudUI.transform.Find("Powerup").GetComponent<Text>();
+		_powerupAnimator = powerupText.GetComponent<Animator>();
 
 		personalBest = gameOverUI.transform.Find("Personal Best").gameObject;
 		gameOverScoreText = gameOverUI.transform.Find("Score").GetComponent<Text>();

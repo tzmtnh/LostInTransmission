@@ -152,6 +152,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114876978043706904, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: fpsSmoothTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114876978043706904, guid: 0e4a1d56abe0e844c8aab258feb7ecff,
+        type: 2}
+      propertyPath: fpsThresh
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e4a1d56abe0e844c8aab258feb7ecff, type: 2}
   m_IsPrefabParent: 0
@@ -282,6 +292,15 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1701922236}
+    - target: {fileID: 114410630893481336, guid: e893792472ce8bb4f88503554e655527,
+        type: 2}
+      propertyPath: debug
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042578277996554, guid: e893792472ce8bb4f88503554e655527, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e893792472ce8bb4f88503554e655527, type: 2}
   m_IsPrefabParent: 0
